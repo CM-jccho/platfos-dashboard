@@ -67,7 +67,7 @@ export default function Dashboard() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [files, setFiles] = useState<{ date: string; filename: string }[]>([]);
   const [isUploading, setIsUploading] = useState(false);
-  const [viewHtml, setViewHtml] = useState<string | null>(null);
+  const [viewFile, setViewFile] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: 'error' | 'success' } | null>(null);
@@ -84,7 +84,7 @@ export default function Dashboard() {
     if (file) {
       loadHtml(file.filename);
     } else {
-      setViewHtml(null);
+      setViewFile(null);
     }
   }, [selectedDate, files]);
 
@@ -105,17 +105,8 @@ export default function Dashboard() {
     }
   };
 
-  const loadHtml = async (filename: string) => {
-    setIsLoading(true);
-    try {
-      const res = await fetch(`/api/files/${filename}`);
-      const content = await res.text();
-      setViewHtml(content);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setIsLoading(false);
-    }
+  const loadHtml = (filename: string) => {
+    setViewFile(`/data/${filename}`);
   };
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -394,7 +385,7 @@ export default function Dashboard() {
 
         <main className="flex-1 overflow-hidden relative p-10 bg-gray-50/50">
           <AnimatePresence mode="wait">
-            {viewHtml ? (
+            {viewFile ? (
               <motion.div
                 key={selectedDate.toString()}
                 initial={{ opacity: 0, scale: 0.99, y: 15 }}
@@ -415,7 +406,7 @@ export default function Dashboard() {
                   </div>
                 )}
                 <iframe 
-                  srcDoc={viewHtml} 
+                  src={viewFile} 
                   className="w-full h-full border-none"
                   title="Dashboard Preview"
                 />
