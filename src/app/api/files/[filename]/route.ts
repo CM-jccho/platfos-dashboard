@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export const runtime = 'nodejs';
-
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ filename: string }> }
@@ -12,9 +10,9 @@ export async function GET(
     return NextResponse.json({ error: 'Invalid filename' }, { status: 400 });
   }
 
-  const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-  const GITHUB_OWNER = process.env.GITHUB_OWNER;
-  const GITHUB_REPO  = process.env.GITHUB_REPO;
+  const GITHUB_TOKEN  = process.env.GITHUB_TOKEN;
+  const GITHUB_OWNER  = process.env.GITHUB_OWNER;
+  const GITHUB_REPO   = process.env.GITHUB_REPO;
   const GITHUB_BRANCH = process.env.GITHUB_BRANCH ?? 'main';
 
   if (!GITHUB_TOKEN || !GITHUB_OWNER || !GITHUB_REPO) {
@@ -42,8 +40,8 @@ export async function GET(
       return NextResponse.json({ error: 'File not found on GitHub' }, { status: 404 });
     }
 
-    const json = await res.json();
-    const html = Buffer.from(json.content, 'base64').toString('utf-8');
+    const data = await res.json();
+    const html = Buffer.from(data.content, 'base64').toString('utf-8');
 
     return new NextResponse(html, {
       status: 200,
