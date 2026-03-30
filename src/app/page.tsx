@@ -204,7 +204,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     const file = files.find(f => f.date === format(selectedDate, "yyyy-MM-dd"));
-    setViewFile(file ? `/data/${file.filename}` : null);
+    setViewFile(file ? `/api/files/${file.filename}` : null);
   }, [selectedDate, files]);
 
   useEffect(() => {
