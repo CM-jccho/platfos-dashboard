@@ -12,7 +12,6 @@ export async function GET(
     return NextResponse.json({ error: 'Invalid filename' }, { status: 400 });
   }
 
-  // 요청 시점에 환경변수 읽기 (모듈 레벨 X)
   const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
   const GITHUB_OWNER = process.env.GITHUB_OWNER;
   const GITHUB_REPO  = process.env.GITHUB_REPO;
@@ -23,10 +22,17 @@ export async function GET(
   }
 
   try {
-    const url = ;
-    const res = await fetch(url, {
+    const apiUrl = [
+      'https://api.github.com/repos',
+      GITHUB_OWNER,
+      GITHUB_REPO,
+      'contents/public/data',
+      filename,
+    ].join('/') + '?ref=' + GITHUB_BRANCH;
+
+    const res = await fetch(apiUrl, {
       headers: {
-        Authorization: ,
+        Authorization: 'Bearer ' + GITHUB_TOKEN,
         Accept: 'application/vnd.github+json',
       },
       cache: 'no-store',
@@ -36,8 +42,8 @@ export async function GET(
       return NextResponse.json({ error: 'File not found on GitHub' }, { status: 404 });
     }
 
-    const data = await res.json();
-    const html = Buffer.from(data.content, 'base64').toString('utf-8');
+    const json = await res.json();
+    const html = Buffer.from(json.content, 'base64').toString('utf-8');
 
     return new NextResponse(html, {
       status: 200,
