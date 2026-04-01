@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Platfos 프로젝트 현황 — 2026-04-01</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ── Design Tokens ────────────────────────────────────── */
+:root {
+  /* Portfolio brand colors */
+  --run:       #B91C1C; --run-light:  #FEF2F2; --run-mid: #DC2626; --run-border: #FECACA;
+  --core:      #1D4ED8; --core-light: #EFF6FF; --core-mid:#2563EB; --core-border:#BFDBFE;
+  --grow:      #15803D; --grow-light: #F0FDF4; --grow-mid:#16A34A; --grow-border:#BBF7D0;
+  --exp:       #7C3AED; --exp-light:  #F5F3FF; --exp-mid: #8B5CF6; --exp-border: #DDD6FE;
+
+  /* Semantic */
+  --danger:    #DC2626; --danger-bg: #FEF2F2; --danger-border: #FECACA;
+  --warning:   #D97706; --warning-bg:#FFFBEB; --warning-border:#FDE68A;
+  --ok:        #15803D; --ok-bg:     #F0FDF4; --ok-border:     #BBF7D0;
+  --info:      #1D4ED8; --info-bg:   #EFF6FF; --info-border:   #BFDBFE;
+
+  /* Status colors */
+  --st-prog:   #0EA5E9; --st-wait:   #64748B; --st-hold:   #F59E0B;
+  --st-block:  #EF4444; --st-done:   #10B981; --st-deploy: #8B5CF6;
+
+  /* Neutrals */
+  --bg:        #F8FAFC;
+  --card:      #FFFFFF;
+  --text:      #0F172A;
+  --text2:     #475569;
+  --text3:     #94A3B8;
+  --border:    #E2E8F0;
+  --border2:   #CBD5E1;
+
+  --r: 12px; --rs: 8px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.05);
+  --shadow:    0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,.1), 0 12px 32px rgba(0,0,0,.06);
+}
+
+/* ── Reset & Base ─────────────────────────────────────── */
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0 }
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── Top Bar ──────────────────────────────────────────── */
+.topbar {
+  background: linear-gradient(135deg, #0F172A 0%, #1E3A5F 100%);
+  color: #fff;
+  padding: 0 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  position: sticky;
+  top: 0;
+  z-index: 300;
+  box-shadow: 0 2px 20px rgba(0,0,0,.25);
+}
+.tb-left { display:flex; align-items:center; gap:14px }
+.tb-logo {
+  width: 34px; height: 34px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #EF4444 0%, #8B5CF6 100%);
+  display: flex; align-items:center; justify-content:center;
+  font-size: 16px; font-weight: 800; color: #fff;
+  box-shadow: 0 2px 8px rgba(139,92,246,.4);
+}
+.tb-title { font-size:14px; font-weight:600; letter-spacing:-.2px }
+.tb-sub { font-size:11px; color:#94A3B8; margin-top:1px }
+.tb-right { display:flex; gap:6px; align-items:center; flex-wrap:wrap }
+
+/* ── Layout ───────────────────────────────────────────── */
+.main { max-width:1320px; margin:0 auto; padding:20px 24px 48px }
+
+/* ── KPI Strip ────────────────────────────────────────── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(148px,1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.kpi {
+  background: var(--card);
+  border-radius: var(--r);
+  padding: 16px 18px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--border2);
+  cursor: pointer;
+  transition: all .2s;
+  position: relative;
+}
+.kpi:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+  border-color: var(--border2);
+}
+.kpi.danger  { border-top-color: var(--danger); }
+.kpi.warning { border-top-color: var(--warning); }
+.kpi.ok      { border-top-color: var(--ok); }
+.kpi.info    { border-top-color: var(--core); }
+.kpi-l {
+  font-size: 10px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .6px;
+  color: var(--text3); margin-bottom: 6px;
+}
+.kpi-v {
+  font-size: 28px; font-weight: 700;
+  line-height: 1; font-family: 'JetBrains Mono', monospace;
+}
+.kpi-s { font-size: 11px; margin-top: 5px; color: var(--text2) }
+.kpi-click-hint {
+  position: absolute; top: 8px; right: 10px;
+  font-size: 10px; color: var(--text3); opacity: 0;
+  transition: opacity .2s;
+}
+.kpi:hover .kpi-click-hint { opacity: 1 }
+
+/* ── Tabs ─────────────────────────────────────────────── */
+.tab-nav {
+  display: flex; gap: 2px;
+  background: var(--card);
+  border-radius: var(--r);
+  padding: 5px;
+  margin-bottom: 18px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  overflow-x: auto;
+}
+.tab-btn {
+  padding: 9px 18px;
+  border: none; background: none;
+  cursor: pointer; font-size: 12px; font-weight: 600;
+  color: var(--text3); border-radius: var(--rs);
+  white-space: nowrap; transition: all .15s;
+  font-family: inherit; display: flex; align-items:center; gap:6px;
+}
+.tab-btn:hover { background: var(--bg); color: var(--text) }
+.tab-btn.on {
+  background: var(--core);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(29,78,216,.3);
+}
+
+/* ── Panel ────────────────────────────────────────────── */
+.panel { display:none }.panel.on { display:block }
+
+/* ── Cards ────────────────────────────────────────────── */
+.card {
+  background: var(--card);
+  border-radius: var(--r);
+  padding: 20px 22px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+.card-title {
+  font-size: 11px; font-weight: 700;
+  color: var(--text2);
+  text-transform: uppercase; letter-spacing: .6px;
+  margin-bottom: 16px;
+  display: flex; align-items: center; gap: 8px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.card-title-hint {
+  font-size: 10px; font-weight: 400; color: var(--text3);
+  text-transform: none; letter-spacing: 0;
+  margin-left: auto;
+}
+.g2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px }
+@media(max-width:900px) { .g2 { grid-template-columns:1fr } }
+
+/* ── Portfolio Section ────────────────────────────────── */
+.pf-card {
+  border-radius: var(--r);
+  padding: 16px 18px;
+  border: 1px solid;
+  cursor: pointer;
+  transition: all .2s;
+  position: relative;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.pf-card:hover { transform: translateX(3px); box-shadow: var(--shadow); }
+.pf-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  border-radius: 4px 0 0 4px;
+}
+.pf-card.run   { background:var(--run-light);   border-color:var(--run-border);   }
+.pf-card.run::before   { background:var(--run); }
+.pf-card.core  { background:var(--core-light);  border-color:var(--core-border);  }
+.pf-card.core::before  { background:var(--core); }
+.pf-card.grow  { background:var(--grow-light);  border-color:var(--grow-border);  }
+.pf-card.grow::before  { background:var(--grow); }
+.pf-card.exp   { background:var(--exp-light);   border-color:var(--exp-border);   }
+.pf-card.exp::before   { background:var(--exp); }
+.pf-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; padding-left:10px }
+.pf-name { font-size:13px; font-weight:700 }
+.pf-desc { font-size:11px; color:var(--text2); margin-top:2px; line-height:1.5 }
+.pf-stats { display:flex; gap:12px; font-size:11px; padding-left:10px; margin-top:8px }
+.pf-stat { display:flex; align-items:center; gap:4px }
+.pf-total { font-size:18px; font-weight:700; font-family:'JetBrains Mono',monospace }
+
+/* ── Progress Bar (NEW) ───────────────────────────────── */
+.prog-wrap { margin-bottom:10px }
+.prog-label-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:5px }
+.prog-label { font-size:11px; color:var(--text2); display:flex; align-items:center; gap:6px }
+.prog-val { font-size:11px; font-weight:600; font-family:'JetBrains Mono',monospace; color:var(--text) }
+.prog-track {
+  height: 10px;
+  background: #F1F5F9;
+  border-radius: 99px;
+  overflow: hidden;
+  display: flex;
+  gap: 1px;
+  border: 1px solid var(--border);
+}
+.prog-seg { height:100%; transition:width .6s cubic-bezier(.4,0,.2,1) }
+.prog-track.thin  { height:6px }
+.prog-track.thick { height:14px; border-radius:6px }
+
+/* ── Status Indicator ─────────────────────────────────── */
+.stat-dot { 
+  width:8px; height:8px; border-radius:50%;
+  display:inline-block; flex-shrink:0;
+}
+
+/* ── Health Grid ──────────────────────────────────────── */
+.health-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px }
+.health-item {
+  padding:12px 14px;
+  background: var(--bg);
+  border-radius: var(--rs);
+  border: 1px solid var(--border);
+}
+.health-name { font-size:11px; color:var(--text2); margin-bottom:6px; font-weight:500 }
+.health-pct {
+  font-size:22px; font-weight:700;
+  font-family: 'JetBrains Mono', monospace;
+  line-height:1; margin-bottom:6px;
+}
+.health-bar {
+  height: 5px; border-radius:99px; overflow:hidden;
+  background: var(--border);
+}
+.health-fill { height:100%; border-radius:99px; transition:width .6s }
+
+/* ── Seq Bars ─────────────────────────────────────────── */
+.seq-row {
+  display:grid;
+  grid-template-columns: 130px 1fr 36px;
+  gap:10px; align-items:center;
+  padding: 8px 10px; border-radius:8px;
+  cursor:pointer; transition:background .15s;
+  margin-bottom:2px;
+}
+.seq-row:hover { background:var(--bg) }
+.seq-label { font-size:12px }
+.seq-tag { font-weight:700; font-size:12px }
+.seq-desc { font-size:10px; color:var(--text3); margin-top:1px }
+
+/* ── Epic Seq Chart (stacked) ─────────────────────────── */
+.epic-seq-row {
+  display:grid;
+  grid-template-columns: 120px 1fr 56px;
+  gap:12px; align-items:center;
+  padding:10px 12px; border-radius:8px;
+  cursor:pointer; transition:background .15s;
+  margin-bottom:4px;
+}
+.epic-seq-row:hover { background:var(--bg) }
+.epic-seq-left { }
+.epic-seq-tag { font-weight:700; font-size:13px; color:var(--text) }
+.epic-seq-name { font-size:10px; color:var(--text3); margin-top:1px }
+.epic-seq-count { font-size:10px; color:var(--text3) }
+.epic-count { font-size:20px; font-weight:700; font-family:'JetBrains Mono',monospace; text-align:right }
+
+/* ── Badges ───────────────────────────────────────────── */
+.badge {
+  display:inline-flex; align-items:center; gap:3px;
+  padding:3px 10px; border-radius:99px;
+  font-size:11px; font-weight:600; white-space:nowrap;
+}
+.b-red   { background:var(--danger-bg);  color:var(--danger);  border:1px solid var(--danger-border) }
+.b-org   { background:var(--warning-bg); color:var(--warning); border:1px solid var(--warning-border) }
+.b-blue  { background:var(--info-bg);    color:var(--info);    border:1px solid var(--info-border) }
+.b-grn   { background:var(--ok-bg);      color:var(--ok);      border:1px solid var(--ok-border) }
+.b-gray  { background:#F8FAFC; color:var(--text2); border:1px solid var(--border) }
+.b-pur   { background:#F5F3FF; color:#7C3AED; border:1px solid #DDD6FE }
+.b-added { background:#F0FDF4; color:#15803D; border:1px solid #BBF7D0 }
+.b-removed { background:#FEF2F2; color:#B91C1C; border:1px solid #FECACA }
+.b-changed { background:#FFFBEB; color:#D97706; border:1px solid #FDE68A }
+.badge.cl { cursor:pointer; transition:opacity .15s }.badge.cl:hover { opacity:.75 }
+
+/* ── Jira Key Link ────────────────────────────────────── */
+.jira-key {
+  font-family:'JetBrains Mono',monospace; font-size:11px;
+  color:var(--core); text-decoration:none;
+  background: var(--core-light); border:1px solid var(--core-border);
+  padding:1px 6px; border-radius:4px;
+  white-space:nowrap; transition:all .15s;
+}
+.jira-key:hover { background:var(--core); color:#fff }
+
+/* ── Table ────────────────────────────────────────────── */
+.tbl { width:100%; border-collapse:collapse; font-size:12px }
+.tbl th {
+  padding:8px 12px; text-align:left;
+  background:#F8FAFC; font-size:10px; font-weight:700;
+  color:var(--text3); letter-spacing:.5px; text-transform:uppercase;
+  border-bottom:2px solid var(--border);
+}
+.tbl td { padding:9px 12px; border-bottom:1px solid var(--border); vertical-align:middle }
+.tbl tr:last-child td { border-bottom:none }
+.tbl tr:hover td { background:#F8FAFC }
+
+/* ── Urgent Row ───────────────────────────────────────── */
+.ui {
+  display:flex; gap:12px; align-items:flex-start;
+  padding:10px 0; border-bottom:1px solid var(--border);
+}
+.ui:last-child { border-bottom:none }
+.ui-key { min-width:82px; padding-top:2px }
+.ui-t { font-size:12px; font-weight:500; margin-bottom:4px }
+.ui-m { display:flex; gap:6px; align-items:center; flex-wrap:wrap; font-size:11px; color:var(--text2) }
+
+/* ── Alert ────────────────────────────────────────────── */
+.alert {
+  border-radius:var(--rs); padding:12px 16px;
+  font-size:12px; margin-bottom:14px;
+  display:flex; gap:10px; align-items:flex-start;
+  border:1px solid;
+}
+.alert.danger  { background:var(--danger-bg);  color:var(--danger);  border-color:var(--danger-border) }
+.alert.warning { background:var(--warning-bg); color:var(--warning); border-color:var(--warning-border) }
+.alert.ok      { background:var(--ok-bg);      color:var(--ok);      border-color:var(--ok-border) }
+.alert.info    { background:var(--info-bg);     color:var(--info);    border-color:var(--info-border) }
+
+/* ── Workload Bars ────────────────────────────────────── */
+.wl-row {
+  display:grid;
+  grid-template-columns:86px 1fr 110px 40px;
+  gap:12px; align-items:center; margin-bottom:12px;
+  padding:8px 10px; border-radius:8px; cursor:pointer;
+  transition:background .15s;
+}
+.wl-row:hover { background:var(--bg) }
+.wl-track {
+  height:12px; border-radius:99px;
+  background:#F1F5F9; border:1px solid var(--border);
+  overflow:hidden; position:relative;
+}
+.wl-fill { height:100%; border-radius:99px; transition:width .6s }
+.wl-marker {
+  position:absolute; top:-2px; width:2px; height:16px; border-radius:1px;
+}
+
+/* ── Tooltip ──────────────────────────────────────────── */
+.has-tip { position:relative; cursor:help }
+.tip {
+  display:none; position:absolute;
+  bottom:calc(100% + 8px); left:50%; transform:translateX(-50%);
+  background:#0F172A; color:#fff;
+  font-size:11px; line-height:1.5;
+  padding:8px 12px; border-radius:8px;
+  white-space:nowrap; z-index:400;
+  box-shadow:0 4px 16px rgba(0,0,0,.25);
+  pointer-events:none; max-width:260px; white-space:normal; text-align:left;
+}
+.tip::after {
+  content:''; position:absolute;
+  top:100%; left:50%; transform:translateX(-50%);
+  border:5px solid transparent;
+  border-top-color:#0F172A;
+}
+.has-tip:hover .tip { display:block }
+
+/* ── Donut ────────────────────────────────────────────── */
+.donut-wrap { display:flex; align-items:center; gap:20px }
+.donut-legend { flex:1 }
+.donut-item {
+  display:flex; align-items:center; gap:8px;
+  padding:5px 0; font-size:12px; cursor:pointer;
+  border-radius:6px; transition:background .15s; padding:5px 8px; margin:-5px -8px;
+}
+.donut-item:hover { background:var(--bg) }
+.donut-dot { width:10px; height:10px; border-radius:3px; flex-shrink:0 }
+.donut-name { flex:1; color:var(--text) }
+.donut-count { font-weight:600; font-family:'JetBrains Mono',monospace; font-size:11px }
+.donut-pct { font-size:10px; color:var(--text3); margin-left:4px }
+
+/* ── Chain ────────────────────────────────────────────── */
+.chain-node { display:flex; gap:12px; align-items:flex-start }
+.chain-circle {
+  width:24px; height:24px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:10px; font-weight:800; flex-shrink:0;
+}
+
+/* ── Seq Unassigned Tags ──────────────────────────────── */
+.seqtag {
+  display:inline-flex; align-items:center;
+  padding:2px 8px; border-radius:5px;
+  font-size:11px; font-weight:700;
+  background:var(--info-bg); color:var(--info); border:1px solid var(--info-border);
+}
+.seqtag.auto {
+  background:#FFFBEB; color:#D97706; border-color:#FDE68A;
+}
+
+/* ── History ──────────────────────────────────────────── */
+.diff-row {
+  display:grid;
+  grid-template-columns:90px 110px 1fr 190px 190px;
+  gap:8px; align-items:start;
+  padding:9px 12px; border-bottom:1px solid var(--border);
+  font-size:12px; transition:background .12s;
+}
+.diff-row:hover { background:#F8FAFC }
+.diff-before {
+  color:var(--danger); font-size:11px;
+  background:var(--danger-bg); border:1px solid var(--danger-border);
+  padding:2px 6px; border-radius:5px; word-break:break-all; line-height:1.4;
+}
+.diff-after {
+  color:var(--ok); font-size:11px;
+  background:var(--ok-bg); border:1px solid var(--ok-border);
+  padding:2px 6px; border-radius:5px; word-break:break-all; line-height:1.4;
+}
+.hf-btn {
+  padding:7px 14px; border:1px solid var(--border);
+  border-radius:var(--rs); background:var(--card);
+  font-size:11px; font-weight:600; cursor:pointer;
+  font-family:inherit; transition:all .15s; color:var(--text2);
+}
+.hf-btn:hover,.hf-btn.on {
+  background:var(--core); color:#fff;
+  border-color:var(--core);
+  box-shadow:0 2px 8px rgba(29,78,216,.3);
+}
+
+/* ── History summary cards ────────────────────────────── */
+.hist-stat {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:var(--r); padding:14px 16px;
+  text-align:center; cursor:pointer; transition:all .2s;
+}
+.hist-stat:hover { box-shadow:var(--shadow-md); transform:translateY(-2px) }
+.hist-stat-v { font-size:28px; font-weight:700; font-family:'JetBrains Mono',monospace; line-height:1 }
+.hist-stat-l { font-size:11px; font-weight:600; margin-top:4px }
+
+/* ── Modal ────────────────────────────────────────────── */
+.modal-ov {
+  position:fixed; inset:0; background:rgba(15,23,42,.6);
+  z-index:500; display:flex; align-items:flex-start;
+  justify-content:center; padding:60px 20px 20px; overflow-y:auto;
+  backdrop-filter:blur(3px);
+}
+.modal-box {
+  background:var(--card); border-radius:var(--r);
+  width:100%; max-width:960px;
+  box-shadow:0 20px 60px rgba(0,0,0,.2);
+  animation:mup .2s ease; flex-shrink:0;
+  border:1px solid var(--border);
+}
+@keyframes mup{ from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)} }
+.modal-hdr {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 22px; border-bottom:1px solid var(--border);
+  background:#F8FAFC;
+}
+.modal-title { font-size:14px; font-weight:700 }
+.modal-x {
+  width:30px; height:30px; border-radius:8px;
+  border:1px solid var(--border); background:var(--card);
+  cursor:pointer; font-size:14px; display:flex;
+  align-items:center; justify-content:center; color:var(--text2);
+  transition:all .15s;
+}
+.modal-x:hover { background:var(--danger-bg); color:var(--danger); border-color:var(--danger) }
+.modal-body { padding:16px 22px; max-height:65vh; overflow-y:auto }
+.modal-srch {
+  width:100%; padding:9px 14px;
+  border:1px solid var(--border); border-radius:var(--rs);
+  font-size:12px; font-family:inherit; margin-bottom:12px; outline:none;
+  transition:border-color .15s; background:var(--bg);
+}
+.modal-srch:focus { border-color:var(--core); background:var(--card) }
+.modal-cnt { font-size:11px; color:var(--text3); margin-bottom:8px }
+
+/* ── D7 Grid ──────────────────────────────────────────── */
+.d7-card {
+  display:flex; gap:10px; padding:11px 14px;
+  border-radius:10px; background:var(--card);
+  border:1px solid var(--border); transition:all .15s;
+}
+.d7-card:hover { box-shadow:var(--shadow); border-color:var(--border2) }
+
+/* ── Misc ─────────────────────────────────────────────── */
+.legend { display:flex; gap:16px; flex-wrap:wrap; font-size:11px; color:var(--text2); margin-bottom:14px }
+.legend-i { display:flex; align-items:center; gap:6px }
+.section-note { font-size:10px; color:var(--text3); margin-left:auto; font-weight:400; text-transform:none; letter-spacing:0 }
+.footer {
+  text-align:center; padding:18px 24px;
+  font-size:11px; color:var(--text3);
+  border-top:1px solid var(--border); margin-top:8px;
+}
+::-webkit-scrollbar { width:5px; height:5px }
+::-webkit-scrollbar-track { background:var(--bg) }
+::-webkit-scrollbar-thumb { background:var(--border2); border-radius:99px }
+
+/* ── Icon Components ──────────────────────────────────── */
+.ico { display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; }
+.status-empty { display:flex; flex-direction:column; align-items:center; gap:8px; padding:24px; color:var(--text3); font-size:12px }
+
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="tb-left">
+    <div class="tb-logo">P</div>
+    <div>
+      <div class="tb-title">Platfos · Pongift — 프로젝트 현황 대시보드</div>
+      <div class="tb-sub">기준일: 2026-04-01 &nbsp;·&nbsp; 262개 이슈 (에픽구분 제외) &nbsp;·&nbsp; 전일 대비 235건 변경</div>
+    </div>
+  </div>
+  <div class="tb-right" id="tb-badges"></div>
+</div>
+
+<div class="main">
+  <div class="kpi-grid" id="kpi-grid"></div>
+
+  <!-- TABS -->
+  <div class="tab-nav">
+    <button class="tab-btn on" onclick="sw('overview')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> 전체 현황</button>
+    <button class="tab-btn" onclick="sw('urgent')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> 긴급 · 블로커</button>
+    <button class="tab-btn" onclick="sw('seq')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> 시퀀스별</button>
+    <button class="tab-btn" onclick="sw('workload')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> 담당자 부하</button>
+    <button class="tab-btn" onclick="sw('history')" style="position:relative">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><polyline points="12 7 12 12 16 14"/></svg> 변경 이력
+      <span style="width:7px;height:7px;border-radius:50%;background:#EF4444;display:inline-block;margin-left:2px"></span>
+    </button>
+  </div>
+
+  <!-- ① 전체현황 -->
+  <div class="panel on" id="p-overview">
+    <div class="g2">
+      <!-- 포트폴리오 -->
+      <div class="card">
+        <div class="card-title">
+          포트폴리오별 현황
+          <span class="section-note">클릭하면 전체 이슈 목록</span>
+        </div>
+        <div id="pf-section"></div>
+      </div>
+      <!-- 상태 분포 -->
+      <div class="card">
+        <div class="card-title">
+          이슈 현황 분포
+          <span class="section-note">항목 클릭하면 목록 확인</span>
+        </div>
+        <div style="margin-bottom:20px">
+          <div style="font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">상태별</div>
+          <div id="status-bars"></div>
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">이슈 유형별</div>
+          <div id="type-bars"></div>
+        </div>
+      </div>
+    </div>
+    <div class="g2">
+      <!-- 시퀀스 -->
+      <div class="card">
+        <div class="card-title">시퀀스별 이슈 수 <span class="section-note">클릭하면 목록</span></div>
+        <div id="seq-mini"></div>
+      </div>
+      <!-- 건강 지표 -->
+      <div class="card">
+        <div class="card-title">프로젝트 건강 지표</div>
+        <div class="health-grid" id="health-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ② 긴급 -->
+  <div class="panel" id="p-urgent">
+    <div id="urgent-alert"></div>
+    <div class="g2">
+      <div class="card"><div class="card-title"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg> 막힘 블로커</div><div id="blocked-list"></div></div>
+      <div class="card"><div class="card-title"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--warning)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> D-3 이내 기한</div><div id="d3-list"></div></div>
+    </div>
+    <div class="card"><div class="card-title"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> D-7 이내 기한 <span class="section-note">이번 주 완료 대상</span></div><div id="d7-list"></div></div>
+    <div class="card">
+      <div class="card-title"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg> 기한 경과 이슈 전체 <span class="section-note">기한 재조정 필요</span></div>
+      <div style="overflow-x:auto"><table class="tbl" id="expired-tbl"></table></div>
+    </div>
+  </div>
+
+  <!-- ③ 시퀀스 -->
+  <div class="panel" id="p-seq">
+    <div class="card">
+      <div class="card-title">에픽 시퀀스별 진행 현황 <span class="section-note">클릭하면 시퀀스 전체 이슈</span></div>
+      <div class="legend">
+        <div class="legend-i"><span style="width:12px;height:12px;border-radius:3px;background:var(--st-prog);display:inline-block"></span>진행 중</div>
+        <div class="legend-i"><span style="width:12px;height:12px;border-radius:3px;background:var(--st-wait);display:inline-block"></span>대기</div>
+        <div class="legend-i"><span style="width:12px;height:12px;border-radius:3px;background:var(--st-hold);display:inline-block"></span>보류</div>
+      </div>
+      <div id="seq-detail"></div>
+    </div>
+    <div class="g2">
+      <div class="card"><div class="card-title"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg> 크리티컬 패스 <span class="section-note">미배정 에픽 직렬 체인</span></div><div id="cp-chain"></div></div>
+      <div class="card"><div class="card-title">시퀀스 미배정 이슈 <span class="section-note" style="color:var(--warning)">자동 추정 포함 — 클릭하면 목록</span></div><div id="seq-un"></div></div>
+    </div>
+  </div>
+
+  <!-- ④ 담당자 -->
+  <div class="panel" id="p-workload">
+    <div class="card">
+      <div class="card-title">담당자별 이슈 부하 <span class="section-note">클릭하면 담당 이슈 목록</span></div>
+      <div style="display:flex;gap:16px;font-size:11px;color:var(--text2);margin-bottom:16px;align-items:center">
+        <span>막대 길이 = 담당 이슈 수</span>
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:2px;height:14px;background:var(--warning);border-radius:1px;display:inline-block"></span>7개 경고</span>
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:2px;height:14px;background:var(--danger);border-radius:1px;display:inline-block"></span>15개 위험</span>
+      </div>
+      <div id="wl-bars"></div>
+    </div>
+    <div class="g2">
+      <div class="card"><div class="card-title">미배정 이슈 현황 <span class="section-note">클릭하면 목록</span></div><div id="ua-detail"></div></div>
+      <div class="card"><div class="card-title">담당자별 기한 경과 <span class="section-note">클릭하면 목록</span></div><div id="exp-owner"></div></div>
+    </div>
+  </div>
+
+  <!-- ⑤ 이력 -->
+  <div class="panel" id="p-history">
+    <div class="card">
+      <div class="card-title"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><polyline points="12 7 12 12 16 14"/></svg> 변경 이력 — 2026-03-30 → 2026-04-01</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-bottom:18px">
+        <div class="hist-stat" onclick="filterHist('added')" style="border-top:3px solid var(--ok)">
+          <div class="hist-stat-v" style="color:var(--ok)">6</div>
+          <div class="hist-stat-l" style="color:var(--ok)">신규 이슈</div>
+        </div>
+        <div class="hist-stat" onclick="filterHist('removed')" style="border-top:3px solid var(--danger)">
+          <div class="hist-stat-v" style="color:var(--danger)">5</div>
+          <div class="hist-stat-l" style="color:var(--danger)">제거된 이슈</div>
+        </div>
+        <div class="hist-stat" onclick="filterHist('title')" style="border-top:3px solid var(--warning)">
+          <div class="hist-stat-v" style="color:var(--warning)">0</div>
+          <div class="hist-stat-l" style="color:var(--warning)">요약 변경</div>
+        </div>
+        <div class="hist-stat" onclick="filterHist('label')" style="border-top:3px solid var(--core)">
+          <div class="hist-stat-v" style="color:var(--core)">28</div>
+          <div class="hist-stat-l" style="color:var(--core)">레이블 변경</div>
+        </div>
+        <div class="hist-stat" onclick="filterHist('comp')" style="border-top:3px solid var(--exp)">
+          <div class="hist-stat-v" style="color:var(--exp)">1</div>
+          <div class="hist-stat-l" style="color:var(--exp)">컴포넌트 변경</div>
+        </div>
+        <div class="hist-stat" onclick="filterHist('all')" style="border-top:3px solid var(--border2)">
+          <div class="hist-stat-v">68</div>
+          <div class="hist-stat-l" style="color:var(--text2)">전체 변경</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px" id="hist-filter">
+        <button class="hf-btn on" onclick="filterHist('all')">전체 (68)</button>
+        <button class="hf-btn" onclick="filterHist('added')">신규 (6)</button>
+        <button class="hf-btn" onclick="filterHist('removed')">제거 (5)</button>
+        <button class="hf-btn" onclick="filterHist('title')">요약 (0)</button>
+        <button class="hf-btn" onclick="filterHist('label')">레이블 (28)</button>
+        <button class="hf-btn" onclick="filterHist('comp')">컴포넌트 (1)</button>
+      </div>
+      <input style="width:100%;padding:9px 14px;border:1px solid var(--border);border-radius:var(--rs);font-size:12px;font-family:inherit;margin-bottom:10px;outline:none;background:var(--bg)" 
+             placeholder="키 · 요약으로 검색..." id="hist-srch" oninput="renderHist()">
+      <div style="font-size:11px;color:var(--text3);margin-bottom:10px" id="hist-cnt"></div>
+      <div style="display:grid;grid-template-columns:90px 110px 1fr 190px 190px;gap:4px;padding:7px 12px;background:var(--bg);border-radius:8px;font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;border:1px solid var(--border)">
+        <div>Jira 키</div><div>변경 유형</div><div>요약</div><div>이전</div><div>변경 후</div>
+      </div>
+      <div id="hist-list"></div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  Platfos · Pongift 프로젝트 현황 &nbsp;·&nbsp; 기준일: 2026-04-01 &nbsp;·&nbsp; 262개 이슈 &nbsp;·&nbsp; 전일 대비 68건 변경
+</div>
+
+<!-- MODAL -->
+<div id="modal" class="modal-ov" style="display:none" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box">
+    <div class="modal-hdr">
+      <div><div class="modal-title" id="m-title"></div></div>
+      <button class="modal-x" onclick="closeModal()"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <input class="modal-srch" id="m-srch" placeholder="키 · 요약 · 담당자 · 레이블 검색..." oninput="filterModal()">
+      <div class="modal-cnt" id="m-cnt"></div>
+      <div id="m-list"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const JIRA_BASE = 'https://platfos.atlassian.net/browse/';
+const DONE_ST   = ['완료','Done','done'];
+const RAW_DATA  = [{"type":"에픽","key":"PG-71","title":"[Grow][S1] 파트너센터·CMS 문의 관리 기능","status":"보류","comp":"cms-partner","label":"deferred, grow, s1","owner":"","due":null,"priority":"High"},{"type":"스토리","key":"PG-107","title":"[S1][Ops] 파트너센터 문의하기 기능","status":"보류","comp":"partners-product","label":"deferred, grow, s1","owner":"","due":null,"priority":"Medium"},{"type":"작업","key":"PG-72","title":"[S1][Ops] CMS 문의관리 기능","status":"보류","comp":"cms-product","label":"deferred, grow, s1","owner":"최다솔","due":null,"priority":"High"},{"type":"하위 작업","key":"PG-78","title":"[기획] 문의관리 화면기획서","status":"보류","comp":"cms-product","label":"deferred, grow, s1","owner":"최다솔","due":null,"priority":"Medium"},{"type":"작업","key":"PG-145","title":"[S8][Channel] 네이버 채널 연동 고도화","status":"보류","comp":"api-external","label":"grow, s2","owner":"","due":null,"priority":"Medium"},{"type":"작업","key":"PG-2681","title":"[공통] 2026년 3월 31일 배포","status":"진행 중","comp":"","label":"","owner":"김희진","due":"2026-03-31","priority":"Medium"},{"type":"작업","key":"PG-1461","title":"[S2][Policy] 옥션 채널 카테고리 자동 매칭 정책 검토","status":"대기","comp":"cms-channel","label":"grow, s2","owner":"","due":null,"priority":"Medium"},{"type":"작업","key":"PG-949","title":"[S2][Ops] 상품관리 성능 개선","status":"대기","comp":"cms-partner, cms-product, infra-observability, partners-product","label":"grow, ops, s2","owner":"이진원","due":null,"priority":"Medium"},{"type":"작업","key":"PG-1528","title":"[S6][Structure] 직접발송 계좌이체 결제수단 추가","status":"대기","comp":"partners-directsend, shared-policy","label":"core, money-path, s6","owner":"최다솔","due":null,"priority":"High"},{"type":"작업","key":"PG-1903","title":"[S3][Ops] 네이버 1.0 주문번호 조회 기능 개선","status":"대기","comp":"cms-order","label":"core, money-path, s3","owner":"김명수","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-1890","title":"[S7][Ops] 관리자 메모 작성일시·작성자 자동 표기","status":"대기","comp":"cms-product","label":"grow, ops, s7","owner":"최다솔","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-2108","title":"[S2][Ops] 공지사항 노출 기간 설정 기능","status":"진행 중","comp":"cms-product","label":"grow, s2","owner":"최다솔","due":null,"priority":"Low"},{"type":"작업","key":"PG-908","title":"[S7][Ops] 폰기프트몰 회원 비활성화 관리 개선","status":"대기","comp":"mall-member","label":"grow, s7","owner":"김명수","due":null,"priority":"Low"},{"type":"작업","key":"PG-1381","title":"[S2][Ops] 기획전 페이지 노출 상품 설정 메뉴","status":"대기","comp":"mall-admin, mall-main","label":"deferred, grow, s2","owner":"김명수","due":null,"priority":"Low"},{"type":"작업","key":"PG-502","title":"[S2][Structure] 사업자 하위 서비스·상품 전체 조회 구조 개선","status":"대기","comp":"partners-product","label":"core, s2","owner":"이강미","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-2081","title":"[S1][Ops] 로그인 후 공지사항 팝업 노출 기능","status":"진행 중","comp":"cms-partner","label":"grow, ops, s1","owner":"최다솔","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-2216","title":"[S2][Ops] 상품 판매·전시 기간 관리 기능","status":"대기","comp":"cms-product, partners-product","label":"grow, ops, s2","owner":"최다솔","due":null,"priority":"High"},{"type":"스토리","key":"PG-2035","title":"[S3][Structure] LMS 상품권 조회 링크 오류 수정","status":"진행 중","comp":"api-external","label":"core, money-path, s3","owner":"이진원","due":null,"priority":"High"},{"type":"작업","key":"PG-1444","title":"[S3][Ops] G마켓 선물하기 발송실패 개선","status":"대기","comp":"cms-order, partners-order","label":"core, money-path, s3","owner":"최다솔","due":null,"priority":"High"},{"type":"작업","key":"PG-843","title":"[S2][Ops] 상품 품절 상태 전시 유지 개선","status":"대기","comp":"cms-product, partners-product","label":"core, s2","owner":"최다솔","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-1726","title":"[S2][Ops] 상품 수정 이력 변경 전후 값 비교 기능","status":"대기","comp":"cms-product, partners-product","label":"core, s2","owner":"최다솔","due":null,"priority":"Medium"},{"type":"작업","key":"PG-2414","title":"[S2][Ops] 상품 수정 시 채널정보 입력 UX 개선","status":"대기","comp":"partners-product","label":"core, s2","owner":"","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-2573","title":"[S2][Ops] 상품 이미지 등록·수정 기능 개선","status":"대기","comp":"cms-product, partners-product","label":"core, s2","owner":"","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-2597","title":"[S1][Structure] 회원가입 유입 경로 수집 항목 추가","status":"대기","comp":"partners-auth","label":"core, s1","owner":"김명수","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-2660","title":"[파트너센터/CMS] 사용처 사용/미사용 관리 기능 개발 요청","status":"대기","comp":"","label":"","owner":"","due":null,"priority":"Medium"},{"type":"에픽","key":"PG-2255","title":"[Grow][S2] 상품 판매기간 설정 기능","status":"대기","comp":"cms-product, partners-product","label":"grow, ops, s2","owner":"최다솔","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-187","title":"[S3][Channel] 네이버 선물하기 연동 구현","status":"보류","comp":"api-external","label":"core, money-path, s3","owner":"최정수","due":"2025-11-28","priority":"Medium"},{"type":"에픽","key":"PG-206","title":"[Run][S7] Pongift 1.0/2.0 AWS 인프라 다운그레이드","status":"진행 중","comp":"infra-security","label":"Tier1, run, s7","owner":"박창용","due":null,"priority":"Medium"},{"type":"에픽","key":"PG-279","title":"[Core][S4] 상품권 사용처리 기능 완성","status":"보류","comp":"partners-redemption","label":"core, money-path, s4","owner":"최다솔","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-286","title":"[S4][Structure] 옥션 내e쿠폰함 상품권 사용처리 연동 오류","status":"보류","comp":"api-external","label":"core, money-path, s4, 삭제필요","owner":"","due":"2025-10-31","priority":"Medium"},{"type":"스토리","key":"PG-281","title":"[S3][Structure] 옥션 쿠폰 다건 재발송 처리 오류 수정","status":"보류","comp":"api-external","label":"core, money-path, s3","owner":"","due":"2025-10-31","priority":"Medium"},{"type":"스토리","key":"PG-280","title":"[S4][Structure] 티사이언티픽 상품권 사용완료 뱃지 미노출 수정","status":"보류","comp":"partners-redemption","label":"core, money-path, s4","owner":"","due":"2025-10-31","priority":"Medium"},{"type":"에픽","key":"PG-472","title":"[Grow][S3] CMS 상품권 현황 조회 개선","status":"보류","comp":"cms-order","label":"grow, ops, s3, 기획체크","owner":"김명수","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-476","title":"[S3][Ops] 상품권 현황 구매자명·수신자명 검색 컬럼 추가","status":"보류","comp":"cms-product","label":"core, s2, 기획체크","owner":"","due":null,"priority":"Medium"},{"type":"작업","key":"PG-565","title":"[S3][Ops] 상품권 현황 엑셀 컬럼명 통일","status":"보류","comp":"cms-product","label":"core, s2, 기획체크","owner":"","due":null,"priority":"Medium"},{"type":"작업","key":"PG-613","title":"[S3][Ops] 상품권 현황 발송상태 필터 추가","status":"보류","comp":"cms-order","label":"core, money-path, s3, 기획체크","owner":"","due":null,"priority":"Medium"},{"type":"작업","key":"PG-614","title":"[S3][Ops] 상품권 현황 엑셀 발송수단 컬럼 추가","status":"보류","comp":"cms-order, partners-order","label":"core, money-path, s3, 기획체크","owner":"","due":null,"priority":"Medium"},{"type":"에픽","key":"PG-660","title":"[Grow][S3] 파트너센터 상품권 현황 조회 개선","status":"보류","comp":"partners-order","label":"grow, ops, s3, 기획체크","owner":"김명수","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-473","title":"[S3][Ops] 상품권 현황 상품권ID 검색 조건 추가","status":"보류","comp":"partners-product","label":"core, s2, 기획체크","owner":"","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-474","title":"[S3][Policy] 주문관리 엑셀 다운로드 개인정보 규정 적용","status":"보류","comp":"partners-order","label":"core, money-path, s3, 기획체크","owner":"","due":null,"priority":"Medium"},{"type":"버그","key":"PG-556","title":"[S2][Structure] 파트너센터 상품 상세 설명 조건 오류 수정","status":"보류","comp":"partners-product","label":"core, s2","owner":"","due":null,"priority":"Medium"},{"type":"작업","key":"PG-673","title":"[S3][Structure] Open API 주문관리 구현","status":"보류","comp":"api-external, api-openapi","label":"core, money-path, s3","owner":"최정수","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-674","title":"[DB] Open API 주문 등록 테이블 설계","status":"대기","comp":"api-external, api-openapi","label":"core, money-path, s3","owner":"최정수","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-676","title":"[DB] 자사몰 서비스 테이블 설계 및 생성","status":"대기","comp":"api-external, api-openapi","label":"","owner":"최정수","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-677","title":"[DB] trade_purchase 테이블 컬럼 추가","status":"진행 중","comp":"api-external, api-openapi","label":"core, money-path, s3","owner":"최정수","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-678","title":"[DB] trade_purchase 테이블 컬럼 추가 (운영DB)","status":"대기","comp":"api-external, api-openapi","label":"core, money-path, s3","owner":"","due":null,"priority":"Medium"},{"type":"작업","key":"PG-681","title":"[S3][Structure] 상품권 발행 유형 옵션 추가","status":"보류","comp":"partners-order","label":"core, money-path, s3","owner":"최정수","due":null,"priority":"Medium"},{"type":"작업","key":"PG-682","title":"[S3][Structure] CMS 주문 목록 조회 수정","status":"보류","comp":"cms-order","label":"core, money-path, s3","owner":"","due":null,"priority":"Medium"},{"type":"작업","key":"PG-683","title":"[S3][Structure] CMS 주문 상세 조회 수정","status":"보류","comp":"cms-order","label":"core, money-path, s3","owner":"","due":null,"priority":"Medium"},{"type":"작업","key":"PG-684","title":"[S3][Structure] 파트너센터 주문 목록 조회 수정","status":"보류","comp":"partners-order","label":"core, money-path, s3","owner":"","due":null,"priority":"Medium"},{"type":"작업","key":"PG-685","title":"[S3][Structure] 파트너센터 주문 상세 조회 수정","status":"보류","comp":"partners-order","label":"core, money-path, s3","owner":"","due":null,"priority":"Medium"},{"type":"작업","key":"PG-696","title":"[S2][Structure] 채널 등록·수정 정보 검증 기능","status":"보류","comp":"shared-policy","label":"core, s2","owner":"최정수","due":null,"priority":"Medium"},{"type":"작업","key":"PG-697","title":"[S2][Structure] 유통채널별 구매 제한 기능 추가","status":"대기","comp":"cms-channel","label":"core, s2","owner":"","due":null,"priority":"High"},{"type":"작업","key":"PG-459","title":"[S2][Ops] 폰기프트몰 공지사항 기능 구현","status":"대기","comp":"mall-noti","label":"deferred, grow, s2","owner":"","due":null,"priority":"Low"},{"type":"에픽","key":"PG-698","title":"[Run][S7] 사업자 권한 조회 기능 개선","status":"대기","comp":"partners-auth","label":"Tier1, run, s7","owner":"이강미","due":null,"priority":"Medium"},{"type":"작업","key":"PG-812","title":"[S7][Ops] 사업자 권한 조회 화면 개선","status":"대기","comp":"shared-policy","label":"Tier1, run, s7","owner":"김명수","due":null,"priority":"Low"},{"type":"에픽","key":"PG-699","title":"[Grow][S7] CMS 상품 관리 엑셀 다운로드 기능","status":"대기","comp":"cms-product","label":"grow, ops, s7","owner":"이진원","due":null,"priority":"High"},{"type":"작업","key":"PG-759","title":"[FE] 상품관리 엑셀 다운로드 구현","status":"대기","comp":"cms-product","label":"grow, ops, s2, 개발체크","owner":"장석원","due":"2025-11-20","priority":"Medium"},{"type":"작업","key":"PG-833","title":"[FE] 상품 등록 타입 및 등록 계정 추가","status":"대기","comp":"cms-product","label":"core, s2","owner":"장석원","due":null,"priority":"Medium"},{"type":"작업","key":"PG-720","title":"[QA] 상품관리 엑셀 다운로드 검증","status":"대기","comp":"shared-policy","label":"grow, ops, s2","owner":"김명수","due":null,"priority":"Medium"},{"type":"작업","key":"PG-760","title":"[BE] 상품관리 엑셀 다운로드 구현","status":"막힘","comp":"cms-product","label":"grow, ops, s2","owner":"박창용","due":null,"priority":"Medium"},{"type":"작업","key":"PG-818","title":"[BE] 상품 등록 타입 및 등록계정 추가","status":"진행 중","comp":"cms-product","label":"core, s2","owner":"박창용","due":null,"priority":"High"},{"type":"작업","key":"PG-834","title":"[QA] 상품 등록 타입 및 등록 계정 추가","status":"대기","comp":"cms-product","label":"core, s2","owner":"김명수","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-725","title":"[S3][Channel] 네이버 e쿠폰함 연동 구현","status":"보류","comp":"api-external","label":"core, money-path, s3","owner":"최정수","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-827","title":"[BE] 네이버 e쿠폰함 사용처리 연동","status":"막힘","comp":"api-external","label":"core, money-path, s4","owner":"최정수","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-829","title":"[BE] 네이버 e쿠폰함 사용취소 연동","status":"진행 중","comp":"api-external","label":"core, money-path, s5","owner":"최정수","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-831","title":"[BE] 네이버 e쿠폰함 충전형 상품 등록 연동","status":"대기","comp":"api-external","label":"core, money-path, s3","owner":"최정수","due":null,"priority":"Medium"},{"type":"에픽","key":"PG-804","title":"[Core][S5] 폰기프트몰 환불·취소 신청 CMS 승인처리","status":"보류","comp":"mall-order","label":"core, money-path, s5","owner":"최다솔","due":null,"priority":"Medium"},{"type":"작업","key":"PG-971","title":"[기획] 폰기프트몰 환불·취소 신청 CMS 승인 흐름","status":"보류","comp":"mall-order","label":"core, money-path, s5","owner":"최다솔","due":"2025-12-02","priority":"Medium"},{"type":"작업","key":"PG-972","title":"[기획] 폰기프트몰 주문 화면기획서","status":"보류","comp":"cms-order, mall-order","label":"core, s2","owner":"최다솔","due":null,"priority":"Medium"},{"type":"작업","key":"PG-973","title":"[기획] CMS 주문 화면기획서","status":"보류","comp":"cms-order, mall-order","label":"core, s2","owner":"최다솔","due":null,"priority":"Medium"},{"type":"작업","key":"PG-1015","title":"[BE] 폰기프트몰 주문 API 구현","status":"보류","comp":"cms-order, mall-order","label":"core, s2","owner":"","due":"2025-12-10","priority":"Medium"},{"type":"작업","key":"PG-1016","title":"[BE] CMS 주문 API 구현","status":"보류","comp":"cms-order, mall-order","label":"core, s2","owner":"","due":"2025-12-10","priority":"Medium"},{"type":"작업","key":"PG-1017","title":"[FE] 폰기프트몰 주문 화면 구현","status":"보류","comp":"cms-order, mall-order","label":"core, s2","owner":"","due":"2025-12-15","priority":"Medium"},{"type":"작업","key":"PG-1018","title":"[FE] CMS 주문 화면 구현","status":"보류","comp":"cms-order, mall-order","label":"core, s2","owner":"","due":"2025-12-15","priority":"Medium"},{"type":"작업","key":"PG-1081","title":"[기획] 폰기프트몰 환불 결과 알림톡 템플릿 작성","status":"보류","comp":"shared-policy","label":"core, money-path, s5","owner":"최다솔","due":null,"priority":"Medium"},{"type":"에픽","key":"PG-805","title":"[Core][S2] 폰기프트몰 상품 리뷰 기능","status":"대기","comp":"mall-review","label":"core, s2","owner":"김명수","due":null,"priority":"Medium"},{"type":"에픽","key":"PG-996","title":"[Expand][S8] 카페24 일반앱 구현 가능성 검토","status":"진행 중","comp":"api-external","label":"expand, s8","owner":"박창용","due":"2026-03-31","priority":"Medium"},{"type":"에픽","key":"PG-1031","title":"[Run][S7] 보안 취약점 조치 및 시스템 안정성","status":"보류","comp":"infra-security","label":"Tier1, run, s7, 개발체크","owner":"박창용","due":"2025-12-12","priority":"Medium"},{"type":"작업","key":"PG-1083","title":"[S7][Structure] Swagger UI 테스트 접근 보안 대응","status":"보류","comp":"infra-security","label":"Tier1, run, s7","owner":"박창용","due":null,"priority":"Medium"},{"type":"작업","key":"PG-1084","title":"[S3][Structure] 발행서버 테스트 API 보안 대응","status":"보류","comp":"api-external, infra-security","label":"money-path, run, s3","owner":"","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-1047","title":"[S2][Policy] 상품 등록·승인·수정 정책 정의","status":"보류","comp":"shared-policy","label":"core, s1","owner":"","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-1051","title":"[S2][Policy] 폰기프트몰 장바구니·다건구매 정책","status":"보류","comp":"mall-order, shared-policy","label":"core, s2","owner":"","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-1053","title":"[S3][Policy] 폰기프트몰 결제 정책","status":"보류","comp":"shared-policy","label":"core, money-path, s3","owner":"최다솔","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-1054","title":"[S3][Policy] 상품권 발송 정책","status":"보류","comp":"shared-policy","label":"core, money-path, s3","owner":"최다솔","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-1055","title":"[S5][Policy] 폰기프트몰 환불·취소 정책","status":"보류","comp":"shared-policy","label":"core, money-path, s5","owner":"","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-1057","title":"[Doc] 폰기프트몰 환불·취소 정책 Confluence 현행화","status":"대기","comp":"shared-policy","label":"core, money-path, s5","owner":"","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-1056","title":"[S4][Policy] 상품권 사용·사용취소 정책","status":"보류","comp":"shared-policy","label":"core, money-path, s5","owner":"최다솔","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-1062","title":"[S4][Policy] 상품권 사용승인 정책","status":"보류","comp":"shared-policy","label":"core, money-path, s4","owner":"최다솔","due":null,"priority":"Medium"},{"type":"에픽","key":"PG-1082","title":"[Run][S7] 키 노출 방지 보안 대응 (.env, .pem)","status":"보류","comp":"infra-security","label":"Tier1, run, s7","owner":"박창용","due":null,"priority":"Medium"},{"type":"작업","key":"PG-1103","title":"[DevOps] Git에서 민감파일 제거","status":"보류","comp":"infra-security","label":"Tier1, run, s7","owner":"","due":null,"priority":"Medium"},{"type":"작업","key":"PG-1104","title":"[S7][Structure] 노출된 기존 키 교체","status":"보류","comp":"infra-security","label":"Tier1, run, s7","owner":"","due":"2025-12-30","priority":"Medium"},{"type":"작업","key":"PG-1432","title":"[S2][Structure] Fastify 프레임워크 전환","status":"보류","comp":"infra-security","label":"core, s2","owner":"최정수","due":"2025-12-26","priority":"Medium"},{"type":"에픽","key":"PG-1085","title":"[Run][S7] Pongift 1.0 웰컴저축은행 마이그레이션","status":"대기","comp":"infra-security","label":"Tier1, run, s7","owner":"박창용","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-729","title":"[FE] iOS 12 흰 화면 이슈 수정","status":"대기","comp":"infra-observability","label":"Tier1, run, s7","owner":"박창용","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-1099","title":"[DevOps] pongift.com → main.pongift.com 리다이렉트","status":"대기","comp":"infra-observability","label":"Tier1, run, s7","owner":"박창용","due":null,"priority":"High"},{"type":"작업","key":"PG-233","title":"[S7][Ops] Pongift 1.0 웰컴저축은행 인프라 정리","status":"대기","comp":"infra-security","label":"Tier1, run, s7","owner":"박창용","due":null,"priority":"Medium"},{"type":"에픽","key":"PG-1206","title":"[Run][S7] 인프라 유지 관리","status":"보류","comp":"infra-observability","label":"Tier1, run, s7","owner":"박창용","due":null,"priority":"Medium"},{"type":"작업","key":"PG-586","title":"[S7][Ops] GitLab 아카이브 EC2 다운그레이드 대응","status":"대기","comp":"infra-observability","label":"Tier1, run, s7","owner":"박창용","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-1352","title":"[S7][Ops] AWS 리소스 정리 및 최적화","status":"대기","comp":"infra-observability","label":"Tier1, run, s7","owner":"","due":null,"priority":"Medium"},{"type":"작업","key":"PG-1254","title":"[S3][Policy] 상품권 발송 웹·템플릿 정책","status":"보류","comp":"shared-policy","label":"core, money-path, s3","owner":"최다솔","due":"2025-12-12","priority":"Medium"},{"type":"에픽","key":"PG-1387","title":"[Core][S3] 폰기프트몰 앱 결제 무한 로딩 오류","status":"대기","comp":"mall-order","label":"core, money-path, s3","owner":"박창용","due":null,"priority":"Medium"},{"type":"작업","key":"PG-2473","title":"[ANDROID] PG 결제화면에서 뒤로 가기 버튼 클릭 > 결제 재시도시 무한로딩 스피너 이슈","status":"대기","comp":"mall-order","label":"core, money-path, s3","owner":"","due":null,"priority":"Medium"},{"type":"에픽","key":"PG-1466","title":"[Run][S1] 파트너 온보딩·승인 플로우 기준 정의","status":"보류","comp":"shared-policy","label":"Tier1, run, s1, 기획체크","owner":"","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-1555","title":"[S1][Policy] 승인 상태표 정리","status":"보류","comp":"cms-partner, partners-auth, shared-policy","label":"Tier1, run, s1, 기획체크","owner":"","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-2665","title":"[S1][Structure] 승인 후 접근권한 반영","status":"대기","comp":"shared-policy","label":"Tier1, run, s1, 기획체크","owner":"","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-2666","title":"[S1][Ops] 가입-승인 예외 케이스 정리","status":"대기","comp":"shared-policy","label":"Tier1, run, s1, 기획체크","owner":"","due":null,"priority":"Medium"},{"type":"에픽","key":"PG-1467","title":"[Core][S2] 상품 등록·승인 플로우 기준 정의","status":"보류","comp":"shared-policy","label":"core, s2, 기획체크","owner":"","due":"2026-01-30","priority":"Medium"},{"type":"작업","key":"PG-649","title":"[S8][Structure] 유통채널 연동 API 구현","status":"보류","comp":"api-external","label":"core, s2, 기획체크","owner":"","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-1556","title":"[S2][Policy] 상품 등록·승인 Tier1 기준 정리","status":"보류","comp":"cms-partner, partners-product, shared-policy","label":"Tier1, run, s1, 기획체크","owner":"","due":null,"priority":"Medium"},{"type":"에픽","key":"PG-1470","title":"[Core][S4] 사용·인증 플로우 기준 정의","status":"보류","comp":"shared-policy","label":"core, money-path, s4","owner":"","due":"2026-02-13","priority":"Medium"},{"type":"에픽","key":"PG-1471","title":"[Core][S5] 환불·취소 플로우 기준 정의","status":"보류","comp":"shared-policy","label":"core, money-path, s5","owner":"","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-2675","title":"[S5][Policy] 환불 가능 조건 상태표 반영","status":"대기","comp":"shared-policy","label":"core, money-path, s5","owner":"","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-2676","title":"[S5][Policy] 예외 환불 판단 기준 정리","status":"대기","comp":"shared-policy","label":"core, money-path, s5","owner":"","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-2677","title":"[S5][Structure] 환불 상태 전이 구조 정합성 검토","status":"대기","comp":"shared-policy","label":"core, money-path, s5","owner":"","due":null,"priority":"Medium"},{"type":"에픽","key":"PG-1638","title":"[Run][S1] API 응답 단일화·존재 은닉 구현","status":"보류","comp":"infra-security","label":"Tier1, run, s1, 개발체크","owner":"이지헌","due":null,"priority":"Highest"},{"type":"작업","key":"PG-1701","title":"[S1][Structure] 로그인/회원조회 응답 포맷 단일화","status":"보류","comp":"infra-security","label":"Tier1, run, s1, 개발체크","owner":"박창용","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-2667","title":"[S1][Policy] 인증 실패 응답 표준 정의","status":"대기","comp":"infra-security","label":"Tier1, run, s1","owner":"","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-2668","title":"[S1][Structure] 존재 여부 노출 최소화 적용","status":"대기","comp":"infra-security","label":"Tier1, run, s1","owner":"","due":null,"priority":"Medium"},{"type":"에픽","key":"PG-1639","title":"[Run][S7] HttpOnly Cookie 보안 설정","status":"보류","comp":"infra-security","label":"Tier1, run, s7, 개발체크","owner":"장석원","due":"2026-02-04","priority":"Highest"},{"type":"작업","key":"PG-1691","title":"[FE] CMS HttpOnly Cookie 전환","status":"보류","comp":"infra-security","label":"Tier1, run, s7, 개발체크","owner":"장석원","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-1733","title":"[BE] CMS HttpOnly Cookie API 생성·수정","status":"보류","comp":"infra-security","label":"Tier1, run, s7, 개발체크","owner":"이지헌","due":null,"priority":"Medium"},{"type":"에픽","key":"PG-1642","title":"[Run][S7] 개인정보 마스킹 정책 보강","status":"대기","comp":"shared-policy","label":"Tier1, run, s7","owner":"박창용","due":"2026-03-11","priority":"Highest"},{"type":"작업","key":"PG-1668","title":"[S7][기획] 민감정보 포함 현황 분석","status":"대기","comp":"infra-security","label":"Tier1, run, s7","owner":"박창용","due":null,"priority":"Highest"},{"type":"작업","key":"PG-1702","title":"[S7][Structure] 민감정보 마스킹 처리","status":"대기","comp":"infra-security","label":"Tier1, run, s7","owner":"박창용","due":"2026-03-11","priority":"Medium"},{"type":"에픽","key":"PG-1778","title":"[Run][S1] 로그인 시도 제어·봇 방어 구현","status":"보류","comp":"infra-security","label":"Tier1, run, s1, 개발체크","owner":"박창용","due":null,"priority":"Medium"},{"type":"작업","key":"PG-1779","title":"[S1][Policy] 로그인 시도 제한 정책 정의","status":"보류","comp":"shared-policy","label":"core, s1","owner":"박창용","due":null,"priority":"Medium"},{"type":"작업","key":"PG-1780","title":"[S1][Policy] 로그인 시도 초과 처리 정책","status":"보류","comp":"shared-policy","label":"core, s2","owner":"박창용","due":null,"priority":"Medium"},{"type":"작업","key":"PG-1781","title":"[S7][Structure] 보안 이벤트 로깅·추적 구현","status":"보류","comp":"infra-observability","label":"Tier1, run, s7","owner":"박창용","due":null,"priority":"Medium"},{"type":"에픽","key":"PG-1472","title":"[Grow][S2] 폰기프트몰 상품 구매 리뷰 기능","status":"대기","comp":"mall-review","label":"grow, s2","owner":"","due":"2026-02-13","priority":"Medium"},{"type":"작업","key":"PG-1000","title":"[기획] 상품 리뷰 기능 화면기획서","status":"대기","comp":"mall-review","label":"core, s2","owner":"김명수","due":null,"priority":"Medium"},{"type":"작업","key":"PG-1001","title":"[Doc] 상품 리뷰 기능 정책서","status":"대기","comp":"mall-review, shared-policy","label":"core, s2","owner":"김명수","due":null,"priority":"Medium"},{"type":"에픽","key":"PG-1482","title":"[Grow][S2] 상품 수정 시 채널 판매여부·재고 즉시 반영","status":"대기","comp":"partners-product","label":"grow, ops, s2","owner":"","due":null,"priority":"Medium"},{"type":"작업","key":"PG-1557","title":"[QA] 상품 재고 수량 미업데이트 이슈 > 폰기프트몰 품절 상품 노출 이슈","status":"대기","comp":"mall-order, shared-policy","label":"core, s2","owner":"","due":null,"priority":"High"},{"type":"스토리","key":"PG-1558","title":"[S3][Policy] 주문·결제·발행 Tier1 기준 정리","status":"보류","comp":"cms-order, shared-policy","label":"Tier1, money-path, run, s3","owner":"","due":null,"priority":"Medium"},{"type":"에픽","key":"PG-1588","title":"[Run][S7] Slack 알림 채널 구조 정비","status":"진행 중","comp":"infra-observability","label":"ops, run, s7","owner":"조재철","due":null,"priority":"Medium"},{"type":"에픽","key":"PG-1589","title":"[Core][S4] 레거시 바코드 API 정리","status":"보류","comp":"api-external","label":"core, s4","owner":"장석원","due":null,"priority":"Medium"},{"type":"에픽","key":"PG-1715","title":"[Grow][S7] 파트너 사업자 관리 기능 개선","status":"대기","comp":"cms-product, partners-product","label":"grow, ops, s7","owner":"김명수","due":null,"priority":"Medium"},{"type":"작업","key":"PG-2175","title":"[분석] [파트너센터/CMS] 파트너 관리 > 사업자 관리 개선","status":"대기","comp":"partners-product","label":"core, s2, 삭제필요","owner":"김명수","due":null,"priority":"Medium"},{"type":"작업","key":"PG-1717","title":"[X-기타][CMS] 사업자 정보 수정 및 CMS 승인처리 기능 추가","status":"대기","comp":"cms-partner, partners-auth","label":"core, s1","owner":"김명수","due":null,"priority":"Medium"},{"type":"에픽","key":"PG-1719","title":"[Grow][S7] 서비스 목록 미사용 처리 기능","status":"대기","comp":"cms-product, partners-product","label":"grow, ops, s7","owner":"김명수","due":null,"priority":"Medium"},{"type":"에픽","key":"PG-1720","title":"[Grow][S7] 사용처 관리 기능 개선","status":"대기","comp":"cms-product, partners-product","label":"grow, ops, s7","owner":"김명수","due":"2026-03-12","priority":"Medium"},{"type":"작업","key":"PG-2502","title":"[QA] 사용처 관리 기능 개선 운영QA","status":"대기","comp":"shared-policy","label":"grow, ops, s7","owner":"김명수","due":null,"priority":"Medium"},{"type":"에픽","key":"PG-1722","title":"[Grow][S7] 온라인 사용처 등록·수정 기능","status":"대기","comp":"cms-product, partners-product","label":"grow, ops, s7, 기획체크","owner":"김명수","due":null,"priority":"Medium"},{"type":"에픽","key":"PG-1723","title":"[Grow][S7] 사용처 추가 시 상품 일괄 적용","status":"대기","comp":"cms-product, partners-product","label":"grow, ops, s7, 기획체크","owner":"김명수","due":null,"priority":"Medium"},{"type":"작업","key":"PG-1760","title":"[QA] 로그 마스킹 및 컴플라이언스 검증","status":"보류","comp":"infra-observability","label":"Tier1, run, s7","owner":"","due":null,"priority":"Medium"},{"type":"작업","key":"PG-1775","title":"[S1][Policy] 초대·가입 URL 보호 정책 정의","status":"보류","comp":"shared-policy","label":"core, s1","owner":"이진원","due":null,"priority":"Medium"},{"type":"작업","key":"PG-1776","title":"[S1][Structure] 비밀번호 재설정 흐름 보안 강화","status":"보류","comp":"shared-policy","label":"core, s2","owner":"이진원","due":null,"priority":"Medium"},{"type":"작업","key":"PG-1777","title":"[S4][Structure] 인증 실패 메시지 단일화","status":"보류","comp":"shared-policy","label":"core, money-path, s4","owner":"이진원","due":null,"priority":"Medium"},{"type":"에픽","key":"PG-1914","title":"[Grow][S1] 파트너센터 회원관리 기능 개선","status":"진행 중","comp":"partners-auth","label":"grow, ops, s1","owner":"김명수","due":"2026-04-01","priority":"Medium"},{"type":"작업","key":"PG-2587","title":"[QA] 회원관리 기능 개선 시나리오 테스트","status":"진행 중","comp":"cms-partner","label":"core, s1","owner":"김명수","due":"2026-03-31","priority":"Medium"},{"type":"하위 작업","key":"PG-2687","title":"[QA] CMS > 파트너센터 회원 조회 필터링 수정 요청","status":"진행 중","comp":"","label":"","owner":"김희진","due":"2026-03-31","priority":"Medium"},{"type":"하위 작업","key":"PG-2693","title":"[QA] CMS > 상품권 환불 기능 오류","status":"진행 중","comp":"","label":"","owner":"김희진","due":null,"priority":"Medium"},{"type":"작업","key":"PG-2629","title":"[BE] 탈퇴승인·계약해지 메일 템플릿 적용","status":"배포대기","comp":"cms-partner","label":"run, s1","owner":"박창용","due":"2026-03-24","priority":"Medium"},{"type":"에픽","key":"PG-2572","title":"[Grow][S2] CMS 공지사항 관리 고도화","status":"진행 중","comp":"cms-product","label":"grow, ops, s2","owner":"최다솔","due":null,"priority":"Medium"},{"type":"작업","key":"PG-2208","title":"[S8][Doc] Open API 3.0 개발자 가이드 작성","status":"진행 중","comp":"api-openapi","label":"expand, s8","owner":"박창용","due":"2026-03-31","priority":"High"},{"type":"작업","key":"PG-2209","title":"[S8][Channel] 카페24 주문 상품권 연동 구현","status":"진행 중","comp":"api-external","label":"expand, s8","owner":"박창용","due":"2026-04-07","priority":"High"},{"type":"하위 작업","key":"PG-2622","title":"[개발] cafe24 앱 OAuth 인증 구현","status":"막힘","comp":"","label":"","owner":"박창용","due":"2026-03-26","priority":"Medium"},{"type":"하위 작업","key":"PG-2623","title":"[개발][BE] cafe24 앱 사용처 코드 연동 관리 기능","status":"진행 중","comp":"","label":"","owner":"박창용","due":"2026-04-01","priority":"Medium"},{"type":"하위 작업","key":"PG-2624","title":"[개발] cafe24 할인앱 주문입력폼 > 상품권 조회 및 할인 적용 기능 구현","status":"대기","comp":"","label":"","owner":"박창용","due":"2026-04-03","priority":"Medium"},{"type":"하위 작업","key":"PG-2625","title":"[개발] cafe24 주문완료 후 상품권 사용처리","status":"대기","comp":"","label":"","owner":"박창용","due":"2026-04-07","priority":"Medium"},{"type":"작업","key":"PG-2211","title":"[S7][Structure] Tier1 보안 즉시대응 패키지","status":"대기","comp":"infra-security","label":"Tier1, run, s7","owner":"","due":null,"priority":"Highest"},{"type":"하위 작업","key":"PG-2217","title":"[1. 즉시대응][IR-022] 포인트 선차감 정합성 해결","status":"대기","comp":"","label":"","owner":"이지헌","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2218","title":"[1. 즉시대응][IR-072] WAF Count→Block 전환","status":"대기","comp":"","label":"","owner":"박창용","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2219","title":"[1. 즉시대응][IR-013] 24시간 초과 취소 예외 승인 체계","status":"대기","comp":"","label":"","owner":"박창용","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-2407","title":"[S7][Structure] Tier1 보안 단기대응 패키지","status":"대기","comp":"shared-policy","label":"Tier1, run, s7","owner":"","due":null,"priority":"High"},{"type":"하위 작업","key":"PG-2220","title":"[2. 단기대응][IR-035][IR-080] 바코드 SSOT 정의 및 검증 체계 수립","status":"대기","comp":"","label":"","owner":"","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2221","title":"[2. 단기대응][IR-058] 바코드 차단 룰 단일화","status":"대기","comp":"","label":"","owner":"","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2222","title":"[2. 단기대응][IR-042] 운영자 RBAC - 사용자-권한 체계 도입","status":"대기","comp":"","label":"","owner":"박창용","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2223","title":"[2. 단기대응][IR-045] merchant_id 위·변조 방지","status":"대기","comp":"","label":"","owner":"","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-2408","title":"[S7][Structure] Tier1 보안 중기대응 패키지","status":"대기","comp":"shared-policy","label":"Tier1, run, s7","owner":"","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2224","title":"[3. 중기대응] 결제 상태머신(FSM) 문서화","status":"대기","comp":"","label":"","owner":"","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2225","title":"[3. 중기대응] 정산 자동화 기반 구축","status":"대기","comp":"","label":"","owner":"","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2227","title":"[3. 중기대응] 서킷브레이커 도입","status":"대기","comp":"","label":"","owner":"","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2229","title":"[3. 중기대응] Refresh Token 도입","status":"대기","comp":"","label":"","owner":"","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2231","title":"[3. 중기대응] 운영기준 문서 일괄 정비","status":"대기","comp":"","label":"","owner":"","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-2409","title":"[S7][Structure] Tier1 보안 고도화 패키지","status":"대기","comp":"shared-policy","label":"Tier1, run, s7","owner":"","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2232","title":"[4. 고도화] 환불 프로세스 자동화/상태 동기화","status":"대기","comp":"","label":"","owner":"","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2233","title":"[4. 고도화] 채널별 사용취소 정책 통일","status":"대기","comp":"","label":"","owner":"","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2234","title":"[4. 고도화] 알림톡 템플릿 사전 검증 템플릿-상품 매핑 자동 검증 시스템","status":"대기","comp":"","label":"","owner":"","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2235","title":"[4. 고도화] 보상 프로세스 자동화","status":"대기","comp":"","label":"","owner":"","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2236","title":"[4. 고도화] 옥션 취소 자동화","status":"대기","comp":"","label":"","owner":"","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2237","title":"[4. 고도화] 취소 정책 유연화","status":"대기","comp":"","label":"","owner":"","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2238","title":"[4. 고도화] 템플릿 매핑 자동 검증","status":"대기","comp":"","label":"","owner":"","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2239","title":"[4. 고도화] 정산 자동화 완성(후속)","status":"대기","comp":"","label":"","owner":"","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2240","title":"[4. 고도화] 상품권 조회 본인인증 추가","status":"대기","comp":"","label":"","owner":"","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2241","title":"[4. 고도화] 점유인증→본인인증 전환","status":"대기","comp":"","label":"","owner":"","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2242","title":"[4. 고도화] 바코드 사용일 데이터 확보","status":"대기","comp":"","label":"","owner":"","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-2303","title":"[S7][Structure] AWS 인프라 개선","status":"대기","comp":"infra-observability","label":"Tier1, run, s7","owner":"이진원","due":"2026-06-30","priority":"High"},{"type":"하위 작업","key":"PG-2215","title":"[단기] JENKINS 배포 JOB 개선","status":"대기","comp":"","label":"","owner":"","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2246","title":"[단기] WAF 정책 분리 - 개발 환경별|FE/BE별|프로젝트별","status":"대기","comp":"","label":"","owner":"","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2245","title":"[중기] ALB 분리","status":"대기","comp":"","label":"","owner":"","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2247","title":"[장기] BE 통신 특성에 따른 네트워크 분리 - PUBLIC은 AGW/PRIVATE는 NAT","status":"대기","comp":"","label":"","owner":"","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-2292","title":"[S7][Structure] Pongift 1.0/2.0 인프라 정리","status":"대기","comp":"infra-observability","label":"Tier1, run, s7","owner":"","due":null,"priority":"High"},{"type":"하위 작업","key":"PG-2299","title":"gitlab 서버 정리","status":"대기","comp":"","label":"","owner":"","due":null,"priority":"Medium"},{"type":"작업","key":"PG-2279","title":"[BE] 백엔드 최적화·이슈 개선","status":"대기","comp":"infra-observability","label":"Tier1, run, s7","owner":"","due":null,"priority":"High"},{"type":"하위 작업","key":"PG-2280","title":"robots.txt 이슈 처리 필요 - Open API Docs (DEV) 구글 검색시 노출 되는 현상","status":"대기","comp":"","label":"","owner":"박창용","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2426","title":"판매내역 조회 지연","status":"대기","comp":"","label":"","owner":"","due":null,"priority":"Medium"},{"type":"작업","key":"PG-2244","title":"[FE] 프론트엔드 최적화·이슈 개선","status":"진행 중","comp":"infra-observability","label":"Tier1, run, s7","owner":"장석원","due":"2026-03-31","priority":"Medium"},{"type":"하위 작업","key":"PG-2680","title":"[Mall] 폰기프트몰 SSR 하이드레이션 오류 관련 전반적 검토","status":"대기","comp":"","label":"","owner":"장석원","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-2291","title":"[S7][Ops] 인프라 이슈 대응","status":"진행 중","comp":"infra-security","label":"Tier1, run, s7","owner":"이진원","due":"2026-06-30","priority":"Highest"},{"type":"작업","key":"PG-2647","title":"[FE] 메타 이미지·태그 수정","status":"대기","comp":"mall-order, partners-product","label":"grow, s2","owner":"장석원","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2648","title":"[FE][파트너센터] 메타 정보 미노출 수정","status":"보류","comp":"partners-product","label":"grow, ops, s7, 개발체크","owner":"장석원","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-1559","title":"[S4][Policy] 바코드 사용 인증 Tier1 기준 정리","status":"대기","comp":"api-external, shared-policy","label":"Tier1, money-path, run, s4","owner":"","due":null,"priority":"Medium"},{"type":"에픽","key":"PG-2404","title":"[Run][S7] 보안 취약점 대응 (2026 Q1)","status":"대기","comp":"infra-security","label":"Tier1, run, s7","owner":"","due":"2026-04-30","priority":"Medium"},{"type":"작업","key":"PG-2406","title":"[S7][Structure] 보안 취약점 즉시대응","status":"대기","comp":"shared-policy","label":"Tier1, run, s7","owner":"","due":"2026-04-07","priority":"Highest"},{"type":"하위 작업","key":"PG-2410","title":"[S7][Structure] 애플리케이션 레벨 Rate Limit 적용","status":"대기","comp":"infra-security","label":"Tier1, run, s7","owner":"","due":"2026-04-03","priority":"Medium"},{"type":"하위 작업","key":"PG-2411","title":"[S3][Structure] 결제 금액 검증 허점 수정","status":"대기","comp":"cms-order","label":"Tier1, money-path, run, s3","owner":"","due":"2026-04-07","priority":"Medium"},{"type":"스토리","key":"PG-2415","title":"[S7][Structure] 보안 취약점 단기대응","status":"대기","comp":"shared-policy","label":"Tier1, run, s7","owner":"","due":"2026-04-15","priority":"Medium"},{"type":"하위 작업","key":"PG-2417","title":"[S7][Structure] 로그 내 민감정보 노출 수정","status":"대기","comp":"infra-security","label":"Tier1, run, s7","owner":"","due":"2026-04-10","priority":"Highest"},{"type":"하위 작업","key":"PG-2418","title":"[S7][Structure] JWT 무효화 기능 구현","status":"대기","comp":"infra-security","label":"Tier1, run, s7","owner":"","due":null,"priority":"Highest"},{"type":"하위 작업","key":"PG-2419","title":"[S7][Structure] CORS 허용 범위 제한 설정","status":"대기","comp":"infra-security","label":"Tier1, run, s7","owner":"","due":null,"priority":"High"},{"type":"하위 작업","key":"PG-2420","title":"[S4][Structure] 바코드 접근 제어 강화","status":"대기","comp":"infra-security","label":"Tier1, run, s7","owner":"","due":null,"priority":"Highest"},{"type":"스토리","key":"PG-2416","title":"[S7][Structure] 보안 취약점 중기대응","status":"대기","comp":"shared-policy","label":"Tier1, run, s7","owner":"","due":"2026-04-30","priority":"Medium"},{"type":"하위 작업","key":"PG-2421","title":"[S7][Policy] 내부자 통제 정책 수립","status":"대기","comp":"shared-policy","label":"Tier1, run, s7","owner":"","due":null,"priority":"High"},{"type":"하위 작업","key":"PG-2422","title":"[S7][Structure] MFA 강제 적용 조건 강화","status":"대기","comp":"infra-security","label":"Tier1, run, s7","owner":"","due":null,"priority":"High"},{"type":"에픽","key":"PG-2298","title":"[Core][S4] 사용상태 수동갱신 예외처리","status":"대기","comp":"shared-policy","label":"core, money-path, s4","owner":"박창용","due":"2026-02-24","priority":"Medium"},{"type":"에픽","key":"PG-2383","title":"[Core][S2] 유통채널 정책 분석 및 기준 정립","status":"진행 중","comp":"shared-policy","label":"core, s2","owner":"최다솔","due":"2026-03-31","priority":"Medium"},{"type":"작업","key":"PG-2508","title":"[S2][기획] 유통채널별 문서 최종본 정리","status":"대기","comp":"shared-policy","label":"core, s2","owner":"최다솔","due":"2026-03-31","priority":"High"},{"type":"작업","key":"PG-2580","title":"[S2][기획] 유통채널 연동 확인사항 정리","status":"대기","comp":"shared-policy","label":"core, s2","owner":"이지헌","due":"2026-04-30","priority":"Medium"},{"type":"에픽","key":"PG-2485","title":"프론트엔드 기술 개선 및 안정화","status":"진행 중","comp":"infra-observability","label":"grow, ops, s2","owner":"김희진","due":null,"priority":"Medium"},{"type":"작업","key":"PG-2569","title":"[S2][Structure] Pongift UI 공통 라이브러리 구축","status":"진행 중","comp":"infra-observability","label":"grow, ops, s2","owner":"장석원","due":"2026-04-30","priority":"Medium"},{"type":"하위 작업","key":"PG-2631","title":"[FE] Button 컴포넌트 구현","status":"대기","comp":"partners-product","label":"core, s2","owner":"","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2632","title":"[FE] Checkbox 컴포넌트 구현","status":"대기","comp":"partners-product","label":"core, s2","owner":"","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2633","title":"[FE] Input 컴포넌트 구현","status":"대기","comp":"partners-product","label":"core, s2","owner":"","due":null,"priority":"Medium"},{"type":"작업","key":"PG-2678","title":"[파트너센터] 미사용 패키지 및 dead code 제거","status":"배포대기","comp":"infra-observability","label":"grow, ops, s2","owner":"김희진","due":"2026-03-27","priority":"Medium"},{"type":"작업","key":"PG-2679","title":"[파트너센터] 날짜 라이브러리 통일 + sanitize-html 정리","status":"배포대기","comp":"infra-observability","label":"grow, ops, s2","owner":"김희진","due":"2026-03-30","priority":"Medium"},{"type":"작업","key":"PG-2692","title":"[파트너센터] 반응형 기반 세팅","status":"진행 중","comp":"infra-observability","label":"grow, ops, s2","owner":"김희진","due":"2026-04-02","priority":"Medium"},{"type":"에픽","key":"PG-2511","title":"[Core][S2] 파트너센터 모바일 화면 구현","status":"대기","comp":"partners-product","label":"core, s2","owner":"","due":null,"priority":"Medium"},{"type":"작업","key":"PG-2512","title":"[S1][UX] 파트너센터 상품 승인 관리 Mobile 화면","status":"대기","comp":"cms-partner, partners-product","label":"core, s1","owner":"이강미","due":null,"priority":"Medium"},{"type":"작업","key":"PG-2513","title":"[S2][UX] 파트너센터 상품 조회 Mobile 화면","status":"대기","comp":"partners-product","label":"core, s2","owner":"","due":null,"priority":"Medium"},{"type":"작업","key":"PG-2514","title":"[S2][UX] 파트너센터 상품 상세 Mobile 화면","status":"대기","comp":"partners-product","label":"core, s2","owner":"","due":null,"priority":"Medium"},{"type":"작업","key":"PG-2515","title":"[S2][UX] 파트너센터 상품 등록 Mobile 화면","status":"대기","comp":"partners-product","label":"core, s2","owner":"이강미","due":null,"priority":"Medium"},{"type":"작업","key":"PG-2516","title":"[S6][UX] 직접발송 상품 Mobile 화면 구현","status":"대기","comp":"partners-directsend","label":"core, deferred, s6","owner":"","due":null,"priority":"Low"},{"type":"작업","key":"PG-2517","title":"[S3][UX] 상품권 현황 Mobile 화면 구현","status":"대기","comp":"partners-product","label":"core, s2","owner":"","due":null,"priority":"Medium"},{"type":"작업","key":"PG-2518","title":"[S3][UX] 파트너센터 주문 상세 Mobile 화면","status":"대기","comp":"partners-order","label":"core, money-path, s3","owner":"","due":null,"priority":"Medium"},{"type":"작업","key":"PG-2519","title":"[S2][UX] 파트너센터 Mobile 공통 UI 컴포넌트","status":"대기","comp":"partners-product","label":"core, s2","owner":"","due":null,"priority":"Medium"},{"type":"작업","key":"PG-2535","title":"[S2][UX] 파트너센터 기존 화면 Mobile UI 전환","status":"대기","comp":"partners-product","label":"core, s2","owner":"이강미","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2536","title":"[DGN] 파트너센터 사업자 정보 Mobile 화면","status":"대기","comp":"partners-product","label":"core, s2","owner":"","due":null,"priority":"Low"},{"type":"하위 작업","key":"PG-2537","title":"[DGN] 파트너센터 사용자 관리 Mobile 화면","status":"대기","comp":"partners-product","label":"core, s2","owner":"","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2538","title":"[파트너센터] 대시보드 Mobile 화면","status":"대기","comp":"partners-product","label":"core, s2","owner":"","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2539","title":"[DGN] 파트너센터 주문 조회 Mobile 화면","status":"대기","comp":"partners-order","label":"core, money-path, s3","owner":"","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2540","title":"[DGN] 파트너센터 공지사항 조회 Mobile 화면","status":"대기","comp":"partners-product","label":"grow, s2","owner":"","due":null,"priority":"Medium"},{"type":"에픽","key":"PG-2566","title":"[Grow][S1] 약관 관리 화면 현행화","status":"대기","comp":"partners-product","label":"grow, ops, s1","owner":"김명수","due":"2026-03-25","priority":"Medium"},{"type":"작업","key":"PG-2605","title":"[BE] 파트너센터 약관 업데이트","status":"대기","comp":"shared-policy","label":"core, s1","owner":"박창용","due":null,"priority":"Medium"},{"type":"작업","key":"PG-2607","title":"[S1][Ops] 파트너센터·폰기프트몰 약관변경 공지팝업","status":"대기","comp":"shared-policy","label":"core, s1","owner":"강미희","due":null,"priority":"Medium"},{"type":"작업","key":"PG-2608","title":"[QA] 약관관리 운영서버 테스트","status":"대기","comp":"shared-policy","label":"run, s1","owner":"김명수","due":null,"priority":"Medium"},{"type":"에픽","key":"PG-2611","title":"[Grow][S2] Google Analytics 4 도입","status":"대기","comp":"infra-observability","label":"grow, ops, s2","owner":"최다솔","due":"2026-04-03","priority":"Medium"},{"type":"작업","key":"PG-2663","title":"[미팅] 운영/개발 GA4 이벤트 정의건 리뷰","status":"대기","comp":"infra-observability","label":"grow, ops, s2","owner":"최다솔","due":null,"priority":"Medium"},{"type":"작업","key":"PG-2664","title":"[기획] GA4 계정 생성 & 세팅","status":"대기","comp":"infra-observability","label":"grow, ops, s2","owner":"최다솔","due":null,"priority":"Medium"},{"type":"에픽","key":"PG-2650","title":"[Core][S3] LMS 메시지 템플릿 현행화","status":"대기","comp":"shared-policy","label":"core, s3","owner":"김명수","due":null,"priority":"Medium"},{"type":"작업","key":"PG-2586","title":"[S3][Ops] CMS 메시지 템플릿 관리 현행화","status":"대기","comp":"cms-product","label":"core, s2","owner":"이지헌","due":null,"priority":"Medium"},{"type":"에픽","key":"PG-2669","title":"[Run][S7] 운영 모니터링 기준 수립 및 구현","status":"대기","comp":"infra-observability","label":"Tier1, run, s7","owner":"","due":null,"priority":"Medium"},{"type":"작업","key":"PG-2210","title":"[S7][Ops] 운영 모니터링 구축·설정","status":"진행 중","comp":"infra-observability","label":"Tier1, run, s7","owner":"박창용","due":"2026-03-31","priority":"Highest"},{"type":"하위 작업","key":"PG-2212","title":"AWS Cloud Watch 신규 모니터링 대시보드 구축","status":"대기","comp":"","label":"","owner":"박창용","due":"2026-03-31","priority":"Medium"},{"type":"하위 작업","key":"PG-2214","title":"[DEV] New Relic APM(Aplication Performance Monitoring) 적용","status":"대기","comp":"","label":"","owner":"이진원","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2243","title":"[PROD] New Relic APM(Aplication Performance Monitoring) 적용","status":"대기","comp":"","label":"","owner":"이진원","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-2670","title":"[S7][Policy] 운영 민감 이벤트 분류 및 심각도 기준 반영","status":"대기","comp":"infra-observability","label":"Tier1, run, s7","owner":"","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-2671","title":"[S7][Structure] CloudWatch/New Relic 알람 기준 구조 반영","status":"대기","comp":"infra-observability","label":"Tier1, run, s7","owner":"","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2674","title":"[INFRA] CloudWatch 임계값 반영","status":"대기","comp":"","label":"","owner":"","due":null,"priority":"Medium"},{"type":"스토리","key":"PG-2672","title":"[S7][Ops] Slack 알림 채널 및 대응 책임 정비","status":"대기","comp":"infra-observability","label":"Tier1, run, s7","owner":"","due":null,"priority":"Medium"},{"type":"하위 작업","key":"PG-2673","title":"[BE] 알람 이벤트 포맷 정리","status":"대기","comp":"","label":"","owner":"","due":null,"priority":"Medium"}];
+const CHANGES   = [{"type":"added","key":"PG-2679","title":"[파트너센터] 날짜 라이브러리 통일 + sanitize-html 정리","status":"배포대기","owner":"김희진","field":"신규 이슈","before":"—","after":"추가됨"},{"type":"added","key":"PG-2680","title":"[Mall] 폰기프트몰 SSR 하이드레이션 오류 관련 전반적 검토","status":"대기","owner":"장석원","field":"신규 이슈","before":"—","after":"추가됨"},{"type":"added","key":"PG-2681","title":"[공통] 2026년 3월 31일 배포","status":"진행 중","owner":"김희진","field":"신규 이슈","before":"—","after":"추가됨"},{"type":"added","key":"PG-2687","title":"[QA] CMS > 파트너센터 회원 조회 필터링 수정 요청","status":"진행 중","owner":"김희진","field":"신규 이슈","before":"—","after":"추가됨"},{"type":"added","key":"PG-2692","title":"[파트너센터] 반응형 기반 세팅","status":"진행 중","owner":"김희진","field":"신규 이슈","before":"—","after":"추가됨"},{"type":"added","key":"PG-2693","title":"[QA] CMS > 상품권 환불 기능 오류","status":"진행 중","owner":"김희진","field":"신규 이슈","before":"—","after":"추가됨"},{"type":"removed","key":"PG-2444","title":"[Grow][S1] 서비스 소개 페이지 문의하기 기능","status":"보류","owner":"김명수","field":"이슈 제거","before":"보류","after":"목록에서 제거"},{"type":"removed","key":"PG-2483","title":"[기획] 서비스 소개 페이지 문의하기 기능 기획","status":"보류","owner":"김명수","field":"이슈 제거","before":"보류","after":"목록에서 제거"},{"type":"removed","key":"PG-2649","title":"[FE][Mall] 메타 정보 미노출 수정","status":"진행 중","owner":"장석원","field":"이슈 제거","before":"진행 중","after":"목록에서 제거"},{"type":"removed","key":"PG-2661","title":"[S7][Ops] 최고관리자 통합 모니터링 대시보드 설계","status":"진행 중","owner":"이강미","field":"이슈 제거","before":"진행 중","after":"목록에서 제거"},{"type":"removed","key":"PG-2662","title":"[QA] 파트너센터 회원관리 기능 개선 BE 검증","status":"진행 중","owner":"이지헌","field":"이슈 제거","before":"진행 중","after":"목록에서 제거"},{"type":"changed","key":"PG-1000","title":"[기획] 상품 리뷰 기능 화면기획서","status":"대기","owner":"김명수","field":"상태","before":"보류","after":"대기"},{"type":"changed","key":"PG-1001","title":"[Doc] 상품 리뷰 기능 정책서","status":"대기","owner":"김명수","field":"상태","before":"보류","after":"대기"},{"type":"changed","key":"PG-1031","title":"[Run][S7] 보안 취약점 조치 및 시스템 안정성","status":"보류","owner":"박창용","field":"레이블","before":"Tier1, run, s7","after":"Tier1, run, s7, 개발체크"},{"type":"changed","key":"PG-1387","title":"[Core][S3] 폰기프트몰 앱 결제 무한 로딩 오류","status":"대기","owner":"박창용","field":"상태","before":"보류","after":"대기"},{"type":"changed","key":"PG-1387","title":"[Core][S3] 폰기프트몰 앱 결제 무한 로딩 오류","status":"대기","owner":"박창용","field":"담당자","before":"—","after":"박창용"},{"type":"changed","key":"PG-1466","title":"[Run][S1] 파트너 온보딩·승인 플로우 기준 정의","status":"보류","owner":"","field":"레이블","before":"Tier1, run, s1","after":"Tier1, run, s1, 기획체크"},{"type":"changed","key":"PG-1467","title":"[Core][S2] 상품 등록·승인 플로우 기준 정의","status":"보류","owner":"","field":"레이블","before":"core, s2","after":"core, s2, 기획체크"},{"type":"changed","key":"PG-1472","title":"[Grow][S2] 폰기프트몰 상품 구매 리뷰 기능","status":"대기","owner":"","field":"상태","before":"보류","after":"대기"},{"type":"changed","key":"PG-1555","title":"[S1][Policy] 승인 상태표 정리","status":"보류","owner":"","field":"레이블","before":"Tier1, run, s1","after":"Tier1, run, s1, 기획체크"},{"type":"changed","key":"PG-1556","title":"[S2][Policy] 상품 등록·승인 Tier1 기준 정리","status":"보류","owner":"","field":"레이블","before":"Tier1, run, s1","after":"Tier1, run, s1, 기획체크"},{"type":"changed","key":"PG-1638","title":"[Run][S1] API 응답 단일화·존재 은닉 구현","status":"보류","owner":"이지헌","field":"레이블","before":"Tier1, run, s1","after":"Tier1, run, s1, 개발체크"},{"type":"changed","key":"PG-1639","title":"[Run][S7] HttpOnly Cookie 보안 설정","status":"보류","owner":"장석원","field":"레이블","before":"Tier1, run, s7","after":"Tier1, run, s7, 개발체크"},{"type":"changed","key":"PG-1691","title":"[FE] CMS HttpOnly Cookie 전환","status":"보류","owner":"장석원","field":"레이블","before":"Tier1, run, s7","after":"Tier1, run, s7, 개발체크"},{"type":"changed","key":"PG-1701","title":"[S1][Structure] 로그인/회원조회 응답 포맷 단일화","status":"보류","owner":"박창용","field":"레이블","before":"Tier1, run, s1","after":"Tier1, run, s1, 개발체크"},{"type":"changed","key":"PG-1715","title":"[Grow][S7] 파트너 사업자 관리 기능 개선","status":"대기","owner":"김명수","field":"상태","before":"보류","after":"대기"},{"type":"changed","key":"PG-1722","title":"[Grow][S7] 온라인 사용처 등록·수정 기능","status":"대기","owner":"김명수","field":"상태","before":"보류","after":"대기"},{"type":"changed","key":"PG-1722","title":"[Grow][S7] 온라인 사용처 등록·수정 기능","status":"대기","owner":"김명수","field":"레이블","before":"grow, ops, s7","after":"grow, ops, s7, 기획체크"},{"type":"changed","key":"PG-1723","title":"[Grow][S7] 사용처 추가 시 상품 일괄 적용","status":"대기","owner":"김명수","field":"상태","before":"보류","after":"대기"},{"type":"changed","key":"PG-1723","title":"[Grow][S7] 사용처 추가 시 상품 일괄 적용","status":"대기","owner":"김명수","field":"레이블","before":"grow, ops, s7","after":"grow, ops, s7, 기획체크"},{"type":"changed","key":"PG-1733","title":"[BE] CMS HttpOnly Cookie API 생성·수정","status":"보류","owner":"이지헌","field":"레이블","before":"Tier1, run, s7","after":"Tier1, run, s7, 개발체크"},{"type":"changed","key":"PG-1778","title":"[Run][S1] 로그인 시도 제어·봇 방어 구현","status":"보류","owner":"박창용","field":"레이블","before":"Tier1, run, s1","after":"Tier1, run, s1, 개발체크"},{"type":"changed","key":"PG-1914","title":"[Grow][S1] 파트너센터 회원관리 기능 개선","status":"진행 중","owner":"김명수","field":"담당자","before":"이진원","after":"김명수"},{"type":"changed","key":"PG-1914","title":"[Grow][S1] 파트너센터 회원관리 기능 개선","status":"진행 중","owner":"김명수","field":"기한","before":"2026-03-20","after":"2026-04-01"},{"type":"changed","key":"PG-2175","title":"[분석] [파트너센터/CMS] 파트너 관리 > 사업자 관리 개선","status":"대기","owner":"김명수","field":"상태","before":"보류","after":"대기"},{"type":"changed","key":"PG-2175","title":"[분석] [파트너센터/CMS] 파트너 관리 > 사업자 관리 개선","status":"대기","owner":"김명수","field":"레이블","before":"core, s2","after":"core, s2, 삭제필요"},{"type":"changed","key":"PG-2209","title":"[S8][Channel] 카페24 주문 상품권 연동 구현","status":"진행 중","owner":"박창용","field":"기한","before":"2026-03-31","after":"2026-04-07"},{"type":"changed","key":"PG-2502","title":"[QA] 사용처 관리 기능 개선 운영QA","status":"대기","owner":"김명수","field":"상태","before":"보류","after":"대기"},{"type":"changed","key":"PG-2586","title":"[S3][Ops] CMS 메시지 템플릿 관리 현행화","status":"대기","owner":"이지헌","field":"상태","before":"보류","after":"대기"},{"type":"changed","key":"PG-2587","title":"[QA] 회원관리 기능 개선 시나리오 테스트","status":"진행 중","owner":"김명수","field":"기한","before":"None","after":"2026-03-31"},{"type":"changed","key":"PG-2605","title":"[BE] 파트너센터 약관 업데이트","status":"대기","owner":"박창용","field":"담당자","before":"이진원","after":"박창용"},{"type":"changed","key":"PG-2611","title":"[Grow][S2] Google Analytics 4 도입","status":"대기","owner":"최다솔","field":"상태","before":"진행 중","after":"대기"},{"type":"changed","key":"PG-2623","title":"[개발][BE] cafe24 앱 사용처 코드 연동 관리 기능","status":"진행 중","owner":"박창용","field":"기한","before":"2026-03-27","after":"2026-04-01"},{"type":"changed","key":"PG-2624","title":"[개발] cafe24 할인앱 주문입력폼 > 상품권 조회 및 할인 적용 기능 구현","status":"대기","owner":"박창용","field":"담당자","before":"—","after":"박창용"},{"type":"changed","key":"PG-2624","title":"[개발] cafe24 할인앱 주문입력폼 > 상품권 조회 및 할인 적용 기능 구현","status":"대기","owner":"박창용","field":"기한","before":"2026-03-30","after":"2026-04-03"},{"type":"changed","key":"PG-2625","title":"[개발] cafe24 주문완료 후 상품권 사용처리","status":"대기","owner":"박창용","field":"담당자","before":"—","after":"박창용"},{"type":"changed","key":"PG-2625","title":"[개발] cafe24 주문완료 후 상품권 사용처리","status":"대기","owner":"박창용","field":"기한","before":"2026-03-31","after":"2026-04-07"},{"type":"changed","key":"PG-2647","title":"[FE] 메타 이미지·태그 수정","status":"대기","owner":"장석원","field":"기한","before":"2026-03-30","after":"None"},{"type":"changed","key":"PG-2648","title":"[FE][파트너센터] 메타 정보 미노출 수정","status":"보류","owner":"장석원","field":"레이블","before":"FE","after":"grow, ops, s7, 개발체크"},{"type":"changed","key":"PG-2648","title":"[FE][파트너센터] 메타 정보 미노출 수정","status":"보류","owner":"장석원","field":"컴포넌트","before":"—","after":"partners-product"},{"type":"changed","key":"PG-2663","title":"[미팅] 운영/개발 GA4 이벤트 정의건 리뷰","status":"대기","owner":"최다솔","field":"기한","before":"2026-03-30","after":"None"},{"type":"changed","key":"PG-2664","title":"[기획] GA4 계정 생성 & 세팅","status":"대기","owner":"최다솔","field":"기한","before":"2026-04-03","after":"None"},{"type":"changed","key":"PG-2665","title":"[S1][Structure] 승인 후 접근권한 반영","status":"대기","owner":"","field":"레이블","before":"Tier1, run, s1","after":"Tier1, run, s1, 기획체크"},{"type":"changed","key":"PG-2666","title":"[S1][Ops] 가입-승인 예외 케이스 정리","status":"대기","owner":"","field":"레이블","before":"Tier1, run, s1","after":"Tier1, run, s1, 기획체크"},{"type":"changed","key":"PG-286","title":"[S4][Structure] 옥션 내e쿠폰함 상품권 사용처리 연동 오류","status":"보류","owner":"","field":"레이블","before":"core, money-path, s4","after":"core, money-path, s4, 삭제필요"},{"type":"changed","key":"PG-472","title":"[Grow][S3] CMS 상품권 현황 조회 개선","status":"보류","owner":"김명수","field":"레이블","before":"grow, ops, s3","after":"grow, ops, s3, 기획체크"},{"type":"changed","key":"PG-473","title":"[S3][Ops] 상품권 현황 상품권ID 검색 조건 추가","status":"보류","owner":"","field":"레이블","before":"core, s2","after":"core, s2, 기획체크"},{"type":"changed","key":"PG-474","title":"[S3][Policy] 주문관리 엑셀 다운로드 개인정보 규정 적용","status":"보류","owner":"","field":"레이블","before":"core, money-path, s3","after":"core, money-path, s3, 기획체크"},{"type":"changed","key":"PG-476","title":"[S3][Ops] 상품권 현황 구매자명·수신자명 검색 컬럼 추가","status":"보류","owner":"","field":"레이블","before":"core, s2","after":"core, s2, 기획체크"},{"type":"changed","key":"PG-565","title":"[S3][Ops] 상품권 현황 엑셀 컬럼명 통일","status":"보류","owner":"","field":"레이블","before":"core, s2","after":"core, s2, 기획체크"},{"type":"changed","key":"PG-613","title":"[S3][Ops] 상품권 현황 발송상태 필터 추가","status":"보류","owner":"","field":"레이블","before":"core, money-path, s3","after":"core, money-path, s3, 기획체크"},{"type":"changed","key":"PG-614","title":"[S3][Ops] 상품권 현황 엑셀 발송수단 컬럼 추가","status":"보류","owner":"","field":"레이블","before":"core, money-path, s3","after":"core, money-path, s3, 기획체크"},{"type":"changed","key":"PG-649","title":"[S8][Structure] 유통채널 연동 API 구현","status":"보류","owner":"","field":"레이블","before":"core, s2","after":"core, s2, 기획체크"},{"type":"changed","key":"PG-660","title":"[Grow][S3] 파트너센터 상품권 현황 조회 개선","status":"보류","owner":"김명수","field":"레이블","before":"grow, ops, s3","after":"grow, ops, s3, 기획체크"},{"type":"changed","key":"PG-759","title":"[FE] 상품관리 엑셀 다운로드 구현","status":"대기","owner":"장석원","field":"상태","before":"보류","after":"대기"},{"type":"changed","key":"PG-759","title":"[FE] 상품관리 엑셀 다운로드 구현","status":"대기","owner":"장석원","field":"레이블","before":"grow, ops, s2","after":"grow, ops, s2, 개발체크"},{"type":"changed","key":"PG-805","title":"[Core][S2] 폰기프트몰 상품 리뷰 기능","status":"대기","owner":"김명수","field":"상태","before":"보류","after":"대기"},{"type":"changed","key":"PG-833","title":"[FE] 상품 등록 타입 및 등록 계정 추가","status":"대기","owner":"장석원","field":"상태","before":"보류","after":"대기"}];
+
+// ── Utilities ─────────────────────────────────────────
+const $ = id => document.getElementById(id);
+const pct = (v,t) => t ? Math.round(v/t*100) : 0;
+const bdg = (t,c) => `<span class="badge ${c}">${t}</span>`;
+const today = new Date('2026-04-01'); today.setHours(0,0,0,0);
+const addD  = (d,n) => { const r=new Date(d); r.setDate(r.getDate()+n); return r; };
+const d3 = addD(today,3), d7 = addD(today,7);
+const parseDate = s => { if(!s) return null; const d=new Date(s); d.setHours(0,0,0,0); return isNaN(d)?null:d; };
+const fmt = d => d ? `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}` : '—';
+
+// Jira link chip
+const jiraLink = key => `<a href="${JIRA_BASE}${key}" target="_blank" class="jira-key">${key}</a>`;
+
+// Status badge
+const stBdg = (s, cl=false) => {
+  const m={'진행 중':'b-grn','배포대기':'b-pur','막힘':'b-red','대기':'b-blue','보류':'b-org','완료':'b-gray'};
+  const c=(m[s]||'b-gray')+(cl?' cl':'');
+  return `<span class="badge ${c}"${cl?` onclick="G.showSt('${s}')" title="클릭→목록"`:''}}>${s}</span>`;
+};
+
+// ── Portfolio definitions ─────────────────────────────
+const PF_DEF = {
+  run:  {
+    key:'run',  color:'var(--run)',  light:'var(--run-light)',  border:'var(--run-border)',
+    label:'Run', icon:`<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>`,
+    title:'런 — 시스템 안정화',
+    desc:'현재 운영 중인 서비스의 안정성·보안·인프라 관리. Tier1 보안 패치, 운영 통제, 모니터링, 배포 자동화.',
+    horizons:'현재 (0~3개월)',
+    metrics:'시스템 장애율, 보안 취약점 수, Tier1 완료율',
+  },
+  core: {
+    key:'core', color:'var(--core)', light:'var(--core-light)', border:'var(--core-border)',
+    label:'Core', icon:`<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>`,
+    title:'코어 — 핵심 비즈니스 시퀀스',
+    desc:'파트너 온보딩(S1) → 상품 등록(S2) → 주문·발행(S3) → 사용·인증(S4) → 환불(S5)까지 전체 머니패스(Money Path) 완성.',
+    horizons:'단기 (1~6개월)',
+    metrics:'TTFV, 시퀀스 완성률, Money Path 오류율',
+  },
+  grow: {
+    key:'grow', color:'var(--grow)', light:'var(--grow-light)', border:'var(--grow-border)',
+    label:'Grow', icon:`<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>`,
+    title:'그로우 — 운영 레버리지',
+    desc:'파트너 셀프서브 온보딩 개선, GA4 도입, 운영 효율화 기능. Platfos를 "모바일 상품권의 Shopify"로 성장시키는 기능군.',
+    horizons:'중기 (3~12개월)',
+    metrics:'파트너 온보딩 리드타임, 운영 공수 절감율',
+  },
+  expand: {
+    key:'expand', color:'var(--exp)', light:'var(--exp-light)', border:'var(--exp-border)',
+    label:'Expand', icon:`<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/></svg>`,
+    title:'익스팬드 — 플랫폼 확장',
+    desc:'Open API 3.0 공개, Cafe24·옥션 채널 연동, 파트너 자사몰 지원. 외부 채널과의 연결로 유통 생태계를 확장.',
+    horizons:'중장기 (6~18개월)',
+    metrics:'API 파트너 수, 채널 연동 GMV, 개발자 온보딩 시간',
+  },
+};
+
+// ── Sequence definitions ─────────────────────────────
+const SEQ_DEF = {
+  s1:{ label:'S1', name:'온보딩/승인',  color:'#3B82F6', desc:'파트너 가입 · 사업자 인증 · 서비스 신청 · 관리자 승인까지 온보딩 전체 흐름' },
+  s2:{ label:'S2', name:'상품/채널',    color:'#8B5CF6', desc:'상품 등록 · 권종 설정 · 유통채널 배정 · 판매 설정 관리' },
+  s3:{ label:'S3', name:'주문/발행',    color:'#0EA5E9', desc:'주문 접수 → 결제 → 상품권 발행 → 메시지 전달 (Money Path 핵심)' },
+  s4:{ label:'S4', name:'사용/인증',    color:'#10B981', desc:'바코드 스캔 · e쿠폰함 사용처리 · 가맹점 인증 · 사용 검증' },
+  s5:{ label:'S5', name:'환불/취소',    color:'#F59E0B', desc:'소비자 환불 신청 → CMS 승인 → 결제 취소 처리 흐름' },
+  s6:{ label:'S6', name:'정산/과금',    color:'#EF4444', desc:'파트너 정산 자동화 · 수수료 과금 · 운영 마감 처리' },
+  s7:{ label:'S7', name:'운영통제',     color:'#6366F1', desc:'모니터링 · 보안 통제 · 감사 로그 · 권한 관리 · 재처리 운영' },
+  s8:{ label:'S8', name:'채널/API',     color:'#EC4899', desc:'Open API 3.0 · Cafe24 · 네이버 · 외부 채널 연동 확장' },
+};
+
+// ── Sequence auto-guess ──────────────────────────────
+const SEQ_RULES = [
+  {seq:'S1', kw:['온보딩','가입','승인','파트너 관리','사업자','회원','탈퇴','계약','로그인','인증','약관']},
+  {seq:'S2', kw:['상품','서비스','채널','유통채널','엑셀다운','판매','전시','카테고리','등록','리뷰','재고','품절','상품권 현황','공지사항']},
+  {seq:'S3', kw:['주문','결제','발행','전달','LMS','MMS','발송','SMS','알림톡','바코드 발행','선물','구매']},
+  {seq:'S4', kw:['사용','사용취소','바코드','검증','e쿠폰','쿠폰함','사용처','가맹점']},
+  {seq:'S5', kw:['환불','취소','반품','환불 신청','취소 신청']},
+  {seq:'S6', kw:['정산','과금','계좌이체','직접발송','포인트','운영마감','수수료']},
+  {seq:'S7', kw:['모니터링','보안','인프라','마스킹','WAF','권한','RBAC','운영통제','감사','로그','알람','Slack','배포','AWS','EC2','민감정보','성능']},
+  {seq:'S8', kw:['API','Open API','카페24','네이버','외부연동','채널 연동','옥션','지마켓','OAuth']},
+];
+function guessSeq(r) {
+  const text=((r.title||'')+' '+(r.label||'')+' '+(r.comp||'')).toLowerCase();
+  let best=null,bestScore=0;
+  for(const rule of SEQ_RULES){ const s=rule.kw.filter(kw=>text.includes(kw.toLowerCase())).length; if(s>bestScore){bestScore=s;best=rule.seq;} }
+  return best?{seq:best,score:bestScore}:null;
+}
+
+// ── Data init ────────────────────────────────────────
+const data   = RAW_DATA.map(r=>({...r,due:parseDate(r.due)}));
+const active = data.filter(r=>!DONE_ST.includes(r.status));
+const epics  = data.filter(r=>r.type==='에픽');
+const total  = data.length;
+
+// ── Global context ───────────────────────────────────
+const G = {
+  data, active,
+  showSt:     s  => showModal(`상태: ${s}`,        data.filter(r=>r.status===s)),
+  showType:   t  => showModal(`유형: ${t}`,        data.filter(r=>r.type===t)),
+  showSeq:    s  => showModal(`시퀀스: ${SEQ_DEF[s]?.label||s.toUpperCase()} ${SEQ_DEF[s]?.name||''}`,
+                               data.filter(r=>(r.label||'').toLowerCase().split(',').map(x=>x.trim()).includes(s.toLowerCase()))),
+  showPf:     k  => showModal(`포트폴리오: ${PF_DEF[k]?.title||k}`, data.filter(r=>(r.label||'').toLowerCase().includes(k))),
+  showOwner:  o  => showModal(`담당자: ${o}`,       active.filter(r=>(r.owner&&r.owner.trim()?r.owner.trim():'미배정')===o)),
+  showUnasgn: () => showModal('미배정 이슈',         active.filter(r=>!r.owner||r.owner.trim()===''||r.owner==='-')),
+  showExpired:() => showModal('기한 경과 이슈',      active.filter(r=>r.due&&r.due<today)),
+  showImm7:   () => showModal('D-7 이내 기한',       active.filter(r=>r.due&&r.due>=today&&r.due<=d7)),
+  showSeqUn:  seq=>{
+    const sl=new Set(['s1','s2','s3','s4','s5','s6','s7','s8']);
+    const items=active.filter(r=>!((r.label||'').toLowerCase().split(',').map(x=>x.trim()).some(l=>sl.has(l))))
+                      .filter(r=>(guessSeq(r)?guessSeq(r).seq:'미추정')===seq);
+    showModal(`추정 시퀀스: ${seq} — Jira에서 레이블 ${seq.toLowerCase()} 추가 권장`,items);
+  },
+};
+
+// ── Modal ────────────────────────────────────────────
+let _md=[];
+function showModal(title,items){ _md=items||[]; $('m-title').textContent=title; $('m-srch').value=''; $('modal').style.display='flex'; document.body.style.overflow='hidden'; renderModal(_md); setTimeout(()=>$('m-srch').focus(),80); }
+function closeModal(){ $('modal').style.display='none'; document.body.style.overflow=''; }
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+function renderModal(items){
+  $('m-cnt').textContent=`${items.length}개 이슈`;
+  if(!items.length){ $('m-list').innerHTML='<div style="padding:30px;text-align:center;color:var(--text3)">해당 이슈 없음</div>'; return; }
+  $('m-list').innerHTML=`<div style="overflow-x:auto"><table class="tbl">
+    <thead><tr><th>키</th><th>요약</th><th>담당자</th><th>상태</th><th>기한</th><th>레이블</th></tr></thead>
+    <tbody>${items.map(r=>`<tr>
+      <td>${jiraLink(r.key)}</td>
+      <td style="font-size:12px;max-width:300px">${r.title.substring(0,56)}${r.title.length>56?'…':''}</td>
+      <td style="white-space:nowrap;color:${!r.owner?'var(--danger)':'var(--text)'}">${r.owner||'미배정'}</td>
+      <td>${stBdg(r.status)}</td>
+      <td style="white-space:nowrap;font-size:11px;color:${r.due&&r.due<today?'var(--danger)':r.due&&r.due<=d7?'var(--warning)':'var(--text2)'}">${fmt(r.due)}</td>
+      <td style="font-size:10px;color:var(--text2)">${(r.label||'').split(',').filter(Boolean).slice(0,4).map(x=>x.trim()).join(', ')}</td>
+    </tr>`).join('')}</tbody>
+  </table></div>`;
+}
+function filterModal(){ const q=$('m-srch').value.toLowerCase(); renderModal(q?_md.filter(r=>r.key.toLowerCase().includes(q)||r.title.toLowerCase().includes(q)||(r.owner||'').toLowerCase().includes(q)||(r.label||'').toLowerCase().includes(q)):_md); }
+
+// ── Stats ────────────────────────────────────────────
+const statC={},typeC={};
+data.forEach(r=>{ statC[r.status]=(statC[r.status]||0)+1; typeC[r.type]=(typeC[r.type]||0)+1; });
+
+const pfD={};
+['core','run','grow','expand'].forEach(k=>pfD[k]={total:0,prog:0,wait:0,hold:0,block:0,done:0});
+data.forEach(r=>{
+  const lb=(r.label||'').toLowerCase();
+  ['core','run','grow','expand'].forEach(k=>{
+    if(!lb.includes(k))return; pfD[k].total++;
+    if(['진행 중','배포대기'].includes(r.status)) pfD[k].prog++;
+    else if(r.status==='대기')  pfD[k].wait++;
+    else if(r.status==='보류')  pfD[k].hold++;
+    else if(r.status==='막힘')  pfD[k].block++;
+    else if(DONE_ST.includes(r.status)) pfD[k].done++;
+  });
+});
+
+const seqC={},seqE={};
+['s1','s2','s3','s4','s5','s6','s7','s8'].forEach(s=>{ seqC[s]=0; seqE[s]={total:0,prog:0,wait:0,hold:0}; });
+data.forEach(r=>{
+  (r.label||'').toLowerCase().split(',').map(x=>x.trim()).forEach(l=>{ if(seqC[l]!==undefined) seqC[l]++; });
+  if(r.type==='에픽'){
+    (r.label||'').toLowerCase().split(',').map(x=>x.trim()).forEach(l=>{
+      if(!seqE[l])return; seqE[l].total++;
+      if(['진행 중','배포대기'].includes(r.status)) seqE[l].prog++;
+      else if(r.status==='대기') seqE[l].wait++;
+      else seqE[l].hold++;
+    });
+  }
+});
+
+const expired  = active.filter(r=>r.due&&r.due<today);
+const imm7     = active.filter(r=>r.due&&r.due>=today&&r.due<=d7);
+const imm3     = active.filter(r=>r.due&&r.due>=today&&r.due<=d3);
+const blocked  = active.filter(r=>r.status==='막힘');
+const unasgn   = active.filter(r=>!r.owner||r.owner.trim()===''||r.owner==='-'||r.owner==='없음');
+const tier1    = data.filter(r=>(r.label||'').toLowerCase().includes('tier1'));
+
+const seqLbls = new Set(['s1','s2','s3','s4','s5','s6','s7','s8']);
+const seqUnasgn = active.filter(r=>!((r.label||'').toLowerCase().split(',').map(x=>x.trim()).some(l=>seqLbls.has(l))));
+const seqGuessMap={};
+seqUnasgn.forEach(r=>{ const g=guessSeq(r); const key=g?g.seq:'미추정'; (seqGuessMap[key]=seqGuessMap[key]||[]).push(r); });
+
+const ownerMap={};
+active.forEach(r=>{ const o=r.owner&&r.owner.trim()?r.owner.trim():'미배정'; if(!ownerMap[o])ownerMap[o]={total:0,expired:0,imm:0}; ownerMap[o].total++; if(r.due&&r.due<today)ownerMap[o].expired++; if(r.due&&r.due>=today&&r.due<=d7)ownerMap[o].imm++; });
+const owners = Object.entries(ownerMap).sort((a,b)=>b[1].total-a[1].total);
+const maxOwner = owners.length?owners[0][1].total:1;
+
+const prog = (statC['진행 중']||0)+(statC['배포대기']||0);
+const topWarn = owners.filter(([,v])=>v.imm>=3).map(([k,v])=>`${k}(D-7 ${v.imm}건)`);
+
+// ── Render: Top badges ───────────────────────────────
+$('tb-badges').innerHTML=[
+  expired.length?`<span class="badge b-red" style="cursor:pointer" onclick="G.showExpired()">기한 경과 ${expired.length}건</span>`:'',
+  imm7.length?`<span class="badge b-org" style="cursor:pointer" onclick="G.showImm7()">D-7 이내 ${imm7.length}건</span>`:'',
+  blocked.length?`<span class="badge b-red" style="cursor:pointer" onclick="G.showSt('막힘')">막힘 ${blocked.length}건</span>`:'',
+  unasgn.length?`<span class="badge b-gray" style="cursor:pointer" onclick="G.showUnasgn()">미배정 ${unasgn.length}건</span>`:'',
+  `<span class="badge b-changed" style="cursor:pointer" onclick="sw('history')">변경 ${CHANGES.length}건</span>`,
+].filter(Boolean).join('');
+
+// ── Render: KPI ──────────────────────────────────────
+$('kpi-grid').innerHTML=[
+  {l:'전체 이슈',v:total,s:`에픽 ${typeC['에픽']||0} · Task ${typeC['작업']||0}`,cls:'info',fn:''},
+  {l:'진행 중',v:prog,s:'배포대기 포함',cls:'ok',fn:"G.showSt('진행 중')"},
+  {l:'기한 경과',v:expired.length,s:'즉시 재조정 필요',cls:expired.length?'danger':'ok',fn:'G.showExpired()'},
+  {l:'D-7 기한',v:imm7.length,s:'이번 주 완료 대상',cls:imm7.length?'warning':'ok',fn:'G.showImm7()'},
+  {l:'막힘 블로커',v:blocked.length,s:blocked.map(r=>r.key).join(' · ')||'없음',cls:blocked.length?'danger':'ok',fn:"G.showSt('막힘')"},
+  {l:'미배정',v:unasgn.length,s:`전체의 ${pct(unasgn.length,total)}%`,cls:unasgn.length>total*.3?'warning':'info',fn:'G.showUnasgn()'},
+  {l:'Tier1 이슈',v:tier1.length,s:'보안 최우선 항목',cls:'info',fn:"showModal('Tier1 이슈',G.data.filter(r=>(r.label||'').toLowerCase().includes('tier1')))"},
+  {l:'전일 변경',v:CHANGES.length,s:'이력 탭에서 확인',cls:'info',fn:"sw('history')"},
+].map(k=>`<div class="kpi ${k.cls}"${k.fn?` onclick="${k.fn}"`:''}}><span class="kpi-click-hint">${k.fn?'↗':''}</span><div class="kpi-l">${k.l}</div><div class="kpi-v" style="color:var(--${k.cls==='danger'?'danger':k.cls==='warning'?'warning':k.cls==='ok'?'ok':'core'})">${k.v}</div><div class="kpi-s">${k.s}</div></div>`).join('');
+
+// ── Render: Portfolio ────────────────────────────────
+$('pf-section').innerHTML = ['run','core','grow','expand'].map(k=>{
+  const d=pfD[k], def=PF_DEF[k]; if(!d.total) return '';
+  const progPct = pct(d.prog,d.total), waitPct = pct(d.wait,d.total), holdPct = pct(d.hold,d.total), blockPct=pct(d.block,d.total);
+  return `
+  <div class="pf-card ${k}" onclick="G.showPf('${k}')">
+    <div class="pf-header">
+      <div>
+        <div class="pf-name" style="color:${def.color}">${def.icon} ${def.label}
+          <div class="has-tip" style="display:inline-block;margin-left:6px;vertical-align:middle">
+            <span style="width:16px;height:16px;border-radius:50%;border:1.5px solid;border-color:${def.color};color:${def.color};font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;cursor:help">?</span>
+            <div class="tip"><strong>${def.title}</strong><br>${def.desc}<br><br><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><path d="M21.3 8.7 8.7 21.3c-.4.4-1 .4-1.4 0l-6.6-6.6c-.4-.4-.4-1 0-1.4L13.3 0.7c.4-.4 1-.4 1.4 0l6.6 6.6c.4.4.4 1 0 1.4z"/><path d="m7.5 10.5 3 3"/><path d="m10.5 7.5 3 3"/><path d="m13.5 4.5 3 3"/></svg> ${def.horizons}<br><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> ${def.metrics}</div>
+          </div>
+        </div>
+        <div class="pf-desc">${def.desc.substring(0,50)}…</div>
+      </div>
+      <div style="text-align:right">
+        <div class="pf-total" style="color:${def.color}">${d.total}</div>
+        <div style="font-size:10px;color:var(--text3)">이슈 전체</div>
+      </div>
+    </div>
+    <div style="padding-left:10px">
+      <div class="prog-track thick" style="margin-bottom:6px">
+        <div class="prog-seg" style="width:${progPct}%;background:var(--st-prog)"></div>
+        <div class="prog-seg" style="width:${waitPct}%;background:var(--st-wait)"></div>
+        <div class="prog-seg" style="width:${holdPct}%;background:var(--st-hold)"></div>
+        <div class="prog-seg" style="width:${blockPct}%;background:var(--st-block)"></div>
+      </div>
+      <div class="pf-stats">
+        ${d.prog?`<span class="pf-stat"><span style="width:8px;height:8px;border-radius:2px;background:var(--st-prog);display:inline-block"></span><span style="color:var(--text2)">진행 ${d.prog}</span></span>`:''}
+        ${d.wait?`<span class="pf-stat"><span style="width:8px;height:8px;border-radius:2px;background:var(--st-wait);display:inline-block"></span><span style="color:var(--text2)">대기 ${d.wait}</span></span>`:''}
+        ${d.hold?`<span class="pf-stat"><span style="width:8px;height:8px;border-radius:2px;background:var(--st-hold);display:inline-block"></span><span style="color:var(--text2)">보류 ${d.hold}</span></span>`:''}
+        ${d.block?`<span class="pf-stat"><span style="width:8px;height:8px;border-radius:2px;background:var(--st-block);display:inline-block"></span><strong style="color:var(--danger)">막힘 ${d.block}</strong></span>`:''}
+      </div>
+    </div>
+  </div>`;
+}).join('');
+
+// ── Render: Status bars ──────────────────────────────
+const stO=['진행 중','배포대기','대기','보류','막힘','완료'];
+const stC={'진행 중':'var(--st-prog)','배포대기':'var(--st-deploy)','대기':'var(--st-wait)','보류':'var(--st-hold)','막힘':'var(--st-block)','완료':'var(--st-done)'};
+const stDesc={'진행 중':'현재 작업 중인 이슈','배포대기':'개발 완료, 배포 대기 중','대기':'아직 시작하지 않은 이슈','보류':'의도적으로 홀드된 이슈','막힘':'선행 작업 또는 외부 요인으로 진행 불가','완료':'완료된 이슈'};
+$('status-bars').innerHTML=stO.filter(s=>statC[s]).map(s=>`
+  <div class="prog-wrap" style="cursor:pointer" onclick="G.showSt('${s}')">
+    <div class="prog-label-row">
+      <div class="prog-label">
+        <span style="width:10px;height:10px;border-radius:3px;background:${stC[s]||'#888'};flex-shrink:0;display:inline-block"></span>
+        <div class="has-tip">${stBdg(s)}
+          <div class="tip">${stDesc[s]||''}<br>전체 ${pct(statC[s],total)}% (${statC[s]}건)</div>
+        </div>
+      </div>
+      <div class="prog-val">${statC[s]}<span style="font-size:10px;color:var(--text3);font-family:'Noto Sans KR'">&nbsp;${pct(statC[s],total)}%</span></div>
+    </div>
+    <div class="prog-track">
+      <div class="prog-seg" style="width:${pct(statC[s],total)}%;background:${stC[s]||'#888'}"></div>
+    </div>
+  </div>`).join('');
+
+// ── Render: Type bars ────────────────────────────────
+const tpO=['작업','하위 작업','스토리','에픽','버그'];
+const tpC={'작업':'#3B82F6','하위 작업':'#8B5CF6','스토리':'#10B981','에픽':'#F59E0B','버그':'#EF4444'};
+const tpDesc={'작업':'구체적인 개발/기획 작업 단위','하위 작업':'상위 작업의 세부 분해 항목','스토리':'사용자 시나리오 기반 기능 단위','에픽':'복수 스토리를 묶는 대형 기능','버그':'버그/결함 이슈'};
+$('type-bars').innerHTML=tpO.filter(t=>typeC[t]).map(t=>`
+  <div class="prog-wrap" style="cursor:pointer" onclick="G.showType('${t}')">
+    <div class="prog-label-row">
+      <div class="prog-label">
+        <span style="width:10px;height:10px;border-radius:3px;background:${tpC[t]||'#888'};flex-shrink:0;display:inline-block"></span>
+        <div class="has-tip">${t}
+          <div class="tip">${tpDesc[t]||''}<br>${pct(typeC[t],total)}% (${typeC[t]}건)</div>
+        </div>
+      </div>
+      <div class="prog-val">${typeC[t]}</div>
+    </div>
+    <div class="prog-track thin">
+      <div class="prog-seg" style="width:${pct(typeC[t],total)}%;background:${tpC[t]||'#888'}"></div>
+    </div>
+  </div>`).join('');
+
+// ── Render: Seq mini ─────────────────────────────────
+$('seq-mini').innerHTML=Object.entries(SEQ_DEF).map(([k,def])=>`
+  <div class="seq-row" onclick="G.showSeq('${k}')">
+    <div>
+      <div class="seq-label"><strong style="color:${def.color}">${def.label}</strong> <span style="color:var(--text2)">${def.name}</span></div>
+    </div>
+    <div class="has-tip" style="flex:1">
+      <div class="prog-track" style="height:10px;border-radius:6px">
+        <div class="prog-seg" style="width:${pct(seqC[k]||0,Math.max(1,...Object.values(seqC)))}%;background:${def.color};border-radius:6px"></div>
+      </div>
+      <div class="tip">${def.desc}</div>
+    </div>
+    <div class="prog-val" style="font-size:13px">${seqC[k]||0}</div>
+  </div>`).join('');
+
+// ── Render: Health grid ──────────────────────────────
+const compOk=data.filter(r=>r.comp&&r.comp.trim()).length;
+const lblOk=data.filter(r=>r.label&&r.label.trim()).length;
+const hasDue=data.filter(r=>r.due).length;
+const healthItems=[
+  {l:'기한 준수율', v:pct(hasDue-expired.length,hasDue||1), good:90, tip:'기한 있는 이슈 중 기한 내 진행 비율'},
+  {l:'담당자 배정률', v:pct(active.length-unasgn.length,active.length||1), good:85, tip:'활성 이슈 중 담당자가 지정된 비율'},
+  {l:'컴포넌트 입력률', v:pct(compOk,total), good:90, tip:'컴포넌트 필드가 입력된 이슈 비율'},
+  {l:'레이블 입력률', v:pct(lblOk,total), good:90, tip:'레이블이 입력된 이슈 비율'},
+  {l:'에픽 진행률', v:pct(prog,typeC['에픽']||1), good:30, tip:'전체 에픽 중 진행 중 비율'},
+];
+$('health-grid').innerHTML=healthItems.map(d=>{
+  const col=d.v>=d.good?'var(--ok)':d.v>=d.good*.6?'var(--warning)':'var(--danger)';
+  return `<div class="health-item has-tip">
+    <div class="health-name">${d.l}</div>
+    <div class="health-pct" style="color:${col}">${d.v}<span style="font-size:14px">%</span></div>
+    <div class="health-bar"><div class="health-fill" style="width:${d.v}%;background:${col}"></div></div>
+    <div class="tip">${d.tip}<br>목표: ${d.good}% 이상 &nbsp;·&nbsp; 현재: ${d.v}%</div>
+  </div>`;}).join('');
+
+// ── Render: Urgent ───────────────────────────────────
+if(topWarn.length) $('urgent-alert').innerHTML=`<div class="alert danger"><span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><strong>D-7 기한 집중: ${topWarn.join(', ')}</strong> — 이번 주 완료 가능 여부를 팀과 즉시 확인하세요.</div>`;
+
+const mkRow = r => `<div class="ui">
+  <div class="ui-key">${jiraLink(r.key)}</div>
+  <div><div class="ui-t">${r.title.substring(0,52)}${r.title.length>52?'…':''}</div>
+    <div class="ui-m">${stBdg(r.status,true)}<span>${r.owner||'미배정'}</span>
+      ${r.due?`<span style="color:${r.due<today?'var(--danger)':'var(--warning)'};font-weight:600">${fmt(r.due)}</span>`:''}
+    </div></div></div>`;
+
+$('blocked-list').innerHTML=blocked.length?blocked.map(mkRow).join(''):'<div style="padding:16px;color:var(--ok);font-size:12px;text-align:center"><span style="display:inline-flex;align-items:center;gap:6px"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ok)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg>막힘 이슈 없음</span></div>';
+$('d3-list').innerHTML=imm3.length?imm3.slice(0,6).map(mkRow).join(''):'<div style="padding:16px;color:var(--text3);font-size:12px;text-align:center">D-3 이내 기한 없음</div>';
+
+$('d7-list').innerHTML=imm7.length?`<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px">
+  ${imm7.slice(0,16).map(r=>`<div class="d7-card">
+    <div style="min-width:82px">${jiraLink(r.key)}</div>
+    <div style="flex:1"><div style="font-size:12px;font-weight:500;margin-bottom:3px">${r.title.substring(0,36)}${r.title.length>36?'…':''}</div>
+      <div style="font-size:11px;color:var(--text2)">${r.owner||'미배정'} · <span style="color:var(--warning);font-weight:600">${fmt(r.due)}</span></div>
+    </div></div>`).join('')}
+  ${imm7.length>16?`<div style="display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--info);cursor:pointer;border:1px dashed var(--border);border-radius:10px;padding:12px" onclick="G.showImm7()">+ 외 ${imm7.length-16}건 더 보기</div>`:''}
+</div>`:'<div style="padding:16px;color:var(--ok);font-size:12px;text-align:center"><span style="display:inline-flex;align-items:center;gap:6px"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ok)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg>D-7 이내 기한 없음</span></div>';
+
+$('expired-tbl').innerHTML=`<thead><tr><th>키</th><th>요약</th><th>담당자</th><th>기한</th><th>상태</th><th>유형</th></tr></thead>
+  <tbody>${expired.slice(0,50).map(r=>`<tr>
+    <td>${jiraLink(r.key)}</td>
+    <td style="font-size:12px">${r.title.substring(0,50)}${r.title.length>50?'…':''}</td>
+    <td style="color:${!r.owner?'var(--danger)':'var(--text)'};font-weight:${!r.owner?600:400}">${r.owner||'미배정'}</td>
+    <td style="color:var(--danger);font-weight:600;font-size:11px">${fmt(r.due)}</td>
+    <td>${stBdg(r.status,true)}</td><td>${bdg(r.type,'b-gray')}</td></tr>`).join('')}
+  ${expired.length>50?`<tr><td colspan="6" style="text-align:center;color:var(--info);font-size:11px;padding:12px;cursor:pointer" onclick="G.showExpired()">외 ${expired.length-50}건 더 보기 →</td></tr>`:''}</tbody>`;
+
+// ── Render: Seq detail ───────────────────────────────
+$('seq-detail').innerHTML=Object.entries(SEQ_DEF).map(([k,def])=>{
+  const d=seqE[k]||{total:0,prog:0,wait:0,hold:0};
+  return`<div class="epic-seq-row" onclick="G.showSeq('${k}')">
+    <div class="epic-seq-left">
+      <div class="epic-seq-tag">${def.label} <span style="font-weight:400;font-size:11px;color:var(--text2)">${def.name}</span></div>
+      <div class="epic-seq-count">이슈 ${seqC[k]||0}개</div>
+    </div>
+    <div>
+      <div class="has-tip">
+        <div class="prog-track thick" style="margin-bottom:5px">
+          ${d.total===0
+            ?`<div class="prog-seg" style="width:100%;background:var(--border)"></div>`
+            :`<div class="prog-seg" style="width:${pct(d.prog,d.total)}%;background:var(--st-prog)"></div>
+               <div class="prog-seg" style="width:${pct(d.wait,d.total)}%;background:var(--st-wait)"></div>
+               <div class="prog-seg" style="width:${pct(d.hold,d.total)}%;background:var(--st-hold)"></div>`}
+        </div>
+        <div class="tip">${def.desc}</div>
+      </div>
+      <div style="font-size:10px;color:var(--text3)">${d.total===0?'에픽 미정의':`진행 ${d.prog} · 대기 ${d.wait} · 보류 ${d.hold}`}</div>
+    </div>
+    <div class="epic-count" style="color:${d.total===0?'var(--danger)':'var(--text2)'}">
+      ${d.total}<div style="font-size:10px;color:var(--text3);font-family:inherit">에픽</div>
+    </div>
+  </div>`;}).join('');
+
+// ── Render: Critical path ────────────────────────────
+const critEpics=['s3','s4','s5'].flatMap(s=>epics.filter(r=>{const lb=(r.label||'').toLowerCase().split(',').map(x=>x.trim());return lb.includes(s)&&(!r.owner||r.owner.trim()==='')&&!DONE_ST.includes(r.status);}).map(r=>({...r,seq:s.toUpperCase()})));
+$('cp-chain').innerHTML=critEpics.length?critEpics.slice(0,6).map((d,i)=>`
+  <div class="chain-node" style="margin-bottom:6px">
+    <div style="display:flex;flex-direction:column;align-items:center;width:24px;flex-shrink:0">
+      <div class="chain-circle" style="background:var(--danger-bg);border:2px solid var(--danger);color:var(--danger)">${i+1}</div>
+      ${i<Math.min(critEpics.length,6)-1?`<div style="width:2px;flex:1;min-height:10px;background:linear-gradient(var(--danger),var(--warning));opacity:.3;margin:3px auto;border-radius:1px"></div>`:''}
+    </div>
+    <div style="padding-bottom:6px">
+      <div style="font-size:12px;font-weight:600;margin-bottom:3px">${bdg(d.seq,'b-blue')} ${jiraLink(d.key)} &nbsp;${d.title.substring(0,38)}${d.title.length>38?'…':''}</div>
+      <div style="font-size:11px;color:var(--danger)">${d.due&&d.due<today?`기한 경과(${fmt(d.due)})`:d.status} &nbsp;·&nbsp; 미배정</div>
+    </div></div>`).join(''):'<div style="padding:20px;color:var(--ok);font-size:12px;text-align:center"><span style="display:inline-flex;align-items:center;gap:6px"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ok)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg>크리티컬 패스 블로커 없음</span></div>';
+
+// ── Render: Seq unassigned ───────────────────────────
+const guessEntries=Object.entries(seqGuessMap).sort((a,b)=>b[1].length-a[1].length);
+const maxG=Math.max(1,...guessEntries.map(([,v])=>v.length));
+$('seq-un').innerHTML=seqUnasgn.length===0?'<div style="padding:20px;color:var(--ok);font-size:12px;text-align:center"><span style="display:inline-flex;align-items:center;gap:6px"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ok)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg>시퀀스 미배정 이슈 없음</span></div>'
+  :`<div style="background:var(--warning-bg);border:1px solid var(--warning-border);border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:11px;color:var(--warning)">
+      <strong>시퀀스 레이블 없는 이슈 ${seqUnasgn.length}건</strong> — 아래는 타이틀·레이블·컴포넌트 키워드 분석 결과입니다. 클릭하면 이슈 목록을 확인하고 Jira에서 레이블을 추가하세요.
+    </div>
+    ${guessEntries.map(([seq,rows])=>{
+      const def=Object.values(SEQ_DEF).find(d=>d.label===seq);
+      const color=def?def.color:'#888';
+      return`<div class="seq-row" onclick="G.showSeqUn('${seq}')">
+        <div>
+          <span class="seqtag${seq==='미추정'?'':' auto'}" style="${def?`border-color:${color};color:${color};background:${color}18`:''}">${seq}</span>
+          ${def?`<div style="font-size:10px;color:var(--text3);margin-top:2px">${def.name}</div>`:''}
+        </div>
+        <div class="prog-track" style="height:12px;border-radius:6px">
+          <div class="prog-seg" style="width:${pct(rows.length,maxG)}%;background:${seq==='미추정'?'var(--border2)':color};border-radius:6px"></div>
+        </div>
+        <div class="prog-val" style="font-size:13px">${rows.length}</div>
+      </div>`;}).join('')}
+    <div style="margin-top:12px;padding:10px 14px;background:var(--info-bg);border:1px solid var(--info-border);border-radius:8px;font-size:11px;color:var(--info)">
+      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--info)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> 확인 후 Jira에서 해당 이슈에 <strong>s1~s8 레이블</strong>을 추가하면 다음 업로드 시 자동 반영됩니다.
+    </div>`;
+
+// ── Render: Workload ──────────────────────────────────
+$('wl-bars').innerHTML=owners.map(([name,d])=>`
+  <div class="wl-row" onclick="G.showOwner('${name}')">
+    <div style="font-size:12px;font-weight:${d.total>15?700:400};color:${d.total>15?'var(--danger)':name==='미배정'?'var(--warning)':'var(--text)'}">${name}</div>
+    <div style="position:relative">
+      <div class="wl-track">
+        <div class="wl-fill" style="width:${pct(d.total,maxOwner)}%;background:${d.total>15?'var(--danger)':d.total>7?'var(--warning)':'var(--ok)'}"></div>
+      </div>
+      <div class="wl-marker" style="left:${pct(7,maxOwner)}%;background:var(--warning)"></div>
+      <div class="wl-marker" style="left:${pct(15,maxOwner)}%;background:var(--danger)"></div>
+    </div>
+    <div style="font-size:10px;color:var(--text2)">
+      ${d.expired?`<span style="color:var(--danger);font-weight:600">경과 ${d.expired}건</span> `:''}
+      ${d.imm?`<span style="color:var(--warning);font-weight:600">임박 ${d.imm}건</span>`:''}
+    </div>
+    <div style="text-align:right;font-size:14px;font-weight:700;color:${d.total>15?'var(--danger)':d.total>7?'var(--warning)':'var(--text)'}">${d.total}</div>
+  </div>`).join('');
+
+const uaEpic=unasgn.filter(r=>r.type==='에픽').length;
+$('ua-detail').innerHTML=`
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">
+    <div style="text-align:center;background:var(--danger-bg);border:1px solid var(--danger-border);border-radius:10px;padding:14px;cursor:pointer" onclick="G.showUnasgn()">
+      <div style="font-size:26px;font-weight:700;color:var(--danger);font-family:'JetBrains Mono',monospace">${unasgn.length}</div>
+      <div style="font-size:11px;font-weight:600;color:var(--danger);margin-top:4px">전체 미배정</div>
+    </div>
+    <div style="text-align:center;background:var(--warning-bg);border:1px solid var(--warning-border);border-radius:10px;padding:14px;cursor:pointer" onclick="showModal('에픽 미배정',G.active.filter(r=>r.type==='에픽'&&(!r.owner||r.owner.trim()==='')))">
+      <div style="font-size:26px;font-weight:700;color:var(--warning);font-family:'JetBrains Mono',monospace">${uaEpic}</div>
+      <div style="font-size:11px;font-weight:600;color:var(--warning);margin-top:4px">에픽 미배정</div>
+    </div>
+    <div style="text-align:center;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer" onclick="showModal('Task·Story 미배정',G.active.filter(r=>r.type!=='에픽'&&(!r.owner||r.owner.trim()==='')))">
+      <div style="font-size:26px;font-weight:700;color:var(--text2);font-family:'JetBrains Mono',monospace">${unasgn.length-uaEpic}</div>
+      <div style="font-size:11px;font-weight:600;color:var(--text3);margin-top:4px">Task·Story</div>
+    </div>
+  </div>
+  <div style="padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;font-size:11px;color:var(--text2)">
+    미배정 비율: <strong style="color:${pct(unasgn.length,total)>30?'var(--danger)':pct(unasgn.length,total)>15?'var(--warning)':'var(--ok)'};font-size:14px">${pct(unasgn.length,total)}%</strong> &nbsp;(권장 10% 이하)
+  </div>`;
+
+const expByOwner={};
+expired.forEach(r=>{const o=r.owner||'미배정';expByOwner[o]=(expByOwner[o]||0)+1;});
+const expOwners=Object.entries(expByOwner).sort((a,b)=>b[1]-a[1]);
+const maxExp=expOwners.length?expOwners[0][1]:1;
+$('exp-owner').innerHTML=expOwners.length?expOwners.map(([n,c])=>`
+  <div class="prog-wrap" style="cursor:pointer" onclick="showModal('${n} — 기한 경과',G.active.filter(r=>r.due&&r.due<today&&(r.owner||'미배정')==='${n}'))">
+    <div class="prog-label-row">
+      <div class="prog-label" style="font-weight:${c>5?600:400};color:${c>5?'var(--danger)':c>2?'var(--warning)':'var(--text2)'}">${n}</div>
+      <div class="prog-val" style="color:${c>5?'var(--danger)':c>2?'var(--warning)':'var(--text2)'}">${c}건</div>
+    </div>
+    <div class="prog-track">
+      <div class="prog-seg" style="width:${pct(c,maxExp)}%;background:${c>5?'var(--danger)':c>2?'var(--warning)':'var(--st-wait)'}"></div>
+    </div>
+  </div>`).join(''):'<div style="padding:16px;color:var(--ok);font-size:12px;text-align:center"><span style="display:inline-flex;align-items:center;gap:6px"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ok)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg>기한 경과 없음</span></div>';
+
+// ── Render: History ──────────────────────────────────
+let _histFilter='all';
+function filterHist(type){
+  _histFilter=type;
+  document.querySelectorAll('.hf-btn').forEach((b,i)=>{
+    b.classList.toggle('on',['all','added','removed','title','label','comp'][i]===type);
+  });
+  renderHist();
+}
+function renderHist(){
+  const q=($('hist-srch')||{value:''}).value.toLowerCase();
+  let items=CHANGES;
+  if(_histFilter==='added')   items=items.filter(c=>c.type==='added');
+  else if(_histFilter==='removed') items=items.filter(c=>c.type==='removed');
+  else if(_histFilter==='title')   items=items.filter(c=>c.field==='요약');
+  else if(_histFilter==='label')   items=items.filter(c=>c.field==='레이블');
+  else if(_histFilter==='comp')    items=items.filter(c=>c.field==='컴포넌트');
+  if(q) items=items.filter(c=>c.key.toLowerCase().includes(q)||c.title.toLowerCase().includes(q));
+  $('hist-cnt').textContent=`${items.length}건 표시`;
+  const tm={added:{lbl:'신규',cls:'b-added'},removed:{lbl:'제거',cls:'b-removed'},changed:{lbl:'변경',cls:'b-changed'}};
+  $('hist-list').innerHTML=items.slice(0,200).map(c=>{
+    const t=tm[c.type]||{lbl:c.type,cls:'b-gray'};
+    const fieldBadge=c.type==='changed'?`<span class="badge b-gray" style="font-size:10px;padding:1px 6px;margin-left:4px">${c.field}</span>`:'';
+    return`<div class="diff-row">
+      <div>${jiraLink(c.key)}</div>
+      <div>${bdg(t.lbl,t.cls)}${fieldBadge}</div>
+      <div style="font-size:11px;color:var(--text)">${c.title.substring(0,50)}${c.title.length>50?'…':''}</div>
+      <div><span class="diff-before">${c.before.substring(0,56)}${c.before.length>56?'…':''}</span></div>
+      <div><span class="diff-after">${c.after.substring(0,56)}${c.after.length>56?'…':''}</span></div>
+    </div>`;}).join('');
+}
+renderHist();
+
+// ── Tab switch ───────────────────────────────────────
+function sw(id){
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>{b.classList.toggle('on',['overview','urgent','seq','workload','history'][i]===id);});
+  document.querySelectorAll('.panel').forEach(p=>{p.classList.toggle('on',p.id==='p-'+id);});
+}
+</script>
+</body>
+</html>
