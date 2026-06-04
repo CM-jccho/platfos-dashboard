@@ -17,6 +17,7 @@ description: >
 - 생성기: `tools/dashboard/generate_dashboard.py`
 - 자동 실행: GitHub Actions `Generate Platfos Dashboard`
 - 정기 실행 시각: 매주 월-금 08:40 KST
+- 보조 실행 시각: 08:55 KST, 09:10 KST (GitHub schedule 이벤트 누락/지연 대비)
 - 수동 실행: GitHub Actions `workflow_dispatch`에서 `target_date` 입력 또는 공란 실행
 
 ## 필수 Secrets
@@ -76,6 +77,7 @@ SEQ = {
 ## 변경 감지
 
 직전 스냅샷은 `public/data/.cache/platfos_dashboard_latest.json`에 저장한다.
+동일한 Jira 이슈 스냅샷이면 cache를 다시 쓰지 않는다. 보조 schedule이 실행되어도 `generated_at`만 바뀌는 빈 커밋을 만들지 않기 위해서다.
 
 ```python
 WATCH = [
@@ -152,11 +154,11 @@ python3 -m unittest tests/test_generate_dashboard.py -v
 PYTHONPYCACHEPREFIX=/tmp/platfos-pycache python3 -m py_compile tools/dashboard/generate_dashboard.py
 ```
 
-생성 HTML에서 과거 정적 문구가 남지 않아야 한다.
+생성 HTML은 원본 템플릿의 `p-status`, `p-monthly`, CSS 구조를 보존해야 한다.
+상단 메타, footer, 변경 이력 제목/필터, JS 데이터 상수는 생성 시점 데이터로 갱신되어야 한다.
 
 ```bash
-rg "블로커 3→1건|303개 이슈|6/2 대비|PG-3085|PG-3155" public/data/platfos_dashboard_YYMMDD.html
-# 기대: 매칭 없음
+rg "p-status|p-monthly|월별업무|변경 이력 —|기준일:" public/data/platfos_dashboard_YYMMDD.html
 ```
 
 ## 출력 파일 규칙
@@ -172,6 +174,7 @@ public/data/platfos_dashboard_YYMMDD.html
 |---|---|
 | 자동 실행 위치 | GitHub Actions |
 | 실행 시각 | 08:40 KST, 월-금 |
+| 보조 실행 | 08:55 KST, 09:10 KST |
 | 수동 실행 | `workflow_dispatch` |
 | 저장 경로 | `public/data` |
 | 로컬 mirror | `--mirror-output-dir Source/대시보드` |

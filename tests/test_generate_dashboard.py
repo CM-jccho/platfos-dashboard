@@ -216,6 +216,23 @@ const today = new Date('2026-06-04'); today.setHours(0,0,0,0);
             self.assertEqual(gd.load_offline_json(issue_path), [{"key": "PG-1"}])
             self.assertEqual(gd.load_offline_json(jira_path), [{"key": "PG-2", "fields": {}}])
 
+    def test_save_snapshot_skips_identical_issue_cache(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            cache_path = Path(tmp) / "latest.json"
+            issues = [{"key": "PG-1", "title": "A"}]
+            cache_path.write_text(
+                json.dumps({"generated_at": "old", "issues": issues}, ensure_ascii=False),
+                encoding="utf-8",
+            )
+
+            gd.save_snapshot(cache_path, issues, "new")
+            self.assertEqual(json.loads(cache_path.read_text(encoding="utf-8"))["generated_at"], "old")
+
+            gd.save_snapshot(cache_path, [{"key": "PG-2", "title": "B"}], "new")
+            payload = json.loads(cache_path.read_text(encoding="utf-8"))
+            self.assertEqual(payload["generated_at"], "new")
+            self.assertEqual(payload["issues"], [{"key": "PG-2", "title": "B"}])
+
     def test_generate_dashboard_writes_main_and_mirror_outputs(self):
         template = """
 <title>x</title>

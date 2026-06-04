@@ -205,6 +205,8 @@ def load_snapshot(path: Path) -> List[Dict[str, Any]]:
 
 
 def save_snapshot(path: Path, issues: List[Dict[str, Any]], generated_at: str) -> None:
+    if load_snapshot(path) == issues:
+        return
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(
         json.dumps({"generated_at": generated_at, "issues": issues}, ensure_ascii=False, indent=2),

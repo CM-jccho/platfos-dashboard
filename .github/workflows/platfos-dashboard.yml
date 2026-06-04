@@ -7,6 +7,9 @@ on:
   schedule:
     # 08:40 KST, Monday-Friday. GitHub cron uses UTC.
     - cron: "40 23 * * 0-4"
+    # Backup schedules: GitHub scheduled events can be delayed or dropped.
+    - cron: "55 23 * * 0-4"
+    - cron: "10 0 * * 1-5"
   workflow_dispatch:
     inputs:
       target_date:
