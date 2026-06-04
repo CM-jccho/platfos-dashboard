@@ -1,5 +1,8 @@
 name: Generate Platfos Dashboard
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 on:
   schedule:
     # 08:40 KST, Monday-Friday. GitHub cron uses UTC.
