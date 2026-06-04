@@ -78,12 +78,22 @@ SEQ = {
 직전 스냅샷은 `public/data/.cache/platfos_dashboard_latest.json`에 저장한다.
 
 ```python
-WATCH = [('status','상태'), ('owner','담당자'), ('due','기한'), ('title','요약')]
+WATCH = [
+  ('status','상태'),
+  ('owner','담당자'),
+  ('due','기한'),
+  ('title','요약'),
+  ('label','레이블'),
+  ('comp','컴포넌트'),
+]
 
 new_map - old_map  -> added
 old_map - new_map  -> removed
 common + WATCH diff -> changed
 ```
+
+변경 이력 탭의 제목과 필터 카운트는 `CHANGES` 기준으로 자동 치환한다.
+기존 템플릿의 `6/2`, `요약 (1)`, `컴포넌트 (102)` 같은 수동 문구가 남으면 안 된다.
 
 ## 담당자 신호 로직
 

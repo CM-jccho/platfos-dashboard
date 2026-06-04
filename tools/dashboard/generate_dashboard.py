@@ -37,7 +37,14 @@ SEQ = {
     "s8": "외부연동",
 }
 PF_KEYS = ["run", "core", "grow", "expand"]
-WATCH_FIELDS = [("status", "상태"), ("owner", "담당자"), ("due", "기한"), ("title", "요약")]
+WATCH_FIELDS = [
+    ("status", "상태"),
+    ("owner", "담당자"),
+    ("due", "기한"),
+    ("title", "요약"),
+    ("label", "레이블"),
+    ("comp", "컴포넌트"),
+]
 
 
 def korean_weekday(day: date) -> str:
@@ -581,6 +588,47 @@ def replace_js_scalar(html: str, name: str, value: str) -> str:
     return html
 
 
+def replace_history_metadata(html: str, target_date: date, changes: List[Dict[str, Any]]) -> str:
+    if 'id="hist-filter"' not in html and "id='hist-filter'" not in html:
+        return html
+
+    history_title = f"직전 스냅샷 → {target_date.isoformat()}({korean_weekday(target_date)})"
+    html, _ = re.subn(
+        r"(변경 이력\s*—\s*)[^\n<]*(\s*<div[^>]*id=\"hist-filter\")",
+        lambda m: m.group(1) + history_title + m.group(2),
+        html,
+        count=1,
+    )
+
+    counts = {
+        "all": len(changes),
+        "added": sum(1 for c in changes if c["type"] == "added"),
+        "removed": sum(1 for c in changes if c["type"] == "removed"),
+        "title": sum(1 for c in changes if c.get("field") == "요약"),
+        "label": sum(1 for c in changes if c.get("field") == "레이블"),
+        "comp": sum(1 for c in changes if c.get("field") == "컴포넌트"),
+    }
+    labels = {
+        "all": "전체",
+        "added": "신규",
+        "removed": "제거",
+        "title": "요약",
+        "label": "레이블",
+        "comp": "컴포넌트",
+    }
+    for filter_key, count in counts.items():
+        label = labels[filter_key]
+        html, replaced = re.subn(
+            rf"(<button[^>]*onclick=\"filterHist\('{filter_key}'\)\"[^>]*>{label} \()\d+(\)</button>)",
+            rf"\g<1>{count}\2",
+            html,
+            count=1,
+        )
+        if replaced != 1:
+            raise ValueError(f"Could not replace history filter count: {filter_key}")
+    return html
+
+
 def render_html(template: str, target_date: date, issues: List[Dict[str, Any]], changes: List[Dict[str, Any]]) -> str:
     d7_end = target_date + timedelta(days=7)
     weekday = korean_weekday(target_date)
@@ -626,9 +674,7 @@ def render_html(template: str, target_date: date, issues: List[Dict[str, Any]], 
     )
     html = re.sub(r"const WS_MAX\s*=\s*\d+;", f"const WS_MAX = {ws_max};", html, count=1)
 
-    html = re.sub(r"전체 \(\d+\)", f"전체 ({len(changes)})", html, count=1)
-    html = re.sub(r"신규 \(\d+\)", f"신규 ({sum(1 for c in changes if c['type'] == 'added')})", html, count=1)
-    html = re.sub(r"제거 \(\d+\)", f"제거 ({sum(1 for c in changes if c['type'] == 'removed')})", html, count=1)
+    html = replace_history_metadata(html, target_date, changes)
     status_panel = build_status_panel_html(issues, changes, target_date)
     html, count = re.subn(
         r"(</script>\s*)<div style=\"background:linear-gradient\(135deg,#14532D,#166534\).*?(\s*<!-- MODAL -->)",

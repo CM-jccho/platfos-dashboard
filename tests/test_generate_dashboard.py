@@ -52,12 +52,12 @@ class DashboardGeneratorTest(unittest.TestCase):
 
     def test_diff_snapshots_detects_added_removed_and_changed_fields(self):
         old = [
-            {"key": "PG-1", "title": "A", "status": "대기", "owner": "", "due": ""},
-            {"key": "PG-2", "title": "B", "status": "진행 중", "owner": "박창용", "due": ""},
+            {"key": "PG-1", "title": "A", "status": "대기", "owner": "", "due": "", "label": "core", "comp": "api"},
+            {"key": "PG-2", "title": "B", "status": "진행 중", "owner": "박창용", "due": "", "label": "", "comp": ""},
         ]
         new = [
-            {"key": "PG-1", "title": "A2", "status": "진행 중", "owner": "최다솔", "due": "2026-06-05"},
-            {"key": "PG-3", "title": "C", "status": "대기", "owner": "", "due": ""},
+            {"key": "PG-1", "title": "A2", "status": "진행 중", "owner": "최다솔", "due": "2026-06-05", "label": "grow", "comp": "cms"},
+            {"key": "PG-3", "title": "C", "status": "대기", "owner": "", "due": "", "label": "", "comp": ""},
         ]
 
         changes = gd.diff_snapshots(old, new)
@@ -69,6 +69,8 @@ class DashboardGeneratorTest(unittest.TestCase):
         self.assertIn(("changed", "PG-1", "담당자", "", "최다솔"), compact)
         self.assertIn(("changed", "PG-1", "기한", "", "2026-06-05"), compact)
         self.assertIn(("changed", "PG-1", "요약", "A", "A2"), compact)
+        self.assertIn(("changed", "PG-1", "레이블", "core", "grow"), compact)
+        self.assertIn(("changed", "PG-1", "컴포넌트", "api", "cms"), compact)
 
     def test_build_member_store_uses_progress_only_for_overdue(self):
         issues = [
@@ -119,6 +121,57 @@ const today = new Date('2026-06-04'); today.setHours(0,0,0,0);
         self.assertNotIn("블로커 3→1건", html)
         self.assertIn("openPlatMemberModal('최다솔')", html)
         self.assertIn("openPlatSeqModal('s1')", html)
+
+    def test_render_html_replaces_history_title_and_filter_counts(self):
+        template = """
+<title>Platfos 프로젝트 현황 — 2026-06-04 (최종)</title>
+<div class="tb-sub">기준일: 2026-06-04 (목) [최종] &nbsp;·&nbsp; 303개 이슈 (API·보류제외) &nbsp;·&nbsp; 6/2 대비 19건 변경</div>
+<div class="card-title">변경 이력 — 6/2(화) → 2026-06-04(목·최종)
+<div id="hist-filter">
+  <button class="hf-btn on" onclick="filterHist('all')">전체 (19)</button>
+  <button class="hf-btn" onclick="filterHist('added')">신규 (4)</button>
+  <button class="hf-btn" onclick="filterHist('removed')">제거 (9)</button>
+  <button class="hf-btn" onclick="filterHist('title')">요약 (1)</button>
+  <button class="hf-btn" onclick="filterHist('label')">레이블 (1)</button>
+  <button class="hf-btn" onclick="filterHist('comp')">컴포넌트 (102)</button>
+</div>
+<script>
+const MEMBER_STORE={};
+const SEQ_STORE={};
+const _JB='https://platfos.atlassian.net/browse/',_TD='2026-06-04',_D7='2026-06-11';
+const RAW_DATA  = [];
+const CHANGES   = [];
+const WS_OWNERS = {};
+const WS_HEATMAP = {};
+const WS_MAX = 0;
+const WS_DATE = '2026-06-04';
+const WS_WEEK = '6월 1주차';
+const today = new Date('2026-06-04'); today.setHours(0,0,0,0);
+</script>
+"""
+        changes = [
+            {"type": "added", "key": "PG-1", "field": "신규", "title": "A", "before": "—", "after": "추가됨"},
+            {"type": "removed", "key": "PG-2", "field": "제거", "title": "B", "before": "대기", "after": "제거"},
+            {"type": "changed", "key": "PG-3", "field": "요약", "title": "C", "before": "old", "after": "new"},
+            {"type": "changed", "key": "PG-4", "field": "레이블", "title": "D", "before": "core", "after": "grow"},
+        ]
+
+        html = gd.render_html(
+            template,
+            target_date=date(2026, 6, 5),
+            issues=[],
+            changes=changes,
+        )
+
+        self.assertIn("변경 이력 — 직전 스냅샷 → 2026-06-05(금)", html)
+        self.assertIn("전체 (4)", html)
+        self.assertIn("신규 (1)", html)
+        self.assertIn("제거 (1)", html)
+        self.assertIn("요약 (1)", html)
+        self.assertIn("레이블 (1)", html)
+        self.assertIn("컴포넌트 (0)", html)
+        self.assertNotIn("6/2(화)", html)
+        self.assertNotIn("컴포넌트 (102)", html)
 
     def test_load_offline_json_accepts_issue_list_or_jira_response(self):
         with tempfile.TemporaryDirectory() as tmp:
