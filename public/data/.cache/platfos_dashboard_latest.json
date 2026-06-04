@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-06-04T16:28:27",
+  "generated_at": "2026-06-05T08:52:18",
   "issues": [
     {
       "type": "작업",
       "key": "PG-3389",
-      "title": "[파트너센터] 상품관리 > 상품목록 > 1년 이상 필터링 제한",
-      "status": "대기",
+      "title": "[파트너센터 | CMS] 상품관리 > 상품목록 > 1년 이상 필터링 제한",
+      "status": "진행 중",
       "comp": "",
       "label": "",
       "owner": "장석원",
-      "due": "",
+      "due": "2026-06-05",
       "priority": "Medium",
-      "start": ""
+      "start": "2026-06-04"
     },
     {
       "type": "스토리",
@@ -77,23 +77,11 @@
       "type": "작업",
       "key": "PG-3383",
       "title": "[개발][Android] 연락처 주소록 접근 권한 제거",
-      "status": "진행 중",
+      "status": "배포대기",
       "comp": "",
       "label": "",
       "owner": "박창용",
       "due": "2026-06-05",
-      "priority": "Medium",
-      "start": "2026-06-04"
-    },
-    {
-      "type": "작업",
-      "key": "PG-3382",
-      "title": "[개발][웹] 연락처 주소록 접근이 필요한 메뉴 없애기",
-      "status": "진행 중",
-      "comp": "",
-      "label": "",
-      "owner": "박창용",
-      "due": "2026-06-04",
       "priority": "Medium",
       "start": "2026-06-04"
     },
