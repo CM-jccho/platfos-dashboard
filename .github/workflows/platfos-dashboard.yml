@@ -48,7 +48,7 @@ jobs:
         run: |
           python tools/dashboard/generate_dashboard.py \
             --date "${{ steps.date.outputs.target_date }}" \
-            --template "public/data/platfos_dashboard_260604.html" \
+            --template "Source/대시보드/platfos_dashboard_260604_원본.html" \
             --output-dir "public/data" \
             --mirror-output-dir "Source/대시보드" \
             --cache-file "public/data/.cache/platfos_dashboard_latest.json" \

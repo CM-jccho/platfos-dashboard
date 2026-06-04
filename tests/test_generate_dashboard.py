@@ -104,6 +104,7 @@ const WS_WEEK = '6월 1주차';
 const today = new Date('2026-06-04'); today.setHours(0,0,0,0);
 </script>
 <div style="background:linear-gradient(135deg,#14532D,#166534)">6월 1주차 목요일 [최종] — 블로커 3→1건!<div>303</div></div>
+<div class="footer">Platfos · Pongift 프로젝트 현황 &nbsp;·&nbsp; 기준일: 2026-06-04 (목) [최종] &nbsp;·&nbsp; 303개 이슈 &nbsp;·&nbsp; 6/2 대비 19건 변경</div>
 <div id="plat-modal"></div>
 """
         html = gd.render_html(
@@ -118,9 +119,8 @@ const today = new Date('2026-06-04'); today.setHours(0,0,0,0);
         self.assertIn('"key":"PG-1"', html)
         self.assertNotIn("_TD='2026-06-04'", html)
         self.assertNotIn("303개 이슈", html)
-        self.assertNotIn("블로커 3→1건", html)
-        self.assertIn("openPlatMemberModal('최다솔')", html)
-        self.assertIn("openPlatSeqModal('s1')", html)
+        self.assertIn("블로커 3→1건", html)
+        self.assertIn("1개 이슈 &nbsp;·&nbsp; 직전 대비 0건 변경", html)
 
     def test_render_html_replaces_history_title_and_filter_counts(self):
         template = """
@@ -172,6 +172,39 @@ const today = new Date('2026-06-04'); today.setHours(0,0,0,0);
         self.assertIn("컴포넌트 (0)", html)
         self.assertNotIn("6/2(화)", html)
         self.assertNotIn("컴포넌트 (102)", html)
+
+    def test_render_html_preserves_original_status_and_monthly_template(self):
+        template = """
+<title>Platfos 프로젝트 현황 — 2026-06-04 (최종)</title>
+<div class="tb-sub">기준일: 2026-06-04 (목) [최종] &nbsp;·&nbsp; 303개 이슈 (API·보류제외) &nbsp;·&nbsp; 6/2 대비 19건 변경</div>
+<script>
+const MEMBER_STORE={};
+const SEQ_STORE={};
+const _JB='https://platfos.atlassian.net/browse/',_TD='2026-06-04',_D7='2026-06-11';
+const RAW_DATA  = [];
+const CHANGES   = [];
+const WS_OWNERS = {};
+const WS_HEATMAP = {};
+const WS_MAX = 0;
+const WS_DATE = '2026-06-04';
+const WS_WEEK = '6월 1주차';
+const today = new Date('2026-06-04'); today.setHours(0,0,0,0);
+</script>
+<div style="background:linear-gradient(135deg,#14532D,#166534)">6월 1주차 목요일 [최종] — 블로커 3→1건!<div>303</div></div>
+<div class="panel" id="p-monthly">월별업무 원본 구성</div>
+<!-- MODAL -->
+"""
+        html = gd.render_html(
+            template,
+            target_date=date(2026, 6, 5),
+            issues=[],
+            changes=[],
+        )
+
+        self.assertIn("블로커 3→1건", html)
+        self.assertIn('id="p-monthly"', html)
+        self.assertIn("월별업무 원본 구성", html)
+        self.assertNotIn("자동 생성 대시보드", html)
 
     def test_load_offline_json_accepts_issue_list_or_jira_response(self):
         with tempfile.TemporaryDirectory() as tmp:

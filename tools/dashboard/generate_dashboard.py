@@ -458,117 +458,6 @@ def build_ws_heatmap(issues: List[Mapping[str, Any]]) -> Dict[str, Any]:
     return heatmap
 
 
-def build_status_panel_html(issues: List[Mapping[str, Any]], changes: List[Dict[str, Any]], target_date: date) -> str:
-    active = [i for i in issues if is_active(i)]
-    progress = [i for i in active if i.get("status") in PROGRESS_STATUSES]
-    blocked = [i for i in active if i.get("status") == "막힘"]
-    d7_end = target_date + timedelta(days=7)
-    imminent = [
-        i
-        for i in active
-        if parse_date(i.get("due", ""))
-        and target_date <= parse_date(i.get("due", "")) <= d7_end
-    ]
-    overdue = [
-        i
-        for i in progress
-        if parse_date(i.get("due", "")) and parse_date(i.get("due", "")) < target_date
-    ]
-    member_store = build_member_store(issues, target_date)
-    seq_store = build_seq_store(issues, target_date)
-
-    def metric(label: str, value: int, color: str) -> str:
-        return (
-            f'<div style="background:#fff;border:1px solid #E2E8F0;border-radius:10px;'
-            f'padding:12px 14px">'
-            f'<div style="font-size:10px;color:#64748B;font-weight:700">{label}</div>'
-            f'<div style="font-size:24px;font-weight:800;color:{color};font-family:JetBrains Mono,monospace">{value}</div>'
-            f"</div>"
-        )
-
-    def member_card(name: str) -> str:
-        data = member_store[name]
-        color = {
-            "red": "#DC2626",
-            "orange": "#D97706",
-            "yellow": "#D97706",
-            "green": "#16A34A",
-            "gray": "#9CA3AF",
-        }.get(data["signal"], "#9CA3AF")
-        total_focus = len(data["prog"]) + len(data["deploy"]) + len(data["blk"])
-        return (
-            f"<div onclick=\"openPlatMemberModal('{name}')\" "
-            f'style="background:#fff;border:1px solid #E2E8F0;border-left:4px solid {color};'
-            f'border-radius:10px;padding:12px 14px;cursor:pointer">'
-            f'<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">'
-            f'<span style="width:9px;height:9px;border-radius:50%;background:{color};display:inline-block"></span>'
-            f'<strong style="font-size:13px;color:#111827">{name}</strong>'
-            f'<span style="margin-left:auto;font-size:10px;color:{color};font-weight:700">{data["signal_txt"]}</span>'
-            f"</div>"
-            f'<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center">'
-            f'<div><div style="font-weight:800;color:#1D4ED8">{len(data["prog"])}</div><div style="font-size:9px;color:#94A3B8">진행</div></div>'
-            f'<div><div style="font-weight:800;color:#0891B2">{len(data["deploy"])}</div><div style="font-size:9px;color:#94A3B8">배포</div></div>'
-            f'<div><div style="font-weight:800;color:#D97706">{len(data["d7"])}</div><div style="font-size:9px;color:#94A3B8">D-7</div></div>'
-            f'<div><div style="font-weight:800;color:#DC2626">{len(data["blk"])}</div><div style="font-size:9px;color:#94A3B8">막힘</div></div>'
-            f"</div>"
-            f'<div style="margin-top:8px;font-size:10px;color:#64748B">집중 업무 {total_focus}건</div>'
-            f"</div>"
-        )
-
-    def seq_card(key: str) -> str:
-        data = seq_store[key]
-        total = data["total"] or 0
-        prog = len(data["prog"])
-        wait = len(data["wait"])
-        blk = len(data["blk"])
-        return (
-            f"<div onclick=\"openPlatSeqModal('{key}')\" "
-            f'style="background:#fff;border:1px solid #E2E8F0;border-radius:10px;'
-            f'padding:12px 14px;cursor:pointer">'
-            f'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">'
-            f'<strong style="font-size:12px;color:#111827">{key.upper()} {data["name"]}</strong>'
-            f'<span style="font-size:12px;font-weight:800;color:#1D4ED8">{total}</span>'
-            f"</div>"
-            f'<div style="height:8px;background:#F1F5F9;border-radius:99px;overflow:hidden;display:flex">'
-            f'<div style="width:{(prog / total * 100) if total else 0:.1f}%;background:#1D4ED8"></div>'
-            f'<div style="width:{(blk / total * 100) if total else 0:.1f}%;background:#DC2626"></div>'
-            f"</div>"
-            f'<div style="display:flex;gap:8px;margin-top:7px;font-size:10px;color:#64748B">'
-            f"<span>진행 {prog}</span><span>대기 {wait}</span><span>막힘 {blk}</span>"
-            f"</div>"
-            f"</div>"
-        )
-
-    member_html = "".join(member_card(name) for name in TEAM_MEMBERS)
-    seq_html = "".join(seq_card(key) for key in SEQ)
-    return f"""
-<div style="background:linear-gradient(135deg,#0F172A,#1E3A5F);border-radius:12px;padding:16px 18px;margin-bottom:16px;display:flex;align-items:center;gap:12px">
-  <div style="flex:1">
-    <div style="font-size:14px;font-weight:800;color:#F8FAFC">{week_label(target_date)} {korean_weekday(target_date)}요일 자동 생성 대시보드</div>
-    <div style="font-size:11px;color:#CBD5E1;margin-top:3px">기준일 {target_date.isoformat()} · Jira PG 현재 스냅샷 · 변경 {len(changes)}건</div>
-  </div>
-  <div style="text-align:right"><div style="font-size:24px;font-weight:900;color:#F8FAFC">{len(issues)}</div><div style="font-size:9px;color:#CBD5E1">총 이슈</div></div>
-</div>
-<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:16px">
-  {metric("진행 중", len(progress), "#16A34A")}
-  {metric("막힘", len(blocked), "#DC2626")}
-  {metric("D-7", len(imminent), "#D97706")}
-  {metric("기한 경과", len(overdue), "#DC2626")}
-  {metric("변경", len(changes), "#1D4ED8")}
-</div>
-<div style="background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:16px 18px;margin-bottom:16px">
-  <div style="font-size:11px;font-weight:800;color:#475569;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">담당자 현황</div>
-  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px">{member_html}</div>
-</div>
-<div style="background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:16px 18px;margin-bottom:16px">
-  <div style="font-size:11px;font-weight:800;color:#475569;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">시퀀스 현황</div>
-  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px">{seq_html}</div>
-</div>
-<div class="footer">
-  Platfos · Pongift 프로젝트 현황 &nbsp;·&nbsp; 기준일: {target_date.isoformat()} ({korean_weekday(target_date)}) &nbsp;·&nbsp; {len(issues)}개 이슈 &nbsp;·&nbsp; 직전 대비 {len(changes)}건 변경</div>
-"""
-
-
 def replace_js_const(html: str, name: str, value: Any) -> str:
     serialized = compact_json(value)
     pattern = rf"const\s+{re.escape(name)}\s*=\s*.*?;"
@@ -650,6 +539,15 @@ def render_html(template: str, target_date: date, issues: List[Dict[str, Any]], 
         count=1,
     )
     html = re.sub(
+        r"Platfos · Pongift 프로젝트 현황 &nbsp;·&nbsp; 기준일: "
+        r"\d{4}-\d{2}-\d{2} \([월화수목금토일]\)(?: \[최종\])?"
+        r" &nbsp;·&nbsp; \d+개 이슈 &nbsp;·&nbsp; [^<]+",
+        f"Platfos · Pongift 프로젝트 현황 &nbsp;·&nbsp; 기준일: {target_date.isoformat()} ({weekday})"
+        f" &nbsp;·&nbsp; {issue_count}개 이슈 &nbsp;·&nbsp; 직전 대비 {len(changes)}건 변경",
+        html,
+        count=1,
+    )
+    html = re.sub(
         r"const _JB='[^']*',_TD='[^']*',_D7='[^']*';",
         f"const _JB='{JIRA_BROWSE_URL}',_TD='{target_date.isoformat()}',_D7='{d7_end.isoformat()}';",
         html,
@@ -675,22 +573,6 @@ def render_html(template: str, target_date: date, issues: List[Dict[str, Any]], 
     html = re.sub(r"const WS_MAX\s*=\s*\d+;", f"const WS_MAX = {ws_max};", html, count=1)
 
     html = replace_history_metadata(html, target_date, changes)
-    status_panel = build_status_panel_html(issues, changes, target_date)
-    html, count = re.subn(
-        r"(</script>\s*)<div style=\"background:linear-gradient\(135deg,#14532D,#166534\).*?(\s*<!-- MODAL -->)",
-        lambda m: m.group(1) + status_panel + m.group(2),
-        html,
-        count=1,
-        flags=re.S,
-    )
-    if count == 0:
-        html = re.sub(
-        r"(</script>\s*)<div style=\"background:linear-gradient\(135deg,#14532D,#166534\).*?(<div id=\"plat-modal\")",
-            lambda m: m.group(1) + status_panel + m.group(2),
-            html,
-            count=1,
-            flags=re.S,
-        )
     return html
 
 
@@ -725,7 +607,7 @@ def generate_dashboard(
 def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--date", default=os.environ.get("TARGET_DATE"), help="Target date, YYYY-MM-DD. Defaults to today.")
-    parser.add_argument("--template", default="public/data/platfos_dashboard_260604.html")
+    parser.add_argument("--template", default="Source/대시보드/platfos_dashboard_260604_원본.html")
     parser.add_argument("--output-dir", default="public/data")
     parser.add_argument("--cache-file", default="public/data/.cache/platfos_dashboard_latest.json")
     parser.add_argument("--offline-json", help="Use local JSON instead of Jira API.")

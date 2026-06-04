@@ -13,7 +13,7 @@ description: >
 - HTML 보관 경로: `public/data/`
 - 로컬 mirror 경로: `Source/대시보드/` (선택)
 - 파일명: `platfos_dashboard_YYMMDD.html`
-- 기준 템플릿: `public/data/platfos_dashboard_260604.html`
+- 기준 템플릿: `Source/대시보드/platfos_dashboard_260604_원본.html`
 - 생성기: `tools/dashboard/generate_dashboard.py`
 - 자동 실행: GitHub Actions `Generate Platfos Dashboard`
 - 정기 실행 시각: 매주 월-금 08:40 KST
@@ -115,7 +115,7 @@ common + WATCH diff -> changed
 ```bash
 python tools/dashboard/generate_dashboard.py \
   --date 2026-06-04 \
-  --template public/data/platfos_dashboard_260604.html \
+  --template Source/대시보드/platfos_dashboard_260604_원본.html \
   --output-dir public/data \
   --cache-file public/data/.cache/platfos_dashboard_latest.json \
   --write-cache
@@ -126,7 +126,7 @@ Git 저장소와 로컬 mirror를 동시에 생성:
 ```bash
 python tools/dashboard/generate_dashboard.py \
   --date 2026-06-04 \
-  --template public/data/platfos_dashboard_260604.html \
+  --template Source/대시보드/platfos_dashboard_260604_원본.html \
   --output-dir public/data \
   --mirror-output-dir Source/대시보드 \
   --cache-file public/data/.cache/platfos_dashboard_latest.json \
@@ -138,7 +138,7 @@ Jira 없이 오프라인 검증:
 ```bash
 python tools/dashboard/generate_dashboard.py \
   --date 2026-06-04 \
-  --template public/data/platfos_dashboard_260604.html \
+  --template Source/대시보드/platfos_dashboard_260604_원본.html \
   --output-dir /tmp/platfos-dashboard-test \
   --cache-file /tmp/platfos-dashboard-test/.cache/latest.json \
   --offline-json tests/fixtures/dashboard_issues.json \
@@ -175,7 +175,7 @@ public/data/platfos_dashboard_YYMMDD.html
 | 수동 실행 | `workflow_dispatch` |
 | 저장 경로 | `public/data` |
 | 로컬 mirror | `--mirror-output-dir Source/대시보드` |
-| 템플릿 | `public/data/platfos_dashboard_260604.html` |
+| 템플릿 | `Source/대시보드/platfos_dashboard_260604_원본.html` |
 | 기한경과 기준 | 진행 중만, 배포대기 제외 |
 | 배치4 처리 | 폐기. Jira 페이지네이션으로 전량 수집 |
 | 블로커 정의 | `status = 막힘` |
