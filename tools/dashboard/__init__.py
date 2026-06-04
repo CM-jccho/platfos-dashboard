@@ -1,0 +1,1 @@
+"""Platfos dashboard generation package."""

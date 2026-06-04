@@ -1,0 +1,58 @@
+name: Generate Platfos Dashboard
+
+on:
+  schedule:
+    # 08:40 KST, Monday-Friday. GitHub cron uses UTC.
+    - cron: "40 23 * * 0-4"
+  workflow_dispatch:
+    inputs:
+      target_date:
+        description: "Dashboard date in YYYY-MM-DD. Empty means current run date."
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Seoul
+      JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL || 'https://platfos.atlassian.net' }}
+      JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+      JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Resolve target date
+        id: date
+        shell: bash
+        run: |
+          if [ -n "${{ inputs.target_date }}" ]; then
+            echo "target_date=${{ inputs.target_date }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "target_date=$(date +%F)" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Generate dashboard HTML
+        run: |
+          python tools/dashboard/generate_dashboard.py \
+            --date "${{ steps.date.outputs.target_date }}" \
+            --template "public/data/platfos_dashboard_260604.html" \
+            --output-dir "public/data" \
+            --mirror-output-dir "Source/대시보드" \
+            --cache-file "public/data/.cache/platfos_dashboard_latest.json" \
+            --write-cache
+
+      - name: Commit generated dashboard
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: generate Platfos dashboard ${{ steps.date.outputs.target_date }}"
+          file_pattern: "public/data/platfos_dashboard_*.html Source/대시보드/platfos_dashboard_*.html public/data/.cache/platfos_dashboard_latest.json"

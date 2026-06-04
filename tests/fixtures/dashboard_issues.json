@@ -1,0 +1,26 @@
+[
+  {
+    "type": "작업",
+    "key": "PG-9001",
+    "title": "자동 생성 검증용 이슈",
+    "status": "진행 중",
+    "comp": "partners-order",
+    "label": "core,s3",
+    "owner": "최다솔",
+    "due": "2026-06-05",
+    "priority": "Medium",
+    "start": "2026-06-04"
+  },
+  {
+    "type": "작업",
+    "key": "PG-9000",
+    "title": "자동 생성 검증용 막힘",
+    "status": "막힘",
+    "comp": "cms-product",
+    "label": "run,s7,Tier1",
+    "owner": "박창용",
+    "due": "2026-06-04",
+    "priority": "High",
+    "start": "2026-06-03"
+  }
+]

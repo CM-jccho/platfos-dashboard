@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { readFile } from 'fs/promises';
+import path from 'path';
 
 export async function GET(
   req: NextRequest,
@@ -8,6 +10,18 @@ export async function GET(
 
   if (!filename.match(/^platfos_dashboard_\d{6}\.html$/)) {
     return NextResponse.json({ error: 'Invalid filename' }, { status: 400 });
+  }
+
+  const localFile = path.join(process.cwd(), 'public', 'data', filename);
+
+  try {
+    const html = await readFile(localFile, 'utf-8');
+    return new NextResponse(html, {
+      status: 200,
+      headers: { 'Content-Type': 'text/html; charset=utf-8' },
+    });
+  } catch {
+    // Deployed environments may rely on GitHub-backed data instead.
   }
 
   const GITHUB_TOKEN  = process.env.GITHUB_TOKEN;
