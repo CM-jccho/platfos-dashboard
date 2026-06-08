@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-08T09:05:16",
+  "generated_at": "2026-06-09T08:57:07",
   "issues": [
     {
       "type": "스토리",
@@ -24,18 +24,6 @@
       "due": "2026-06-08",
       "priority": "Medium",
       "start": "2026-06-04"
-    },
-    {
-      "type": "작업",
-      "key": "PG-3386",
-      "title": "SAMPLE APP",
-      "status": "진행 중",
-      "comp": "",
-      "label": "",
-      "owner": "jason",
-      "due": "",
-      "priority": "Medium",
-      "start": ""
     },
     {
       "type": "작업",
@@ -74,18 +62,6 @@
       "start": "2026-06-01"
     },
     {
-      "type": "하위 작업",
-      "key": "PG-3379",
-      "title": "[BE] 4. KCP V2 전환 후 영향 API 수정",
-      "status": "진행 중",
-      "comp": "",
-      "label": "",
-      "owner": "장석원",
-      "due": "2026-06-08",
-      "priority": "Medium",
-      "start": "2026-06-05"
-    },
-    {
       "type": "에픽",
       "key": "PG-3378",
       "title": "[SDK][V3] 폰기프트몰",
@@ -105,9 +81,9 @@
       "comp": "",
       "label": "",
       "owner": "장석원",
-      "due": "",
+      "due": "2026-06-08",
       "priority": "Medium",
-      "start": ""
+      "start": "2026-06-08"
     },
     {
       "type": "작업",
@@ -195,39 +171,27 @@
     },
     {
       "type": "작업",
-      "key": "PG-3359",
-      "title": "[모노레포] packages/ui 잔존 공통 컴포넌트 이관",
+      "key": "PG-3358",
+      "title": "[모노레포] packages/api·auth로 axios·인증 로직 일원화",
       "status": "진행 중",
       "comp": "infra-observability",
       "label": "grow,ops,s2,개발확인필요",
       "owner": "김희진",
-      "due": "2026-06-05",
+      "due": "2026-06-12",
       "priority": "Medium",
-      "start": "2026-05-29"
-    },
-    {
-      "type": "작업",
-      "key": "PG-3358",
-      "title": "[모노레포] packages/api·auth로 axios·인증 로직 일원화",
-      "status": "대기",
-      "comp": "infra-observability",
-      "label": "grow,ops,s2,개발확인필요",
-      "owner": "김희진",
-      "due": "",
-      "priority": "Medium",
-      "start": ""
+      "start": "2026-06-08"
     },
     {
       "type": "작업",
       "key": "PG-3357",
       "title": "[모노레포] packages/utils 공통 유틸 통합 이관",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "infra-observability",
       "label": "grow,ops,s2,개발확인필요",
       "owner": "김희진",
-      "due": "",
+      "due": "2026-06-12",
       "priority": "Medium",
-      "start": ""
+      "start": "2026-06-08"
     },
     {
       "type": "작업",
@@ -267,32 +231,8 @@
     },
     {
       "type": "작업",
-      "key": "PG-3327",
-      "title": "S5. 환불/취소/예외처리 시퀀스 QA",
-      "status": "진행 중",
-      "comp": "",
-      "label": "",
-      "owner": "최다솔",
-      "due": "2026-06-08",
-      "priority": "Medium",
-      "start": "2026-06-04"
-    },
-    {
-      "type": "작업",
       "key": "PG-3323",
       "title": "S4. 사용/사용취소/검증 시퀀스 QA",
-      "status": "진행 중",
-      "comp": "",
-      "label": "",
-      "owner": "최다솔",
-      "due": "2026-06-08",
-      "priority": "Medium",
-      "start": "2026-06-04"
-    },
-    {
-      "type": "작업",
-      "key": "PG-3322",
-      "title": "S3. 주문/결제/발행/발송 시퀀스 QA",
       "status": "진행 중",
       "comp": "",
       "label": "",
@@ -1992,18 +1932,6 @@
       "due": "",
       "priority": "Medium",
       "start": ""
-    },
-    {
-      "type": "하위 작업",
-      "key": "PG-3147",
-      "title": "[FE] 3. 본인확인 결과 조회 API 연동",
-      "status": "진행 중",
-      "comp": "",
-      "label": "",
-      "owner": "김희진",
-      "due": "2026-06-05",
-      "priority": "Medium",
-      "start": "2026-06-02"
     },
     {
       "type": "에픽",
