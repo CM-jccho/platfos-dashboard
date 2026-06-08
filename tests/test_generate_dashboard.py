@@ -104,7 +104,7 @@ const WS_WEEK = '6월 1주차';
 const today = new Date('2026-06-04'); today.setHours(0,0,0,0);
 </script>
 <div class="panel on" id="p-status">
-<div style="background:linear-gradient(135deg,#14532D,#166534)">6월 1주차 목요일 [최종] — 블로커 3→1건!<div>303</div></div>
+<div style="background:linear-gradient(135deg,#14532D,#166534)">6월 1주차 목요일 [최종] — 블로커 3→1건!<div>303</div><div>내일(6/5) 기한 4건 집중 필요</div></div>
 </div>
 <div class="footer">Platfos · Pongift 프로젝트 현황 &nbsp;·&nbsp; 기준일: 2026-06-04 (목) [최종] &nbsp;·&nbsp; 303개 이슈 &nbsp;·&nbsp; 6/2 대비 19건 변경</div>
 <div id="plat-modal"></div>
@@ -122,6 +122,7 @@ const today = new Date('2026-06-04'); today.setHours(0,0,0,0);
         self.assertNotIn("_TD='2026-06-04'", html)
         self.assertNotIn("303개 이슈", html)
         self.assertNotIn("블로커 3→1건", html)
+        self.assertNotIn("내일(6/5)", html)
         self.assertIn("6월 1주차 금요일 실행 상황판", html)
         self.assertIn("1개 이슈 &nbsp;·&nbsp; 직전 대비 0건 변경", html)
 
@@ -196,6 +197,13 @@ const today = new Date('2026-06-04'); today.setHours(0,0,0,0);
 <div class="panel" id="p-monthly">월별업무 원본 구성</div>
 <div class="panel on" id="p-status">
 <div style="background:linear-gradient(135deg,#14532D,#166534)">6월 1주차 목요일 [최종] — 블로커 3→1건!<div>303</div><div>내일(6/5) 기한 4건 집중 필요</div></div>
+<div style="background:linear-gradient(135deg,#0F172A,#1E3A5F);border-radius:14px;padding:18px 22px;margin-bottom:20px;color:#fff">
+  <span>실행 상황판</span>
+  <span style="font-size:11px;color:#94A3B8;background:rgba(255,255,255,.1);padding:2px 10px;border-radius:99px">2026-06-04 (목) [최종] · 6월 1주차 · 303개</span>
+  <div style="font-size:12px;color:#94A3B8">6/2 대비 19건 변경 · 블로커 3→1건 ✅ · 기한경과 1건 · 내일(6/5) 기한 4건 집중</div>
+</div>
+<button onclick="toggleAcc('br')">기존 아코디언</button>
+<div id="score-tip">기존 점수 툴팁</div>
 </div>
 <div class="footer">Platfos · Pongift 프로젝트 현황 &nbsp;·&nbsp; 기준일: 2026-06-04 (목) [최종] &nbsp;·&nbsp; 303개 이슈 &nbsp;·&nbsp; 6/2 대비 19건 변경</div>
 <!-- MODAL -->
@@ -214,9 +222,14 @@ const today = new Date('2026-06-04'); today.setHours(0,0,0,0);
         self.assertIn("기준일 2026-06-08", html)
         self.assertIn("2개", html)
         self.assertIn("직전 대비 1건 변경", html)
+        self.assertIn("toggleAcc('br')", html)
+        self.assertIn('id="score-tip"', html)
+        self.assertIn("기존 점수 툴팁", html)
         self.assertNotIn("6월 1주차 목요일 [최종]", html)
         self.assertNotIn("내일(6/5)", html)
         self.assertNotIn("303개 이슈", html)
+        self.assertNotIn("2026-06-04 (목) [최종] · 6월 1주차 · 303개", html)
+        self.assertNotIn("6/2 대비 19건", html)
         self.assertIn('id="p-monthly"', html)
         self.assertIn("월별업무 원본 구성", html)
 

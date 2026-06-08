@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import argparse
 import base64
-import html as html_lib
 import json
 import os
 import re
@@ -461,141 +460,75 @@ def build_ws_heatmap(issues: List[Mapping[str, Any]]) -> Dict[str, Any]:
     return heatmap
 
 
-def esc(value: Any) -> str:
-    return html_lib.escape(str(value or ""), quote=True)
-
-
-def issue_link(issue: Mapping[str, Any]) -> str:
-    key = esc(issue.get("key", ""))
-    title = esc(issue.get("title", ""))
-    status = esc(issue.get("status", ""))
-    owner = esc(issue.get("owner", ""))
-    due = esc(issue.get("due", ""))
-    due_html = f'<span style="font-size:10px;color:#64748B;white-space:nowrap">{due}</span>' if due else ""
-    owner_html = f'<span style="font-size:10px;color:#7C3AED;white-space:nowrap">{owner}</span>' if owner else ""
-    return (
-        '<div style="display:flex;gap:8px;align-items:center;padding:7px 10px;'
-        'border-bottom:1px solid #F1F5F9">'
-        f'<a href="{JIRA_BROWSE_URL}{key}" target="_blank" style="font-family:\'JetBrains Mono\',monospace;'
-        'font-size:10px;color:#1D4ED8;text-decoration:none;background:#EFF6FF;border:1px solid #BFDBFE;'
-        f'padding:1px 6px;border-radius:4px;white-space:nowrap;flex-shrink:0">{key}</a>'
-        f'<span style="font-size:11px;color:#374151;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">{title}</span>'
-        f'<span style="font-size:10px;color:#475569;white-space:nowrap">{status}</span>{owner_html}{due_html}'
-        "</div>"
-    )
-
-
-def build_status_panel_html(issues: List[Mapping[str, Any]], changes: List[Dict[str, Any]], target_date: date) -> str:
+def replace_status_panel_metadata(
+    html: str,
+    issues: List[Dict[str, Any]],
+    changes: List[Dict[str, Any]],
+    target_date: date,
+) -> str:
     d7_end = target_date + timedelta(days=7)
     active = [i for i in issues if is_active(i)]
     progress = [i for i in active if i.get("status") in PROGRESS_STATUSES]
-    deploy = [i for i in active if i.get("status") in DEPLOY_STATUSES]
     blocked = [i for i in active if i.get("status") == "막힘"]
     today_due = [
         i for i in active if parse_date(i.get("due", "")) and parse_date(i.get("due", "")) == target_date
-    ]
-    d7_due = [
-        i
-        for i in active
-        if parse_date(i.get("due", "")) and target_date < parse_date(i.get("due", "")) <= d7_end
     ]
     overdue = [
         i
         for i in progress
         if parse_date(i.get("due", "")) and parse_date(i.get("due", "")) < target_date
     ]
-
-    metrics = [
-        ("총 이슈", len(issues), "#111827", "#F8FAFC", "#E2E8F0"),
-        ("활성", len(active), "#1D4ED8", "#EFF6FF", "#BFDBFE"),
-        ("진행중", len(progress), "#16A34A", "#F0FDF4", "#BBF7D0"),
-        ("배포대기", len(deploy), "#0891B2", "#ECFEFF", "#A5F3FC"),
-        ("막힘", len(blocked), "#DC2626", "#FEF2F2", "#FECACA"),
-        ("오늘기한", len(today_due), "#D97706", "#FFFBEB", "#FDE68A"),
-        ("D-7", len(d7_due), "#7C3AED", "#F5F3FF", "#DDD6FE"),
-        ("기한경과", len(overdue), "#DC2626", "#FEF2F2", "#FECACA"),
-    ]
-    metric_html = "".join(
-        (
-            f'<div style="background:{bg};border:1px solid {border};border-radius:10px;padding:11px 12px">'
-            f'<div style="font-size:10px;color:#64748B;font-weight:700;margin-bottom:4px">{label}</div>'
-            f'<div style="font-size:22px;line-height:1;font-weight:800;color:{color}">{count}</div>'
-            "</div>"
-        )
-        for label, count, color, bg, border in metrics
+    status_title = f"{week_label(target_date)} {korean_weekday(target_date)}요일 실행 상황판"
+    status_summary = (
+        f"기준일 {target_date.isoformat()} · Jira PG 현재 스냅샷 · 직전 대비 {len(changes)}건 변경"
+    )
+    score_badge = f"{target_date.isoformat()} ({korean_weekday(target_date)}) · {week_label(target_date)} · {len(issues)}개"
+    score_summary = (
+        f"직전 대비 {len(changes)}건 변경 · 막힘 {len(blocked)}건 · "
+        f"기한경과 {len(overdue)}건 · 오늘({target_date.month}/{target_date.day}) 기한 {len(today_due)}건"
     )
 
-    def section(title: str, rows: List[Mapping[str, Any]], color: str) -> str:
-        body = "".join(issue_link(i) for i in rows[:6])
-        if not body:
-            body = '<div style="padding:12px;color:#94A3B8;font-size:11px">해당 이슈 없음</div>'
-        more = ""
-        if len(rows) > 6:
-            more = f'<div style="padding:8px 10px;color:#64748B;font-size:10px;text-align:right">외 {len(rows) - 6}건</div>'
-        return (
-            '<div style="background:#fff;border:1px solid #E2E8F0;border-radius:12px;overflow:hidden">'
-            '<div style="padding:10px 12px;background:#F8FAFC;border-bottom:1px solid #E2E8F0;'
-            'display:flex;align-items:center;gap:8px">'
-            f'<span style="width:7px;height:7px;border-radius:50%;background:{color};display:inline-block"></span>'
-            f'<span style="font-size:12px;font-weight:800;color:#334155">{title}</span>'
-            f'<span style="margin-left:auto;font-size:10px;color:#64748B">{len(rows)}건</span>'
-            f"</div>{body}{more}</div>"
-        )
-
-    member_store = build_member_store(list(issues), target_date)
-    member_cards = "".join(
-        (
-            f'<button onclick="openPlatMemberModal(\'{esc(name)}\')" style="appearance:none;border:1px solid #E2E8F0;'
-            'background:#fff;border-radius:10px;padding:10px 11px;text-align:left;cursor:pointer;font-family:inherit">'
-            f'<div style="display:flex;align-items:center;gap:7px;margin-bottom:5px"><span style="font-size:12px;font-weight:800;color:#111827">{esc(name)}</span>'
-            f'<span style="margin-left:auto;font-size:10px;color:#64748B">{esc(data["signal_txt"])}</span></div>'
-            f'<div style="font-size:10px;color:#64748B">진행 {len(data["prog"])} · 배포 {len(data["deploy"])} · 막힘 {len(data["blk"])}</div>'
-            "</button>"
-        )
-        for name, data in member_store.items()
+    html = re.sub(
+        r"\d+월 \d+주차 [월화수목금토일]요일 \[최종\] — [^<]+",
+        status_title,
+        html,
+        count=1,
     )
-
-    return f"""
-<div style="background:linear-gradient(135deg,#0F766E,#166534);border-radius:12px;padding:15px 18px;margin-bottom:16px;display:flex;align-items:center;gap:12px">
-  <div style="flex:1">
-    <div style="font-size:13px;font-weight:800;color:#ECFDF5">{week_label(target_date)} {korean_weekday(target_date)}요일 실행 상황판</div>
-    <div style="font-size:11px;color:#A7F3D0;margin-top:3px">기준일 {target_date.isoformat()} · Jira PG 현재 스냅샷 · 직전 대비 {len(changes)}건 변경</div>
-  </div>
-  <div style="text-align:right">
-    <div style="font-size:22px;font-weight:900;color:#ECFDF5">{len(issues)}</div>
-    <div style="font-size:9px;color:#A7F3D0">총 이슈</div>
-  </div>
-</div>
-<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:16px">{metric_html}</div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
-  {section("막힘", blocked, "#DC2626")}
-  {section("오늘 기한", today_due, "#D97706")}
-  {section("기한 경과", overdue, "#DC2626")}
-  {section("D-7 예정", d7_due, "#7C3AED")}
-</div>
-<div style="background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:14px 16px;margin-bottom:16px">
-  <div style="font-size:10px;font-weight:800;color:#64748B;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">담당자 현황</div>
-  <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px">{member_cards}</div>
-</div>
-"""
-
-
-def replace_status_panel(html: str, issues: List[Dict[str, Any]], changes: List[Dict[str, Any]], target_date: date) -> str:
-    panel = build_status_panel_html(issues, changes, target_date)
-    patterns = [
-        r'(<div class="panel on" id="p-status">.*?</script>\s*).*?(\s*</div>\s*<div class="footer">)',
-        r'(<div class="panel on" id="p-status">\s*).*?(\s*</div>\s*<div class="footer">)',
-    ]
-    for pattern in patterns:
-        html, count = re.subn(
-            pattern,
-            lambda m: m.group(1) + panel + m.group(2),
-            html,
-            count=1,
-            flags=re.S,
-        )
-        if count == 1:
-            return html
+    html = re.sub(
+        r"(<div[^>]*>)[^<]*내일\(\d+/\d+\) 기한 \d+건 집중 필요(</div>)",
+        rf"\g<1>{status_summary}\2",
+        html,
+        count=1,
+    )
+    html = re.sub(
+        r"(<div style=\"font-size:18px;font-weight:800;color:#D1FAE5\">)\d+(</div>)",
+        rf"\g<1>{len(issues)}\2",
+        html,
+        count=1,
+    )
+    html = re.sub(
+        r"\d{4}-\d{2}-\d{2} \([월화수목금토일]\)(?: \[최종\])? · \d+월 \d+주차 · \d+개",
+        score_badge,
+        html,
+        count=1,
+    )
+    html = re.sub(
+        r"\d+/\d+ 대비 \d+건 변경 · 블로커 \d+→\d+건 ✅ · 기한경과 \d+건 · 내일\(\d+/\d+\) 기한 \d+건 집중",
+        score_summary,
+        html,
+        count=1,
+    )
+    html = re.sub(
+        r"\d{4}년 \d+월 \d+주차 [월화수목금토일]요일(?: \[최종\])?",
+        f"{target_date.year}년 {week_label(target_date)} {korean_weekday(target_date)}요일",
+        html,
+        count=1,
+    )
+    html = re.sub(
+        r"내일\(\d+/\d+\)",
+        f"오늘({target_date.month}/{target_date.day})",
+        html,
+    )
     return html
 
 
@@ -720,7 +653,7 @@ def render_html(template: str, target_date: date, issues: List[Dict[str, Any]], 
     )
 
     html = replace_history_metadata(html, target_date, changes)
-    html = replace_status_panel(html, issues, changes, target_date)
+    html = replace_status_panel_metadata(html, issues, changes, target_date)
     return html
 
 
