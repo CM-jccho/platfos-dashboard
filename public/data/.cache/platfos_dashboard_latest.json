@@ -1,6 +1,30 @@
 {
-  "generated_at": "2026-06-09T08:57:07",
+  "generated_at": "2026-06-09T10:14:54",
   "issues": [
+    {
+      "type": "하위 작업",
+      "key": "PG-3392",
+      "title": "옥션 로직 수정",
+      "status": "진행 중",
+      "comp": "",
+      "label": "",
+      "owner": "",
+      "due": "",
+      "priority": "Medium",
+      "start": ""
+    },
+    {
+      "type": "하위 작업",
+      "key": "PG-3391",
+      "title": "[개발 QA] KCP V2 UI 테스트",
+      "status": "대기",
+      "comp": "",
+      "label": "",
+      "owner": "",
+      "due": "",
+      "priority": "Medium",
+      "start": ""
+    },
     {
       "type": "스토리",
       "key": "PG-3388",
@@ -50,18 +74,6 @@
       "start": ""
     },
     {
-      "type": "하위 작업",
-      "key": "PG-3381",
-      "title": "[BE] FE 연동 진행 협의",
-      "status": "진행 중",
-      "comp": "",
-      "label": "",
-      "owner": "장석원",
-      "due": "2026-06-08",
-      "priority": "Medium",
-      "start": "2026-06-01"
-    },
-    {
       "type": "에픽",
       "key": "PG-3378",
       "title": "[SDK][V3] 폰기프트몰",
@@ -72,18 +84,6 @@
       "due": "2026-06-30",
       "priority": "Medium",
       "start": "2026-06-02"
-    },
-    {
-      "type": "하위 작업",
-      "key": "PG-3376",
-      "title": "[BE] KCP 운영 전환시 체크리스트",
-      "status": "진행 중",
-      "comp": "",
-      "label": "",
-      "owner": "장석원",
-      "due": "2026-06-08",
-      "priority": "Medium",
-      "start": "2026-06-08"
     },
     {
       "type": "작업",
@@ -168,18 +168,6 @@
       "due": "",
       "priority": "Medium",
       "start": "2026-06-01"
-    },
-    {
-      "type": "작업",
-      "key": "PG-3358",
-      "title": "[모노레포] packages/api·auth로 axios·인증 로직 일원화",
-      "status": "진행 중",
-      "comp": "infra-observability",
-      "label": "grow,ops,s2,개발확인필요",
-      "owner": "김희진",
-      "due": "2026-06-12",
-      "priority": "Medium",
-      "start": "2026-06-08"
     },
     {
       "type": "작업",
@@ -309,7 +297,7 @@
       "comp": "",
       "label": "",
       "owner": "jason",
-      "due": "2026-06-05",
+      "due": "2026-06-10",
       "priority": "Medium",
       "start": "2026-05-12"
     },
