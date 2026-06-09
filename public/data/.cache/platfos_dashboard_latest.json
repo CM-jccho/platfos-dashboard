@@ -1,6 +1,30 @@
 {
-  "generated_at": "2026-06-09T10:14:54",
+  "generated_at": "2026-06-10T08:47:57",
   "issues": [
+    {
+      "type": "작업",
+      "key": "PG-3394",
+      "title": "CMS -> 상품권 목록 조회 쿼리 성능 개선",
+      "status": "진행 중",
+      "comp": "",
+      "label": "",
+      "owner": "박창용",
+      "due": "",
+      "priority": "High",
+      "start": "2026-06-09"
+    },
+    {
+      "type": "에픽",
+      "key": "PG-3393",
+      "title": "[Core][All] 퍼포먼스 개선",
+      "status": "대기",
+      "comp": "",
+      "label": "",
+      "owner": "jason",
+      "due": "",
+      "priority": "Medium",
+      "start": ""
+    },
     {
       "type": "하위 작업",
       "key": "PG-3392",
@@ -45,7 +69,7 @@
       "comp": "",
       "label": "",
       "owner": "최다솔",
-      "due": "2026-06-08",
+      "due": "2026-06-09",
       "priority": "Medium",
       "start": "2026-06-04"
     },
@@ -218,18 +242,6 @@
       "start": "2026-06-04"
     },
     {
-      "type": "작업",
-      "key": "PG-3323",
-      "title": "S4. 사용/사용취소/검증 시퀀스 QA",
-      "status": "진행 중",
-      "comp": "",
-      "label": "",
-      "owner": "최다솔",
-      "due": "2026-06-08",
-      "priority": "Medium",
-      "start": "2026-06-04"
-    },
-    {
       "type": "하위 작업",
       "key": "PG-3321",
       "title": "[??] 몰 POPUP 오류",
@@ -285,7 +297,7 @@
       "comp": "",
       "label": "",
       "owner": "jason",
-      "due": "2026-06-03",
+      "due": "2026-06-10",
       "priority": "Medium",
       "start": "2026-05-28"
     },
@@ -1493,25 +1505,25 @@
       "type": "하위 작업",
       "key": "PG-3195",
       "title": "Secret Resend batch size 제한(max 500) + 실행 이력 테이블 저장",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "",
       "label": "",
       "owner": "장석원",
-      "due": "",
+      "due": "2026-06-10",
       "priority": "Medium",
-      "start": ""
+      "start": "2026-06-09"
     },
     {
       "type": "하위 작업",
       "key": "PG-3194",
       "title": "Secret Resend GET → POST 변경 + dry-run/execute 모드 구현",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "",
       "label": "",
       "owner": "장석원",
-      "due": "",
+      "due": "2026-06-10",
       "priority": "Medium",
-      "start": ""
+      "start": "2026-06-09"
     },
     {
       "type": "하위 작업",
@@ -1757,13 +1769,13 @@
       "type": "작업",
       "key": "PG-3170",
       "title": "[TASK-004] Secret Resend 대량 발송 보호 장치",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "",
       "label": "p0,secret-resend,security",
       "owner": "장석원",
-      "due": "",
+      "due": "2026-06-11",
       "priority": "Highest",
-      "start": ""
+      "start": "2026-06-09"
     },
     {
       "type": "작업",
