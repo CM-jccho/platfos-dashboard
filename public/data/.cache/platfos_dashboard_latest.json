@@ -1,17 +1,77 @@
 {
-  "generated_at": "2026-06-10T10:20:35",
+  "generated_at": "2026-06-11T08:42:49",
   "issues": [
     {
       "type": "하위 작업",
-      "key": "PG-3395",
-      "title": "ECS Application Signals 설정",
-      "status": "진행 중",
+      "key": "PG-3401",
+      "title": "[모노레포][파트너센터] 상품 폼 1차 — 폼 모드(ProductFormMode) 통합",
+      "status": "대기",
       "comp": "",
       "label": "",
-      "owner": "jason",
+      "owner": "김희진",
       "due": "",
       "priority": "Medium",
       "start": ""
+    },
+    {
+      "type": "하위 작업",
+      "key": "PG-3400",
+      "title": "[모노레포][파트너센터] 상품 폼 5차 — 이미지/Quill 에디터 로직 공통화",
+      "status": "대기",
+      "comp": "infra-observability",
+      "label": "grow,ops,s2,개발확인필요",
+      "owner": "김희진",
+      "due": "",
+      "priority": "Medium",
+      "start": ""
+    },
+    {
+      "type": "하위 작업",
+      "key": "PG-3399",
+      "title": "[모노레포][파트너센터] 상품 폼 4차 — 채널 설정 테이블(ProductChannelTableRow) 분해 + RHF fieldArray",
+      "status": "대기",
+      "comp": "infra-observability",
+      "label": "grow,ops,s2,개발확인필요",
+      "owner": "김희진",
+      "due": "",
+      "priority": "Medium",
+      "start": ""
+    },
+    {
+      "type": "하위 작업",
+      "key": "PG-3398",
+      "title": "[모노레포][파트너센터] 상품 폼 3차 — 기본·판매·사용처 섹션 Formik→RHF 전환 + write/readonly 통합",
+      "status": "대기",
+      "comp": "infra-observability",
+      "label": "grow,ops,s2,개발확인필요",
+      "owner": "김희진",
+      "due": "",
+      "priority": "Medium",
+      "start": ""
+    },
+    {
+      "type": "하위 작업",
+      "key": "PG-3397",
+      "title": "[모노레포][파트너센터] 상품 폼 2차 — 폼 모델/매퍼/검증(zod) 일원화",
+      "status": "대기",
+      "comp": "infra-observability",
+      "label": "grow,ops,s2,개발확인필요",
+      "owner": "김희진",
+      "due": "",
+      "priority": "Medium",
+      "start": ""
+    },
+    {
+      "type": "작업",
+      "key": "PG-3396",
+      "title": "[모노레포][파트너센터] 상품 등록/상세 폼 일원화 (Formik→RHF) — 상위",
+      "status": "대기",
+      "comp": "infra-observability",
+      "label": "grow,ops,s2,개발확인필요",
+      "owner": "김희진",
+      "due": "2026-06-12",
+      "priority": "Medium",
+      "start": "2026-06-11"
     },
     {
       "type": "작업",
@@ -42,18 +102,6 @@
       "key": "PG-3392",
       "title": "옥션 로직 수정",
       "status": "진행 중",
-      "comp": "",
-      "label": "",
-      "owner": "",
-      "due": "",
-      "priority": "Medium",
-      "start": ""
-    },
-    {
-      "type": "하위 작업",
-      "key": "PG-3391",
-      "title": "[개발 QA] KCP V2 UI 테스트",
-      "status": "대기",
       "comp": "",
       "label": "",
       "owner": "",
@@ -195,51 +243,15 @@
     },
     {
       "type": "작업",
-      "key": "PG-3357",
-      "title": "[모노레포] packages/utils 공통 유틸 통합 이관",
-      "status": "진행 중",
-      "comp": "infra-observability",
-      "label": "grow,ops,s2,개발확인필요",
-      "owner": "김희진",
-      "due": "2026-06-12",
-      "priority": "Medium",
-      "start": "2026-06-08"
-    },
-    {
-      "type": "작업",
       "key": "PG-3356",
       "title": "[모노레포] packages/types 도메인 타입 통합 이관",
       "status": "대기",
       "comp": "infra-observability",
       "label": "grow,ops,s2,개발확인필요",
       "owner": "김희진",
-      "due": "",
+      "due": "2026-06-12",
       "priority": "Medium",
-      "start": ""
-    },
-    {
-      "type": "하위 작업",
-      "key": "PG-3348",
-      "title": "RPOD API TASK 구축",
-      "status": "진행 중",
-      "comp": "",
-      "label": "",
-      "owner": "jason",
-      "due": "",
-      "priority": "Medium",
-      "start": ""
-    },
-    {
-      "type": "작업",
-      "key": "PG-3328",
-      "title": "S6. 정산/포인트 시퀀스 QA",
-      "status": "진행 중",
-      "comp": "",
-      "label": "",
-      "owner": "김명수",
-      "due": "2026-06-08",
-      "priority": "Medium",
-      "start": "2026-06-04"
+      "start": "2026-06-11"
     },
     {
       "type": "하위 작업",
@@ -254,18 +266,6 @@
       "start": ""
     },
     {
-      "type": "작업",
-      "key": "PG-3320",
-      "title": "S2. 상품 등록/수정/승인 시퀀스 QA",
-      "status": "진행 중",
-      "comp": "",
-      "label": "",
-      "owner": "김명수",
-      "due": "2026-06-08",
-      "priority": "Medium",
-      "start": "2026-06-04"
-    },
-    {
       "type": "하위 작업",
       "key": "PG-3319",
       "title": "[??] 몰 본인인증",
@@ -276,42 +276,6 @@
       "due": "",
       "priority": "Medium",
       "start": ""
-    },
-    {
-      "type": "작업",
-      "key": "PG-3318",
-      "title": "S1. 온보딩/승인 시퀀스 QA",
-      "status": "진행 중",
-      "comp": "",
-      "label": "",
-      "owner": "김명수",
-      "due": "2026-06-08",
-      "priority": "Medium",
-      "start": "2026-06-04"
-    },
-    {
-      "type": "작업",
-      "key": "PG-3308",
-      "title": "운영서버 구축",
-      "status": "배포대기",
-      "comp": "",
-      "label": "",
-      "owner": "jason",
-      "due": "2026-06-10",
-      "priority": "Medium",
-      "start": "2026-05-28"
-    },
-    {
-      "type": "에픽",
-      "key": "PG-3305",
-      "title": "[Core][All] 인프라 개선",
-      "status": "진행 중",
-      "comp": "",
-      "label": "",
-      "owner": "jason",
-      "due": "2026-06-10",
-      "priority": "Medium",
-      "start": "2026-05-12"
     },
     {
       "type": "하위 작업",
@@ -2530,18 +2494,6 @@
       "label": "",
       "owner": "",
       "due": "",
-      "priority": "Medium",
-      "start": ""
-    },
-    {
-      "type": "스토리",
-      "key": "PG-3017",
-      "title": "💻 [KCP] 휴대폰본인확인서비스 신규 연동방식(V2) 전환 요청",
-      "status": "대기",
-      "comp": "",
-      "label": "개발확인필요",
-      "owner": "jason",
-      "due": "2026-06-05",
       "priority": "Medium",
       "start": ""
     },
