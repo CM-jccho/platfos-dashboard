@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-12T09:10:08",
+  "generated_at": "2026-06-12T09:23:05",
   "issues": [
     {
       "type": "에픽",
@@ -3156,6 +3156,18 @@
       "due": "2026-08-31",
       "priority": "Medium",
       "start": "2026-03-13"
+    },
+    {
+      "type": "에픽",
+      "key": "PG-2566",
+      "title": "[Grow][S1] 약관 관리 화면 기획 파트",
+      "status": "진행 중",
+      "comp": "partners-product",
+      "label": "grow,ops,s1",
+      "owner": "김명수",
+      "due": "",
+      "priority": "Medium",
+      "start": "2026-03-18"
     },
     {
       "type": "하위 작업",
