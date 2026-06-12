@@ -1,6 +1,30 @@
 {
-  "generated_at": "2026-06-12T09:23:05",
+  "generated_at": "2026-06-12T10:25:35",
   "issues": [
+    {
+      "type": "작업",
+      "key": "PG-3424",
+      "title": "[정책서] 약관 관리 기능 개선 정책서",
+      "status": "대기",
+      "comp": "partners-product",
+      "label": "grow,ops,s1",
+      "owner": "김명수",
+      "due": "",
+      "priority": "Medium",
+      "start": ""
+    },
+    {
+      "type": "작업",
+      "key": "PG-3421",
+      "title": "[이관] 기존 약관 이관 작업",
+      "status": "대기",
+      "comp": "partners-product",
+      "label": "grow,ops,s1",
+      "owner": "",
+      "due": "",
+      "priority": "Medium",
+      "start": ""
+    },
     {
       "type": "에픽",
       "key": "PG-3420",
@@ -21,9 +45,9 @@
       "comp": "partners-product",
       "label": "grow,ops,s1",
       "owner": "김희진",
-      "due": "",
+      "due": "2026-06-19",
       "priority": "Medium",
-      "start": ""
+      "start": "2026-06-15"
     },
     {
       "type": "작업",
@@ -33,9 +57,9 @@
       "comp": "partners-product",
       "label": "grow,ops,s1",
       "owner": "김희진",
-      "due": "",
+      "due": "2026-06-19",
       "priority": "Medium",
-      "start": ""
+      "start": "2026-06-15"
     },
     {
       "type": "작업",
@@ -45,9 +69,9 @@
       "comp": "partners-product",
       "label": "grow,ops,s1",
       "owner": "김희진",
-      "due": "",
+      "due": "2026-06-19",
       "priority": "Medium",
-      "start": ""
+      "start": "2026-06-15"
     },
     {
       "type": "작업",
@@ -69,9 +93,9 @@
       "comp": "partners-product",
       "label": "grow,ops,s1",
       "owner": "김희진",
-      "due": "",
+      "due": "2026-06-19",
       "priority": "Medium",
-      "start": ""
+      "start": "2026-06-15"
     },
     {
       "type": "작업",
@@ -81,9 +105,9 @@
       "comp": "partners-product",
       "label": "grow,ops,s1",
       "owner": "김희진",
-      "due": "",
+      "due": "2026-06-19",
       "priority": "Medium",
-      "start": ""
+      "start": "2026-06-15"
     },
     {
       "type": "작업",
@@ -93,9 +117,9 @@
       "comp": "partners-product",
       "label": "grow,ops,s1",
       "owner": "김희진",
-      "due": "",
+      "due": "2026-06-19",
       "priority": "Medium",
-      "start": ""
+      "start": "2026-06-15"
     },
     {
       "type": "작업",
@@ -105,9 +129,9 @@
       "comp": "partners-product",
       "label": "grow,ops,s1",
       "owner": "김희진",
-      "due": "",
+      "due": "2026-06-19",
       "priority": "Medium",
-      "start": ""
+      "start": "2026-06-15"
     },
     {
       "type": "작업",
@@ -3165,7 +3189,7 @@
       "comp": "partners-product",
       "label": "grow,ops,s1",
       "owner": "김명수",
-      "due": "",
+      "due": "2026-06-24",
       "priority": "Medium",
       "start": "2026-03-18"
     },
