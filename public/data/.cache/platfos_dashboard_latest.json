@@ -1,6 +1,66 @@
 {
-  "generated_at": "2026-06-15T09:05:33",
+  "generated_at": "2026-06-15T09:21:16",
   "issues": [
+    {
+      "type": "작업",
+      "key": "PG-3447",
+      "title": "EC2 스케줄러 서버 정리",
+      "status": "대기",
+      "comp": "",
+      "label": "",
+      "owner": "jason",
+      "due": "",
+      "priority": "Medium",
+      "start": ""
+    },
+    {
+      "type": "작업",
+      "key": "PG-3446",
+      "title": "젠킨스 운영서버 + 개발서버 정리(중지 후 삭제)",
+      "status": "대기",
+      "comp": "",
+      "label": "",
+      "owner": "jason",
+      "due": "",
+      "priority": "Medium",
+      "start": ""
+    },
+    {
+      "type": "작업",
+      "key": "PG-3445",
+      "title": "External FRONTEND 젠킨스 배포 설정",
+      "status": "대기",
+      "comp": "",
+      "label": "",
+      "owner": "jason",
+      "due": "",
+      "priority": "Medium",
+      "start": ""
+    },
+    {
+      "type": "작업",
+      "key": "PG-3444",
+      "title": "스케줄러 Stats 젠킨스 서버 배포 설정",
+      "status": "대기",
+      "comp": "",
+      "label": "",
+      "owner": "jason",
+      "due": "",
+      "priority": "Medium",
+      "start": ""
+    },
+    {
+      "type": "작업",
+      "key": "PG-3443",
+      "title": "스케줄러 서버 젠킨스 서버 배포 설정",
+      "status": "대기",
+      "comp": "",
+      "label": "",
+      "owner": "jason",
+      "due": "",
+      "priority": "Medium",
+      "start": ""
+    },
     {
       "type": "작업",
       "key": "PG-3442",
@@ -8,7 +68,7 @@
       "status": "대기",
       "comp": "",
       "label": "",
-      "owner": "",
+      "owner": "jason",
       "due": "",
       "priority": "Medium",
       "start": ""
@@ -39,21 +99,9 @@
     },
     {
       "type": "작업",
-      "key": "PG-3439",
-      "title": "API 젠킨스 배포 설정",
-      "status": "대기",
-      "comp": "",
-      "label": "",
-      "owner": "jason",
-      "due": "",
-      "priority": "Medium",
-      "start": ""
-    },
-    {
-      "type": "작업",
       "key": "PG-3438",
       "title": "내부 서버 젠킨스 설정",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "",
       "label": "",
       "owner": "jason",
@@ -65,13 +113,13 @@
       "type": "에픽",
       "key": "PG-3437",
       "title": "[Core][All] 인프라 정리",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "",
       "label": "",
-      "owner": "",
-      "due": "",
+      "owner": "jason",
+      "due": "2026-06-19",
       "priority": "Medium",
-      "start": ""
+      "start": "2026-06-15"
     },
     {
       "type": "하위 작업",
