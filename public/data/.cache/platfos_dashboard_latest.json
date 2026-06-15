@@ -1,6 +1,18 @@
 {
-  "generated_at": "2026-06-15T09:21:16",
+  "generated_at": "2026-06-15T10:28:53",
   "issues": [
+    {
+      "type": "작업",
+      "key": "PG-3448",
+      "title": "[UF] 매장 QR flow",
+      "status": "진행 중",
+      "comp": "",
+      "label": "",
+      "owner": "최다솔",
+      "due": "2026-06-15",
+      "priority": "Medium",
+      "start": "2026-06-12"
+    },
     {
       "type": "작업",
       "key": "PG-3447",
@@ -41,7 +53,7 @@
       "type": "작업",
       "key": "PG-3444",
       "title": "스케줄러 Stats 젠킨스 서버 배포 설정",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "",
       "label": "",
       "owner": "jason",
@@ -53,7 +65,7 @@
       "type": "작업",
       "key": "PG-3443",
       "title": "스케줄러 서버 젠킨스 서버 배포 설정",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "",
       "label": "",
       "owner": "jason",
@@ -112,7 +124,7 @@
     {
       "type": "에픽",
       "key": "PG-3437",
-      "title": "[Core][All] 인프라 정리",
+      "title": "[Core][All] AWS 인프라 정리",
       "status": "진행 중",
       "comp": "",
       "label": "",
@@ -204,18 +216,6 @@
       "due": "2026-06-15",
       "priority": "Medium",
       "start": "2026-06-15"
-    },
-    {
-      "type": "작업",
-      "key": "PG-3426",
-      "title": "[FDS] 약관 관리 기능 개선 기능정의서",
-      "status": "진행 중",
-      "comp": "partners-product",
-      "label": "grow,ops,s1,기획",
-      "owner": "김명수",
-      "due": "2026-06-15",
-      "priority": "Medium",
-      "start": "2026-06-12"
     },
     {
       "type": "작업",
