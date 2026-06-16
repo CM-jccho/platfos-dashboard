@@ -112,6 +112,7 @@ def normalize_issue(issue: Mapping[str, Any]) -> Dict[str, Any]:
         "due": fields.get("duedate") or "",
         "priority": priority.get("name", "") if priority else "",
         "start": fields.get("customfield_10015") or "",
+        "parent": (fields.get("parent") or {}).get("key", ""),
     }
 
 
@@ -152,6 +153,7 @@ def fetch_jira_issues(base_url: str, email: str, token: str, jql: str = JQL) -> 
         "issuetype",
         "components",
         "priority",
+        "parent",
     ]
     issues: List[Mapping[str, Any]] = []
     next_page_token = None
@@ -307,6 +309,43 @@ def modal_issue(issue: Mapping[str, Any], target_date: date) -> Dict[str, Any]:
 
 def is_active(issue: Mapping[str, Any]) -> bool:
     return issue.get("status") not in DONE_STATUSES
+
+
+def collect_seq_labels(raw_issues: Iterable[Mapping[str, Any]]) -> Dict[str, str]:
+    """raw Jira 이슈들에서 명시적 시퀀스 레이블(s1~s8) 보유분 → {key: seq}."""
+    out: Dict[str, str] = {}
+    for i in raw_issues:
+        fields = i.get("fields", {}) or {}
+        labels = [l.strip().lower() for l in (fields.get("labels") or [])]
+        seqs = [l for l in labels if l in SEQ]
+        key = i.get("key")
+        if seqs and key:
+            out[key] = seqs[0]
+    return out
+
+
+def apply_sequence_inheritance(
+    items: Iterable[Dict[str, Any]],
+    epic_seq: Mapping[str, str],
+    parent_map: Optional[Mapping[str, str]] = None,
+) -> int:
+    """부모 에픽의 시퀀스 레이블을 자식 이슈에 자동 상속(자식이 명시적 s1~s8 레이블이 없을 때만).
+
+    parent_map: 캐시처럼 'parent' 필드가 없는 항목용 {key: parent_key} 보조 맵.
+    """
+    if not epic_seq:
+        return 0
+    count = 0
+    for it in items:
+        labels = [x.strip().lower() for x in (it.get("label", "") or "").split(",") if x.strip()]
+        if any(l in SEQ for l in labels):
+            continue
+        parent = it.get("parent") or (parent_map or {}).get(it.get("key", ""), "")
+        seq = epic_seq.get(parent)
+        if seq:
+            it["label"] = f"{it['label']},{seq}" if it.get("label") else seq
+            count += 1
+    return count
 
 
 def seq_for_issue(issue: Mapping[str, Any]) -> Optional[str]:
@@ -688,10 +727,17 @@ def generate_dashboard(
     raw_issues: Iterable[Mapping[str, Any]],
     write_cache: bool,
     mirror_output_dirs: Optional[Iterable[Path]] = None,
+    epic_seq: Optional[Mapping[str, str]] = None,
 ) -> Path:
     raw_snapshot = list(raw_issues)
     issues = normalize_issues(raw_snapshot)
+    # 부모 에픽 시퀀스 레이블 자동 상속
+    epic_seq = epic_seq or {}
+    apply_sequence_inheritance(issues, epic_seq)
     previous = load_snapshot(cache_file)
+    # 이전 스냅샷에도 동일 기준 적용(parent 미보유 캐시는 현재 이슈의 parent로 보강) → 상속 도입 시 유령 레이블-변경 방지
+    parent_map = {it["key"]: it.get("parent", "") for it in issues if it.get("key")}
+    apply_sequence_inheritance(previous, epic_seq, parent_map)
     changes = diff_snapshots(previous, issues)
     template = template_path.read_text(encoding="utf-8")
     html = render_html(template, target_date, issues, changes)
@@ -731,6 +777,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     output_dir = Path(args.output_dir)
     cache_file = Path(args.cache_file)
 
+    online = not args.offline_json
     if args.offline_json:
         raw_issues = load_offline_json(Path(args.offline_json))
     else:
@@ -741,6 +788,20 @@ def main(argv: Optional[List[str]] = None) -> int:
             raise SystemExit("JIRA_EMAIL and JIRA_API_TOKEN are required unless --offline-json is provided.")
         raw_issues = fetch_jira_issues(base_url, email, token)
 
+    # 부모 에픽 시퀀스 레이블 맵 구축: 활성셋 보유분 + (온라인 시) 활성셋에 없는 부모 추가 조회
+    epic_seq = collect_seq_labels(raw_issues)
+    parent_keys = {
+        (i.get("fields", {}) or {}).get("parent", {}).get("key", "")
+        for i in raw_issues
+        if (i.get("fields", {}) or {}).get("parent")
+    }
+    missing = sorted(k for k in parent_keys if k and k not in epic_seq)
+    if online and missing:
+        for cs in range(0, len(missing), 50):
+            batch = missing[cs:cs + 50]
+            epics = fetch_jira_issues(base_url, email, token, "key in (" + ",".join(batch) + ")")
+            epic_seq.update(collect_seq_labels(epics))
+
     out_path = generate_dashboard(
         target_date=target_date,
         template_path=template_path,
@@ -749,7 +810,9 @@ def main(argv: Optional[List[str]] = None) -> int:
         raw_issues=raw_issues,
         write_cache=args.write_cache,
         mirror_output_dirs=[Path(p) for p in args.mirror_output_dir],
+        epic_seq=epic_seq,
     )
+    print(f"epic_seq map: {len(epic_seq)} parents with sequence labels", file=sys.stderr)
     print(out_path)
     return 0
 
