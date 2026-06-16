@@ -86,6 +86,8 @@ def normalize_owner(name: str) -> str:
         return "김가영"
     if compact == "이강미":
         return "김가영"
+    if n.lower() == "jason":   # 'jason' = 정광희 (동일인, Jira 표시이름 변경)
+        return "정광희"
     if n == "이전 사용자":
         return ""
     return n
