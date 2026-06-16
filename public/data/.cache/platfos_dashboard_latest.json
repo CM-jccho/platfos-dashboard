@@ -1,6 +1,18 @@
 {
-  "generated_at": "2026-06-16T09:26:13",
+  "generated_at": "2026-06-16T10:30:07",
   "issues": [
+    {
+      "type": "하위 작업",
+      "key": "PG-3460",
+      "title": "[QA] 사용처 정보 추가 모달 수정 (회원가입/파트너정보)",
+      "status": "진행 중",
+      "comp": "",
+      "label": "",
+      "owner": "김명수",
+      "due": "2026-06-16",
+      "priority": "Medium",
+      "start": "2026-06-16"
+    },
     {
       "type": "작업",
       "key": "PG-3459",
@@ -228,30 +240,6 @@
       "due": "2026-06-19",
       "priority": "Medium",
       "start": "2026-06-15"
-    },
-    {
-      "type": "하위 작업",
-      "key": "PG-3436",
-      "title": "[FE] 파트너정보 > 사용처 정보 추가 모달 수정",
-      "status": "배포대기",
-      "comp": "",
-      "label": "",
-      "owner": "김희진",
-      "due": "2026-06-12",
-      "priority": "Medium",
-      "start": "2026-06-12"
-    },
-    {
-      "type": "하위 작업",
-      "key": "PG-3435",
-      "title": "[FE] 회원가입 > 가입 정보 입력(사용처정보) 모달 수정",
-      "status": "배포대기",
-      "comp": "",
-      "label": "",
-      "owner": "김희진",
-      "due": "2026-06-12",
-      "priority": "Medium",
-      "start": "2026-06-12"
     },
     {
       "type": "하위 작업",
@@ -2715,18 +2703,6 @@
     },
     {
       "type": "작업",
-      "key": "PG-3066",
-      "title": "[Expand][S8][카페24] 7. 파트너센터/CMS - 운영 관리 화면 및 관리자 처리 기능 반영",
-      "status": "진행 중",
-      "comp": "",
-      "label": "",
-      "owner": "최다솔",
-      "due": "",
-      "priority": "Medium",
-      "start": "2026-05-07"
-    },
-    {
-      "type": "작업",
       "key": "PG-3065",
       "title": "[Expand][S8][카페24] 6. 온라인 사용 - 사용처 URL 및 온라인 사용 흐름 반영",
       "status": "대기",
@@ -2796,18 +2772,6 @@
       "due": "",
       "priority": "Medium",
       "start": ""
-    },
-    {
-      "type": "에픽",
-      "key": "PG-3058",
-      "title": "[Expand][S8] 카페24 외부 연동 - 심사 후 후속작업",
-      "status": "진행 중",
-      "comp": "",
-      "label": "",
-      "owner": "최다솔",
-      "due": "",
-      "priority": "Medium",
-      "start": "2026-05-06"
     },
     {
       "type": "하위 작업",
