@@ -1,15 +1,99 @@
 {
-  "generated_at": "2026-06-15T10:28:53",
+  "generated_at": "2026-06-16T09:15:42",
   "issues": [
     {
       "type": "작업",
-      "key": "PG-3448",
-      "title": "[UF] 매장 QR flow",
+      "key": "PG-3458",
+      "title": "[BE]테이블 의존구조 수정(trade_purchase - mall_purchase 관계 반전 & 컬럼 추가)",
       "status": "진행 중",
       "comp": "",
       "label": "",
-      "owner": "최다솔",
-      "due": "2026-06-15",
+      "owner": "이웅식",
+      "due": "",
+      "priority": "Medium",
+      "start": ""
+    },
+    {
+      "type": "작업",
+      "key": "PG-3457",
+      "title": "[BE]폰기프트몰 비회원주문 기능 추가(guard포함)",
+      "status": "진행 중",
+      "comp": "",
+      "label": "",
+      "owner": "이웅식",
+      "due": "",
+      "priority": "Medium",
+      "start": ""
+    },
+    {
+      "type": "작업",
+      "key": "PG-3456",
+      "title": "[BE] 매장 상품목록 조회기능 추가",
+      "status": "대기",
+      "comp": "",
+      "label": "",
+      "owner": "이웅식",
+      "due": "",
+      "priority": "Medium",
+      "start": ""
+    },
+    {
+      "type": "작업",
+      "key": "PG-3455",
+      "title": "[FE] 매장 QA 관련 UI/API연동",
+      "status": "대기",
+      "comp": "",
+      "label": "",
+      "owner": "김희진",
+      "due": "",
+      "priority": "Medium",
+      "start": "2026-06-17"
+    },
+    {
+      "type": "하위 작업",
+      "key": "PG-3452",
+      "title": "[DES]파트너스 사용처 목록화면 UI수정",
+      "status": "진행 중",
+      "comp": "",
+      "label": "",
+      "owner": "김 가영",
+      "due": "",
+      "priority": "Medium",
+      "start": ""
+    },
+    {
+      "type": "하위 작업",
+      "key": "PG-3451",
+      "title": "[DES]회원여부별 결제페이지 UI",
+      "status": "진행 중",
+      "comp": "",
+      "label": "",
+      "owner": "김 가영",
+      "due": "",
+      "priority": "Medium",
+      "start": ""
+    },
+    {
+      "type": "하위 작업",
+      "key": "PG-3450",
+      "title": "[DES]매장 QR 메인페이지 UI",
+      "status": "진행 중",
+      "comp": "",
+      "label": "",
+      "owner": "김 가영",
+      "due": "",
+      "priority": "Medium",
+      "start": ""
+    },
+    {
+      "type": "작업",
+      "key": "PG-3449",
+      "title": "[DES] 매장QR관련 화면 디자인",
+      "status": "진행 중",
+      "comp": "",
+      "label": "",
+      "owner": "김 가영",
+      "due": "2026-06-16",
       "priority": "Medium",
       "start": "2026-06-12"
     },
@@ -207,18 +291,6 @@
     },
     {
       "type": "작업",
-      "key": "PG-3427",
-      "title": "[QA] 약관 관리 QA 시나리오 테스트",
-      "status": "대기",
-      "comp": "partners-product",
-      "label": "QA,grow,ops,s1",
-      "owner": "김명수",
-      "due": "2026-06-15",
-      "priority": "Medium",
-      "start": "2026-06-15"
-    },
-    {
-      "type": "작업",
       "key": "PG-3425",
       "title": "[파트너센터][DGN] 사용처 등록 > 온라인 사용처 > cafe24 UI 변경 ",
       "status": "진행 중",
@@ -227,7 +299,7 @@
       "owner": "김 가영",
       "due": "",
       "priority": "Medium",
-      "start": ""
+      "start": "2026-06-11"
     },
     {
       "type": "작업",
@@ -260,7 +332,7 @@
       "status": "대기",
       "comp": "partners-product",
       "label": "grow,ops,s1",
-      "owner": "김희진",
+      "owner": "장석원",
       "due": "2026-06-19",
       "priority": "Medium",
       "start": "2026-06-15"
@@ -272,7 +344,7 @@
       "status": "대기",
       "comp": "partners-product",
       "label": "grow,ops,s1",
-      "owner": "김희진",
+      "owner": "장석원",
       "due": "2026-06-19",
       "priority": "Medium",
       "start": "2026-06-15"
@@ -281,10 +353,10 @@
       "type": "작업",
       "key": "PG-3417",
       "title": "[FE][CMS] 폰기프트몰 약관관리 상세/수정 UI / API 연동",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "partners-product",
       "label": "grow,ops,s1",
-      "owner": "김희진",
+      "owner": "장석원",
       "due": "2026-06-19",
       "priority": "Medium",
       "start": "2026-06-15"
@@ -293,10 +365,10 @@
       "type": "작업",
       "key": "PG-3416",
       "title": "[FE][CMS] 폰기프트몰 약관관리 등록 UI / API 연동",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "partners-product",
       "label": "grow,ops,s1",
-      "owner": "김희진",
+      "owner": "장석원",
       "due": "",
       "priority": "Medium",
       "start": ""
@@ -305,10 +377,10 @@
       "type": "작업",
       "key": "PG-3415",
       "title": "[FE][CMS] 폰기프트몰 약관관리 목록 UI / API 연동",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "partners-product",
       "label": "grow,ops,s1",
-      "owner": "김희진",
+      "owner": "장석원",
       "due": "2026-06-19",
       "priority": "Medium",
       "start": "2026-06-15"
@@ -317,10 +389,10 @@
       "type": "작업",
       "key": "PG-3414",
       "title": "[FE][CMS] 파트너센터 약관관리 상세/수정 UI / API 연동",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "partners-product",
       "label": "grow,ops,s1",
-      "owner": "김희진",
+      "owner": "장석원",
       "due": "2026-06-19",
       "priority": "Medium",
       "start": "2026-06-15"
@@ -329,10 +401,10 @@
       "type": "작업",
       "key": "PG-3413",
       "title": "[FE][CMS] 파트너센터 약관관리 등록 UI / API 연동",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "partners-product",
       "label": "grow,ops,s1",
-      "owner": "김희진",
+      "owner": "장석원",
       "due": "2026-06-19",
       "priority": "Medium",
       "start": "2026-06-15"
@@ -341,10 +413,10 @@
       "type": "작업",
       "key": "PG-3412",
       "title": "[FE][CMS] 파트너센터 약관관리 목록 UI / API 연동",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "partners-product",
       "label": "grow,ops,s1",
-      "owner": "김희진",
+      "owner": "장석원",
       "due": "2026-06-19",
       "priority": "Medium",
       "start": "2026-06-15"
@@ -1982,6 +2054,18 @@
       "start": ""
     },
     {
+      "type": "하위 작업",
+      "key": "PG-3185",
+      "title": "AuthAttemptService 구현 (DB/Redis 기반 action_attempt)",
+      "status": "진행 중",
+      "comp": "",
+      "label": "",
+      "owner": "이지헌",
+      "due": "2026-06-15",
+      "priority": "Medium",
+      "start": "2026-06-15"
+    },
+    {
       "type": "작업",
       "key": "PG-3184",
       "title": "[TASK-017] 운영 인프라 정리 (Health · Dashboard · Deprecated API)",
@@ -2165,13 +2249,13 @@
       "type": "작업",
       "key": "PG-3167",
       "title": "[TASK-001] Rate Limit 공통 서비스 구현",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "",
       "label": "auth,barcode,mfa,p0,rate-limit,security,trade",
       "owner": "이지헌",
       "due": "",
       "priority": "Highest",
-      "start": ""
+      "start": "2026-06-15"
     },
     {
       "type": "에픽",
@@ -3339,18 +3423,6 @@
     },
     {
       "type": "하위 작업",
-      "key": "PG-2646",
-      "title": "[미팅] 개발팀 리뷰 미팅",
-      "status": "대기",
-      "comp": "",
-      "label": "grow,s1",
-      "owner": "김명수",
-      "due": "",
-      "priority": "Medium",
-      "start": ""
-    },
-    {
-      "type": "하위 작업",
       "key": "PG-2633",
       "title": "[FE] Input 컴포넌트 구현",
       "status": "대기",
@@ -3908,7 +3980,7 @@
       "status": "대기",
       "comp": "partners-auth",
       "label": "Tier1,run,s7",
-      "owner": "이강미",
+      "owner": "김 가영",
       "due": "",
       "priority": "Medium",
       "start": ""
@@ -3920,7 +3992,7 @@
       "status": "대기",
       "comp": "partners-product",
       "label": "core,s2",
-      "owner": "이강미",
+      "owner": "김 가영",
       "due": "",
       "priority": "Medium",
       "start": ""
