@@ -1,6 +1,18 @@
 {
-  "generated_at": "2026-06-16T09:15:42",
+  "generated_at": "2026-06-16T09:26:13",
   "issues": [
+    {
+      "type": "작업",
+      "key": "PG-3459",
+      "title": "[매뉴얼] 약관 관리 운영 매뉴얼",
+      "status": "진행 중",
+      "comp": "partners-product",
+      "label": "grow,ops,s1",
+      "owner": "김명수",
+      "due": "2026-06-17",
+      "priority": "Medium",
+      "start": "2026-06-16"
+    },
     {
       "type": "작업",
       "key": "PG-3458",
@@ -308,7 +320,7 @@
       "status": "대기",
       "comp": "partners-product",
       "label": "grow,ops,s1",
-      "owner": "",
+      "owner": "김명수",
       "due": "",
       "priority": "Medium",
       "start": ""
