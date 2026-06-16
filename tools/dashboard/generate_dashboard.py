@@ -311,39 +311,57 @@ def is_active(issue: Mapping[str, Any]) -> bool:
     return issue.get("status") not in DONE_STATUSES
 
 
-def collect_seq_labels(raw_issues: Iterable[Mapping[str, Any]]) -> Dict[str, str]:
-    """raw Jira 이슈들에서 명시적 시퀀스 레이블(s1~s8) 보유분 → {key: seq}."""
-    out: Dict[str, str] = {}
-    for i in raw_issues:
-        fields = i.get("fields", {}) or {}
-        labels = [l.strip().lower() for l in (fields.get("labels") or [])]
-        seqs = [l for l in labels if l in SEQ]
-        key = i.get("key")
-        if seqs and key:
-            out[key] = seqs[0]
-    return out
+def parse_category(title: str, labels: Iterable[str]) -> "tuple":
+    """라벨 우선, 없으면 제목 대괄호 토큰에서 (seq, pf) 추출. 예: '[Expand][S8] …' → ('s8','expand')."""
+    labs = [l.strip().lower() for l in (labels or [])]
+    seq = next((l for l in labs if l in SEQ), None)
+    pf = next((l for l in labs if l in PF_KEYS), None)
+    text = (title or "").lower()
+    if not seq:
+        m = re.search(r"\[(s[1-8])\]", text)
+        if m:
+            seq = m.group(1)
+    if not pf:
+        for name in PF_KEYS:
+            if f"[{name}]" in text:
+                pf = name
+                break
+    return seq, pf
 
 
-def apply_sequence_inheritance(
-    items: Iterable[Dict[str, Any]],
-    epic_seq: Mapping[str, str],
-    parent_map: Optional[Mapping[str, str]] = None,
-) -> int:
-    """부모 에픽의 시퀀스 레이블을 자식 이슈에 자동 상속(자식이 명시적 s1~s8 레이블이 없을 때만).
+def build_category_map(nodes: Mapping[str, Mapping[str, Any]]) -> Dict[str, "tuple"]:
+    """nodes: {key: {title, labels, parent}} → {key: (seq, pf)}. 자기 자신에 없으면 부모 체인을 타고 보강."""
+    own = {k: parse_category(v.get("title", ""), v.get("labels") or []) for k, v in nodes.items()}
+    resolved: Dict[str, "tuple"] = {}
+    for k in nodes:
+        seq, pf = own.get(k, (None, None))
+        cur = nodes[k].get("parent", "")
+        guard = 0
+        while (seq is None or pf is None) and cur and cur in nodes and guard < 8:
+            ps, pp = own.get(cur, (None, None))
+            seq = seq or ps
+            pf = pf or pp
+            cur = nodes[cur].get("parent", "")
+            guard += 1
+        resolved[k] = (seq, pf)
+    return resolved
 
-    parent_map: 캐시처럼 'parent' 필드가 없는 항목용 {key: parent_key} 보조 맵.
-    """
-    if not epic_seq:
+
+def apply_category_inheritance(items: Iterable[Dict[str, Any]], cat_map: Mapping[str, "tuple"]) -> int:
+    """제목·부모체인에서 파생한 시퀀스/포트폴리오를 레이블이 없는 이슈의 label 필드에 주입 → 히트맵·시퀀스탭 반영."""
+    if not cat_map:
         return 0
     count = 0
     for it in items:
         labels = [x.strip().lower() for x in (it.get("label", "") or "").split(",") if x.strip()]
-        if any(l in SEQ for l in labels):
-            continue
-        parent = it.get("parent") or (parent_map or {}).get(it.get("key", ""), "")
-        seq = epic_seq.get(parent)
-        if seq:
-            it["label"] = f"{it['label']},{seq}" if it.get("label") else seq
+        seq, pf = cat_map.get(it.get("key", ""), (None, None))
+        add = []
+        if seq and not any(l in SEQ for l in labels):
+            add.append(seq)
+        if pf and not any(l in PF_KEYS for l in labels):
+            add.append(pf)
+        if add:
+            it["label"] = ",".join([it["label"]] + add) if it.get("label") else ",".join(add)
             count += 1
     return count
 
@@ -727,17 +745,16 @@ def generate_dashboard(
     raw_issues: Iterable[Mapping[str, Any]],
     write_cache: bool,
     mirror_output_dirs: Optional[Iterable[Path]] = None,
-    epic_seq: Optional[Mapping[str, str]] = None,
+    cat_map: Optional[Mapping[str, "tuple"]] = None,
 ) -> Path:
     raw_snapshot = list(raw_issues)
     issues = normalize_issues(raw_snapshot)
-    # 부모 에픽 시퀀스 레이블 자동 상속
-    epic_seq = epic_seq or {}
-    apply_sequence_inheritance(issues, epic_seq)
+    # 제목·부모체인에서 파생한 시퀀스/포트폴리오를 라벨 없는 이슈에 주입
+    cat_map = cat_map or {}
+    apply_category_inheritance(issues, cat_map)
     previous = load_snapshot(cache_file)
-    # 이전 스냅샷에도 동일 기준 적용(parent 미보유 캐시는 현재 이슈의 parent로 보강) → 상속 도입 시 유령 레이블-변경 방지
-    parent_map = {it["key"]: it.get("parent", "") for it in issues if it.get("key")}
-    apply_sequence_inheritance(previous, epic_seq, parent_map)
+    # 이전 스냅샷에도 동일 cat_map 적용(키 기준) → 도입 시 유령 레이블-변경 방지
+    apply_category_inheritance(previous, cat_map)
     changes = diff_snapshots(previous, issues)
     template = template_path.read_text(encoding="utf-8")
     html = render_html(template, target_date, issues, changes)
@@ -788,19 +805,23 @@ def main(argv: Optional[List[str]] = None) -> int:
             raise SystemExit("JIRA_EMAIL and JIRA_API_TOKEN are required unless --offline-json is provided.")
         raw_issues = fetch_jira_issues(base_url, email, token)
 
-    # 부모 에픽 시퀀스 레이블 맵 구축: 활성셋 보유분 + (온라인 시) 활성셋에 없는 부모 추가 조회
-    epic_seq = collect_seq_labels(raw_issues)
-    parent_keys = {
-        (i.get("fields", {}) or {}).get("parent", {}).get("key", "")
-        for i in raw_issues
-        if (i.get("fields", {}) or {}).get("parent")
-    }
-    missing = sorted(k for k in parent_keys if k and k not in epic_seq)
-    if online and missing:
-        for cs in range(0, len(missing), 50):
-            batch = missing[cs:cs + 50]
-            epics = fetch_jira_issues(base_url, email, token, "key in (" + ",".join(batch) + ")")
-            epic_seq.update(collect_seq_labels(epics))
+    # 카테고리(시퀀스/포트폴리오) 노드 맵: 활성 이슈 + (온라인 시) 부모 체인을 따라 조상까지 수집
+    def node_of(i):
+        f = i.get("fields", {}) or {}
+        return {"title": f.get("summary", ""), "labels": f.get("labels") or [],
+                "parent": (f.get("parent") or {}).get("key", "")}
+    nodes = {i["key"]: node_of(i) for i in raw_issues if i.get("key")}
+    if online:
+        for _ in range(6):  # 조상 레벨 bounded 수집
+            need = sorted({v["parent"] for v in nodes.values() if v["parent"] and v["parent"] not in nodes})
+            if not need:
+                break
+            for cs in range(0, len(need), 50):
+                batch = need[cs:cs + 50]
+                for e in fetch_jira_issues(base_url, email, token, "key in (" + ",".join(batch) + ")"):
+                    if e.get("key"):
+                        nodes[e["key"]] = node_of(e)
+    cat_map = build_category_map(nodes)
 
     out_path = generate_dashboard(
         target_date=target_date,
@@ -810,9 +831,10 @@ def main(argv: Optional[List[str]] = None) -> int:
         raw_issues=raw_issues,
         write_cache=args.write_cache,
         mirror_output_dirs=[Path(p) for p in args.mirror_output_dir],
-        epic_seq=epic_seq,
+        cat_map=cat_map,
     )
-    print(f"epic_seq map: {len(epic_seq)} parents with sequence labels", file=sys.stderr)
+    resolved = sum(1 for v in cat_map.values() if v[0] or v[1])
+    print(f"category map: {resolved}/{len(cat_map)} nodes resolved (seq/pf)", file=sys.stderr)
     print(out_path)
     return 0
 
