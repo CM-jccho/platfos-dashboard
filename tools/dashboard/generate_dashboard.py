@@ -23,8 +23,8 @@ JQL = "project = PG AND status NOT IN (완료, Done, 후속작업, 보류) ORDER
 DONE_STATUSES = {"완료", "Done", "done"}
 PROGRESS_STATUSES = {"진행 중"}
 DEPLOY_STATUSES = {"배포대기"}
-TEAM_MEMBERS = ["최다솔", "김명수", "이강미", "박창용", "이지헌", "이웅식", "김희진", "장석원"]
-PLAN_TEAM = ["최다솔", "김명수", "이강미"]
+TEAM_MEMBERS = ["최다솔", "김명수", "김가영", "박창용", "이지헌", "이웅식", "김희진", "장석원"]
+PLAN_TEAM = ["최다솔", "김명수", "김가영"]
 DEV_TEAM = ["박창용", "이지헌", "김희진", "장석원"]
 SEQ = {
     "s1": "온보딩",
@@ -76,6 +76,21 @@ def compact_json(value: Any) -> str:
     return json.dumps(value, ensure_ascii=False, separators=(",", ":"))
 
 
+def normalize_owner(name: str) -> str:
+    """담당자 표기 정규화: '김 가영'(공백)→'김가영', 퇴사자 '이강미'→후임 '김가영', '이전 사용자'→미배정."""
+    if not name:
+        return ""
+    n = name.strip()
+    compact = n.replace(" ", "")
+    if compact == "김가영":
+        return "김가영"
+    if compact == "이강미":
+        return "김가영"
+    if n == "이전 사용자":
+        return ""
+    return n
+
+
 def normalize_issue(issue: Mapping[str, Any]) -> Dict[str, Any]:
     fields = issue.get("fields", {}) or {}
     assignee = fields.get("assignee") or {}
@@ -91,7 +106,7 @@ def normalize_issue(issue: Mapping[str, Any]) -> Dict[str, Any]:
         "status": status.get("name", ""),
         "comp": ",".join(c.get("name", "") for c in components if c.get("name")),
         "label": ",".join(labels),
-        "owner": assignee.get("displayName", "") if assignee else "",
+        "owner": normalize_owner(assignee.get("displayName", "")) if assignee else "",
         "due": fields.get("duedate") or "",
         "priority": priority.get("name", "") if priority else "",
         "start": fields.get("customfield_10015") or "",
@@ -217,6 +232,11 @@ def save_snapshot(path: Path, issues: List[Dict[str, Any]], generated_at: str) -
 def diff_snapshots(old: Iterable[Mapping[str, Any]], new: Iterable[Mapping[str, Any]]) -> List[Dict[str, Any]]:
     old_map = {i["key"]: dict(i) for i in old if i.get("key")}
     new_map = {i["key"]: dict(i) for i in new if i.get("key")}
+    # 이전 스냅샷이 정규화 전(raw '이강미'/'김 가영')일 수 있으므로 양쪽 owner 재정규화
+    for _m in (old_map, new_map):
+        for _v in _m.values():
+            if _v.get("owner"):
+                _v["owner"] = normalize_owner(_v["owner"])
     changes: List[Dict[str, Any]] = []
 
     for key in sorted(old_map.keys() - new_map.keys(), key=lambda k: int(re.search(r"(\d+)$", k).group(1)) if re.search(r"(\d+)$", k) else 0, reverse=True):
