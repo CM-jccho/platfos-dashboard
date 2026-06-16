@@ -23,9 +23,9 @@ JQL = "project = PG AND status NOT IN (완료, Done, 후속작업, 보류) ORDER
 DONE_STATUSES = {"완료", "Done", "done"}
 PROGRESS_STATUSES = {"진행 중"}
 DEPLOY_STATUSES = {"배포대기"}
-TEAM_MEMBERS = ["최다솔", "김명수", "김가영", "박창용", "이지헌", "이웅식", "김희진", "장석원"]
+TEAM_MEMBERS = ["최다솔", "김명수", "김가영", "정광희", "박창용", "장석원", "이지헌", "이웅식", "김희진"]
 PLAN_TEAM = ["최다솔", "김명수", "김가영"]
-DEV_TEAM = ["박창용", "이지헌", "김희진", "장석원"]
+DEV_TEAM = ["정광희", "박창용", "장석원", "이지헌", "이웅식", "김희진"]
 SEQ = {
     "s1": "온보딩",
     "s2": "상품채널",
