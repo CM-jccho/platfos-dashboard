@@ -1,6 +1,19 @@
 {
-  "generated_at": "2026-06-17T09:15:25",
+  "generated_at": "2026-06-17T09:23:34",
   "issues": [
+    {
+      "type": "작업",
+      "key": "PG-3468",
+      "title": "[분석] 비회원 주문 레퍼런스 ",
+      "status": "진행 중",
+      "comp": "",
+      "label": "s1,grow",
+      "owner": "김명수",
+      "due": "2026-06-17",
+      "priority": "Medium",
+      "start": "2026-06-16",
+      "parent": "PG-3464"
+    },
     {
       "type": "작업",
       "key": "PG-3467",
@@ -321,7 +334,7 @@
       "comp": "",
       "label": "기획,s8,expand",
       "owner": "최다솔",
-      "due": "2026-06-16",
+      "due": "2026-06-17",
       "priority": "Medium",
       "start": "2026-06-15",
       "parent": "PG-3420"
