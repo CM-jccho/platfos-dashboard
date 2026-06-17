@@ -718,6 +718,10 @@ def render_html(template: str, target_date: date, issues: List[Dict[str, Any]], 
     html = replace_js_const(html, "CHANGES", changes)
     html = replace_js_const(html, "WS_OWNERS", build_ws_owners(issues, target_date))
     html = replace_js_const(html, "WS_HEATMAP", build_ws_heatmap(issues))
+    # 프런트엔드 JS 팀 상수도 파이썬 명단과 동기화(템플릿엔 stale 이강미/구 dev팀이 \u이스케이프로 박혀 있어
+    # renderWorkStatus KPI 합계·멤버카드에서 김가영·정광희·이웅식이 누락되던 버그 수정)
+    html = replace_js_const(html, "PLAN_TEAM", PLAN_TEAM)
+    html = replace_js_const(html, "DEV_TEAM", DEV_TEAM)
     html = replace_js_scalar(html, "WS_DATE", target_date.isoformat())
     html = replace_js_scalar(html, "WS_WEEK", week)
     ws_max = max(
