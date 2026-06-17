@@ -1,15 +1,54 @@
 {
-  "generated_at": "2026-06-17T10:27:34",
+  "generated_at": "2026-06-18T08:40:00",
   "issues": [
     {
       "type": "작업",
-      "key": "PG-3469",
-      "title": "[분석] 비회원 주문 및 본인인증 부재 시 법적 체크",
+      "key": "PG-3474",
+      "title": "[약관] 폰기프트몰 이용약관_v1.4",
+      "status": "대기",
+      "comp": "",
+      "label": "s1,grow",
+      "owner": "김명수",
+      "due": "2026-06-19",
+      "priority": "Medium",
+      "start": "2026-06-17",
+      "parent": "PG-3464"
+    },
+    {
+      "type": "작업",
+      "key": "PG-3473",
+      "title": "[약관] 폰기프트몰 개인정보처리방침_v1.2",
+      "status": "대기",
+      "comp": "",
+      "label": "s1,grow",
+      "owner": "김명수",
+      "due": "2026-06-19",
+      "priority": "Medium",
+      "start": "2026-06-17",
+      "parent": "PG-3464"
+    },
+    {
+      "type": "작업",
+      "key": "PG-3472",
+      "title": "[제안서][DES] 신세계 면세점 제안서 수정",
+      "status": "대기",
+      "comp": "",
+      "label": "",
+      "owner": "김가영",
+      "due": "2026-06-17",
+      "priority": "Medium",
+      "start": "2026-06-17",
+      "parent": "PG-1481"
+    },
+    {
+      "type": "작업",
+      "key": "PG-3470",
+      "title": "[미팅] 폰기프트몰 약관 작업(비회원)_QR 기반 스토어몰 미팅",
       "status": "진행 중",
       "comp": "",
       "label": "s1,grow",
       "owner": "김명수",
-      "due": "2026-06-17",
+      "due": "2026-06-24",
       "priority": "Medium",
       "start": "2026-06-17",
       "parent": "PG-3464"
@@ -29,26 +68,13 @@
     },
     {
       "type": "작업",
-      "key": "PG-3466",
-      "title": "[모노레포][스토리북] packages/ui Storybook 커버리지 갭 해소 (신규 공용 컴포넌트 스토리 최신화)",
-      "status": "진행 중",
-      "comp": "infra-observability",
-      "label": "grow,ops,s2,개발확인필요",
-      "owner": "김희진",
-      "due": "2026-06-17",
-      "priority": "Medium",
-      "start": "2026-06-17",
-      "parent": "PG-2485"
-    },
-    {
-      "type": "작업",
       "key": "PG-3465",
       "title": "[약관] 폰기프트몰 > 개인정보 수집 이용 동의 약관",
       "status": "진행 중",
       "comp": "",
       "label": "s1,grow",
       "owner": "김명수",
-      "due": "2026-06-17",
+      "due": "2026-06-18",
       "priority": "Medium",
       "start": "2026-06-16",
       "parent": "PG-3464"
@@ -128,7 +154,7 @@
       "owner": "김희진",
       "due": "",
       "priority": "Medium",
-      "start": "2026-06-17",
+      "start": "2026-06-18",
       "parent": "PG-3420"
     },
     {
@@ -328,19 +354,6 @@
     },
     {
       "type": "작업",
-      "key": "PG-3429",
-      "title": "[SB] 매장 QR 화면기획서",
-      "status": "진행 중",
-      "comp": "",
-      "label": "기획,s8,expand",
-      "owner": "최다솔",
-      "due": "2026-06-17",
-      "priority": "Medium",
-      "start": "2026-06-15",
-      "parent": "PG-3420"
-    },
-    {
-      "type": "작업",
       "key": "PG-3421",
       "title": "[이관] 기존 약관 이관 작업",
       "status": "대기",
@@ -369,7 +382,7 @@
       "type": "작업",
       "key": "PG-3419",
       "title": "[FE][Mall] 약관관리 UI / API 연동",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "partners-product",
       "label": "grow,ops,s1",
       "owner": "장석원",
@@ -382,7 +395,7 @@
       "type": "작업",
       "key": "PG-3418",
       "title": "[FE][파트너센터] 약관관리 UI / API 연동",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "partners-product",
       "label": "grow,ops,s1",
       "owner": "장석원",
@@ -585,19 +598,6 @@
       "priority": "Medium",
       "start": "2026-06-11",
       "parent": "PG-2566"
-    },
-    {
-      "type": "하위 작업",
-      "key": "PG-3402",
-      "title": "젠킨스 신규 구축 (사무실 내부 장비)",
-      "status": "진행 중",
-      "comp": "",
-      "label": "인프라,core",
-      "owner": "정광희",
-      "due": "2026-06-11",
-      "priority": "Medium",
-      "start": "2026-06-11",
-      "parent": "PG-3308"
     },
     {
       "type": "작업",
