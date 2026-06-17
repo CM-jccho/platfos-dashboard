@@ -447,40 +447,73 @@ def build_member_store(issues: List[Mapping[str, Any]], target_date: date) -> Di
     return store
 
 
+STATUS_CARD_HIDE = {"정광희"}  # 실행 상황판 카드에서 제외(합계·전역 집계엔 유지)
+# 신호 → (배경, 테두리, 점) 색상 (원본 디자인 매핑)
+SIG_STYLE = {
+    "red": ("#FEF2F2", "#FECACA", "#DC2626"),
+    "orange": ("#FFF7ED", "#FED7AA", "#EA580C"),
+    "yellow": ("#FFFBEB", "#FDE68A", "#D97706"),
+    "green": ("#F0FDF4", "#BBF7D0", "#16A34A"),
+    "gray": ("#F9FAFB", "#E5E7EB", "#9CA3AF"),
+}
+_SEARCH_SVG = ('<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" '
+               'stroke-width="2" stroke-linecap="round" style="margin-left:auto;flex-shrink:0">'
+               '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>')
+
+
 def build_status_cards_html(store: Dict[str, Any]) -> str:
-    """실행 상황판 담당자 카드 그리드(MEMBER_STORE 기반 동적). 카드 카운트=모달 섹션과 1:1 일치."""
+    """실행 상황판 담당자 카드(원본 디자인 복원·동적). 카드 카운트=클릭 모달 섹션과 1:1 일치."""
+    def metric(value: int, label: str, color_on: str) -> str:
+        color = color_on if value > 0 else "#9CA3AF"
+        return ('<div style="text-align:center;flex:1">'
+                f'<div style="font-size:16px;font-weight:800;color:{color}">{value}</div>'
+                f'<div style="font-size:9px;color:#9CA3AF">{label}</div></div>')
+
+    def top_issue_row(d) -> str:
+        items = d["overdue"] or d["today"] or d["prog"] or d["blk"] or d["deploy"]
+        if not items:
+            return ('<div style="font-size:11px;color:#9CA3AF;padding:6px 0">활성 진행 업무 없음</div>')
+        r = items[0]
+        title = (r.get("title") or "")
+        title = title[:34] + "…" if len(title) > 34 else title
+        due = f'<span style="font-size:10px;color:#9CA3AF;margin-left:auto;white-space:nowrap">{r["due"]}</span>' if r.get("due") else ""
+        return ('<div style="display:flex;align-items:center;gap:6px;padding:7px 9px;background:rgba(255,255,255,.6);border-radius:7px;margin-top:2px">'
+                f'<a href="{JIRA_BROWSE_URL}{r["key"]}" target="_blank" onclick="event.stopPropagation()" '
+                'style="font-family:\'JetBrains Mono\',monospace;font-size:10px;color:#1D4ED8;text-decoration:none;background:#fff;border:1px solid #1D4ED840;padding:1px 5px;border-radius:4px;white-space:nowrap">'
+                f'{r["key"]}</a>'
+                f'<span style="font-size:11px;color:#374151;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">{title}</span>{due}</div>')
+
     def card(name: str) -> str:
         d = store.get(name)
         if not d:
             return ""
-        metrics = [
-            ("막힘", len(d["blk"]), "#DC2626"),
-            ("기한경과", len(d["overdue"]), "#C2410C"),
-            ("오늘기한", len(d["today"]), "#DC2626"),
-            ("진행중", len(d["prog"]), "#1D4ED8"),
-            ("D-7", len(d["d7"]), "#D97706"),
-            ("배포대기", len(d["deploy"]), "#0891B2"),
-        ]
-        chips = "".join(
-            f'<span style="font-size:10px;padding:2px 7px;border-radius:5px;background:{c}14;color:{c};border:1px solid {c}33;font-weight:600;white-space:nowrap">{lbl} {v}</span>'
-            for lbl, v, c in metrics if v > 0
-        ) or '<span style="font-size:11px;color:#9CA3AF">활성 업무 없음</span>'
-        dot = {"red": "#DC2626", "orange": "#DC2626", "yellow": "#D97706",
-               "green": "#16A34A", "gray": "#9CA3AF"}.get(d["signal"], "#9CA3AF")
+        bg, border, dot = SIG_STYLE.get(d["signal"], SIG_STYLE["gray"])
+        metrics = (
+            metric(len(d["prog"]), "진행중", "#1D4ED8")
+            + metric(len(d["deploy"]), "배포대기", "#0891B2")
+            + metric(len(d["overdue"]), "기한경과", "#C2410C")
+            + metric(len(d["d7"]), "D-7", "#D97706")
+            + metric(len(d["today"]), "오늘마감", "#DC2626")
+        )
         return (
             f'<div onclick="openPlatMemberModal(\'{name}\')" '
-            'style="background:#fff;border:1px solid #E2E8F0;border-radius:10px;padding:12px 14px;cursor:pointer;transition:box-shadow .15s,transform .1s" '
+            f'style="width:100%;box-sizing:border-box;background:{bg};border:1px solid {border};border-radius:12px;padding:13px 15px;cursor:pointer;transition:box-shadow .15s,transform .1s" '
             'onmouseover="this.style.boxShadow=\'0 4px 16px rgba(0,0,0,.12)\';this.style.transform=\'translateY(-1px)\'" '
             'onmouseout="this.style.boxShadow=\'\';this.style.transform=\'\'">'
-            '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">'
-            f'<span style="width:8px;height:8px;border-radius:50%;background:{dot};flex-shrink:0"></span>'
+            '<div style="display:flex;align-items:center;gap:9px;margin-bottom:10px">'
+            f'<div style="width:10px;height:10px;border-radius:50%;background:{dot};box-shadow:0 0 0 3px {dot}33;flex-shrink:0"></div>'
             f'<span style="font-size:13px;font-weight:700;color:#111827">{name}</span>'
-            f'<span style="font-size:10px;color:#9CA3AF;margin-left:auto">{d["signal_txt"]}</span></div>'
-            f'<div style="display:flex;flex-wrap:wrap;gap:4px">{chips}</div></div>'
+            f'<span style="font-size:10px;padding:2px 7px;border-radius:99px;background:rgba(255,255,255,.7);color:#374151;font-weight:500">{d["signal_txt"]}</span>'
+            f'{_SEARCH_SVG}</div>'
+            f'<div style="display:flex;gap:6px;margin-bottom:8px">{metrics}</div>'
+            f'{top_issue_row(d)}'
+            '<div style="font-size:10px;color:#9CA3AF;text-align:right;margin-top:8px">클릭하여 전체 보기 →</div></div>'
         )
 
     def group(label, members, color):
-        cards = "".join(card(n) for n in members)
+        cards = "".join(card(n) for n in members if n not in STATUS_CARD_HIDE)
+        if not cards:
+            return ""
         return (
             f'<div style="font-size:9px;font-weight:700;color:{color};text-transform:uppercase;letter-spacing:.5px;margin:4px 0 8px">{label}</div>'
             f'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px">{cards}</div>'
