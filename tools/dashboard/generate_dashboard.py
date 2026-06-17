@@ -608,6 +608,26 @@ def replace_status_panel_metadata(
         f"오늘({target_date.month}/{target_date.day})",
         html,
     )
+
+    # 실행 상황판 상태별 합계 카드(템플릿에 06-04 정적값 하드코딩 → 현재 데이터로 갱신)
+    deploy = [i for i in active if i.get("status") in DEPLOY_STATUSES]
+    unassigned = [i for i in active if not i.get("owner")]
+    status_cards = [
+        ("#1D4ED8", "진행 중", len(progress)),
+        ("#0891B2", "배포 대기", len(deploy)),
+        ("#16A34A", "막힘", len(blocked)),
+        ("#D97706", "기한경과", len(overdue)),
+        ("#6B7280", "미배정", len(unassigned)),
+    ]
+    for color, label, value in status_cards:
+        html = re.sub(
+            rf'(font-weight:800;color:{color}">)\d+(</div><div style="font-size:10px;color:#9CA3AF;margin-top:2px">{re.escape(label)}</div>)',
+            rf"\g<1>{value}\2",
+            html,
+            count=1,
+        )
+    # '진행중+배포대기 N건' 소계
+    html = re.sub(r"진행중\+배포대기 \d+건", f"진행중+배포대기 {len(progress) + len(deploy)}건", html)
     return html
 
 
