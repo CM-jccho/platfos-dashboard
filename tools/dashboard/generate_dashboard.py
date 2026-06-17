@@ -440,10 +440,53 @@ def build_member_store(issues: List[Mapping[str, Any]], target_date: date) -> Di
             "prog": [modal_issue(i, target_date) for i in prog],
             "deploy": [modal_issue(i, target_date) for i in deploy],
             "overdue": [modal_issue(i, target_date) for i in overdue],
+            "today": [modal_issue(i, target_date) for i in today_due],
             "d7": [modal_issue(i, target_date) for i in d7],
             "blk": [modal_issue(i, target_date) for i in blk],
         }
     return store
+
+
+def build_status_cards_html(store: Dict[str, Any]) -> str:
+    """실행 상황판 담당자 카드 그리드(MEMBER_STORE 기반 동적). 카드 카운트=모달 섹션과 1:1 일치."""
+    def card(name: str) -> str:
+        d = store.get(name)
+        if not d:
+            return ""
+        metrics = [
+            ("막힘", len(d["blk"]), "#DC2626"),
+            ("기한경과", len(d["overdue"]), "#C2410C"),
+            ("오늘기한", len(d["today"]), "#DC2626"),
+            ("진행중", len(d["prog"]), "#1D4ED8"),
+            ("D-7", len(d["d7"]), "#D97706"),
+            ("배포대기", len(d["deploy"]), "#0891B2"),
+        ]
+        chips = "".join(
+            f'<span style="font-size:10px;padding:2px 7px;border-radius:5px;background:{c}14;color:{c};border:1px solid {c}33;font-weight:600;white-space:nowrap">{lbl} {v}</span>'
+            for lbl, v, c in metrics if v > 0
+        ) or '<span style="font-size:11px;color:#9CA3AF">활성 업무 없음</span>'
+        dot = {"red": "#DC2626", "orange": "#DC2626", "yellow": "#D97706",
+               "green": "#16A34A", "gray": "#9CA3AF"}.get(d["signal"], "#9CA3AF")
+        return (
+            f'<div onclick="openPlatMemberModal(\'{name}\')" '
+            'style="background:#fff;border:1px solid #E2E8F0;border-radius:10px;padding:12px 14px;cursor:pointer;transition:box-shadow .15s,transform .1s" '
+            'onmouseover="this.style.boxShadow=\'0 4px 16px rgba(0,0,0,.12)\';this.style.transform=\'translateY(-1px)\'" '
+            'onmouseout="this.style.boxShadow=\'\';this.style.transform=\'\'">'
+            '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">'
+            f'<span style="width:8px;height:8px;border-radius:50%;background:{dot};flex-shrink:0"></span>'
+            f'<span style="font-size:13px;font-weight:700;color:#111827">{name}</span>'
+            f'<span style="font-size:10px;color:#9CA3AF;margin-left:auto">{d["signal_txt"]}</span></div>'
+            f'<div style="display:flex;flex-wrap:wrap;gap:4px">{chips}</div></div>'
+        )
+
+    def group(label, members, color):
+        cards = "".join(card(n) for n in members)
+        return (
+            f'<div style="font-size:9px;font-weight:700;color:{color};text-transform:uppercase;letter-spacing:.5px;margin:4px 0 8px">{label}</div>'
+            f'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px">{cards}</div>'
+        )
+
+    return group("기획 · 디자인", PLAN_TEAM, "#7C3AED") + group("개발", DEV_TEAM, "#1D4ED8")
 
 
 def build_seq_store(issues: List[Mapping[str, Any]], target_date: date) -> Dict[str, Any]:
@@ -732,7 +775,19 @@ def render_html(template: str, target_date: date, issues: List[Dict[str, Any]], 
         html,
         count=1,
     )
-    html = replace_js_const(html, "MEMBER_STORE", build_member_store(issues, target_date))
+    member_store = build_member_store(issues, target_date)
+    html = replace_js_const(html, "MEMBER_STORE", member_store)
+    # 실행 상황판 정적 카드 그리드(8개 하드코딩)를 MEMBER_STORE 기반 동적 카드로 교체 (정광희 포함, 카드↔모달 일치)
+    cards_html = build_status_cards_html(member_store)
+    html, n_cards = re.subn(
+        r"(기한경과 = 진행중 상태만</span></div>).*?(<div style=\"display:grid;grid-template-columns:3fr 2fr;gap:16px;margin-bottom:20px\">)",
+        lambda m: m.group(1) + cards_html + m.group(2),
+        html,
+        count=1,
+        flags=re.S,
+    )
+    if n_cards != 1:
+        raise ValueError("실행 상황판 카드 그리드 영역을 찾지 못함")
     html = replace_js_const(html, "SEQ_STORE", build_seq_store(issues, target_date))
     html = replace_js_const(html, "RAW_DATA", issues)
     html = replace_js_const(html, "CHANGES", changes)
