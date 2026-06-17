@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-06-17T09:39:41",
+  "generated_at": "2026-06-17T10:27:34",
   "issues": [
     {
       "type": "작업",
-      "key": "PG-3468",
-      "title": "[분석] 비회원 주문 레퍼런스 ",
+      "key": "PG-3469",
+      "title": "[분석] 비회원 주문 및 본인인증 부재 시 법적 체크",
       "status": "진행 중",
       "comp": "",
       "label": "s1,grow",
       "owner": "김명수",
       "due": "2026-06-17",
       "priority": "Medium",
-      "start": "2026-06-16",
+      "start": "2026-06-17",
       "parent": "PG-3464"
     },
     {
