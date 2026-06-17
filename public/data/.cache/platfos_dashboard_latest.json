@@ -1,24 +1,24 @@
 {
-  "generated_at": "2026-06-17T09:00:22",
+  "generated_at": "2026-06-17T09:10:01",
   "issues": [
     {
       "type": "작업",
       "key": "PG-3467",
       "title": "[모노레포] 잔여 프론트엔드 기술부채 정리 (중복 공용화 · 대형파일 분리 · 린트 청산)",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "infra-observability",
       "label": "grow,ops,s2,개발확인필요",
       "owner": "김희진",
       "due": "2026-06-17",
       "priority": "Medium",
-      "start": "2026-06-16",
+      "start": "2026-06-17",
       "parent": "PG-2485"
     },
     {
       "type": "작업",
       "key": "PG-3466",
       "title": "[모노레포][스토리북] packages/ui Storybook 커버리지 갭 해소 (신규 공용 컴포넌트 스토리 최신화)",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "infra-observability",
       "label": "grow,ops,s2,개발확인필요",
       "owner": "김희진",
@@ -65,32 +65,6 @@
       "priority": "Medium",
       "start": "",
       "parent": "PG-2566"
-    },
-    {
-      "type": "하위 작업",
-      "key": "PG-3462",
-      "title": "[DES]주문관리 UI 수정",
-      "status": "진행 중",
-      "comp": "",
-      "label": "s8,expand",
-      "owner": "김가영",
-      "due": "",
-      "priority": "Medium",
-      "start": "",
-      "parent": "PG-3449"
-    },
-    {
-      "type": "하위 작업",
-      "key": "PG-3461",
-      "title": "[DES]상품관리 UI 수정",
-      "status": "진행 중",
-      "comp": "",
-      "label": "s8,expand",
-      "owner": "김가영",
-      "due": "2026-06-16",
-      "priority": "Medium",
-      "start": "2026-06-12",
-      "parent": "PG-3449"
     },
     {
       "type": "작업",
@@ -143,32 +117,6 @@
       "priority": "Medium",
       "start": "2026-06-17",
       "parent": "PG-3420"
-    },
-    {
-      "type": "하위 작업",
-      "key": "PG-3452",
-      "title": "[DES]사용처 목록화면 UI수정",
-      "status": "진행 중",
-      "comp": "",
-      "label": "s8,expand",
-      "owner": "김가영",
-      "due": "2026-06-16",
-      "priority": "Medium",
-      "start": "2026-06-12",
-      "parent": "PG-3449"
-    },
-    {
-      "type": "하위 작업",
-      "key": "PG-3451",
-      "title": "[DES]회원여부별 결제페이지 UI",
-      "status": "진행 중",
-      "comp": "",
-      "label": "s8,expand",
-      "owner": "김가영",
-      "due": "2026-06-16",
-      "priority": "Medium",
-      "start": "2026-06-12",
-      "parent": "PG-3449"
     },
     {
       "type": "하위 작업",
