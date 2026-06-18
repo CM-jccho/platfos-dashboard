@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-18T09:23:09",
+  "generated_at": "2026-06-18T10:25:02",
   "issues": [
     {
       "type": "작업",
@@ -31,7 +31,7 @@
       "type": "작업",
       "key": "PG-3473",
       "title": "[약관] 폰기프트몰 개인정보처리방침_v1.2",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "",
       "label": "s1,grow",
       "owner": "김명수",
@@ -100,7 +100,7 @@
       "comp": "",
       "label": "s1,grow",
       "owner": "김명수",
-      "due": "2026-06-19",
+      "due": "2026-06-24",
       "priority": "Medium",
       "start": "2026-06-16",
       "parent": ""
