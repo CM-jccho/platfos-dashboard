@@ -1,6 +1,19 @@
 {
-  "generated_at": "2026-06-18T08:40:00",
+  "generated_at": "2026-06-18T09:23:09",
   "issues": [
+    {
+      "type": "작업",
+      "key": "PG-3475",
+      "title": "[SB] 개인정보수집이용동의 추가",
+      "status": "대기",
+      "comp": "",
+      "label": "s1,grow",
+      "owner": "김명수",
+      "due": "",
+      "priority": "Medium",
+      "start": "",
+      "parent": "PG-3464"
+    },
     {
       "type": "작업",
       "key": "PG-3474",
