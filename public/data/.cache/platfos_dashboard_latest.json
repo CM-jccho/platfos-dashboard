@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-19T09:25:32",
+  "generated_at": "2026-06-19T10:30:32",
   "issues": [
     {
       "type": "작업",
@@ -44,7 +44,7 @@
       "type": "작업",
       "key": "PG-3479",
       "title": "[약관] 파트너센터 > 개인정보 수집 이용 동의 약관",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "",
       "label": "s1,grow",
       "owner": "김명수",
