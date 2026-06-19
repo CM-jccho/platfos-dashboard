@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-19T09:14:11",
+  "generated_at": "2026-06-19T09:25:32",
   "issues": [
     {
       "type": "작업",
@@ -2072,23 +2072,10 @@
       "type": "하위 작업",
       "key": "PG-3199",
       "title": "Idempotency: refundForce / refundChannel / pointCharge / resendBarcode 적용",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "",
       "label": "",
-      "owner": "",
-      "due": "",
-      "priority": "Medium",
-      "start": "",
-      "parent": "PG-3172"
-    },
-    {
-      "type": "하위 작업",
-      "key": "PG-3198",
-      "title": "api_idempotency_key 테이블 생성 + IdempotencyService 구현",
-      "status": "대기",
-      "comp": "",
-      "label": "",
-      "owner": "",
+      "owner": "이웅식",
       "due": "",
       "priority": "Medium",
       "start": "",
