@@ -1,6 +1,19 @@
 {
-  "generated_at": "2026-06-22T08:36:54",
+  "generated_at": "2026-06-22T10:28:38",
   "issues": [
+    {
+      "type": "작업",
+      "key": "PG-3486",
+      "title": "[QA] 통합 시나리오(S1~S8) FE 단독 핵심 체크리스트 점검",
+      "status": "대기",
+      "comp": "infra-observability",
+      "label": "grow,ops,s2,개발확인필요",
+      "owner": "",
+      "due": "",
+      "priority": "Medium",
+      "start": "",
+      "parent": "PG-2485"
+    },
     {
       "type": "하위 작업",
       "key": "PG-3484",
@@ -78,19 +91,6 @@
       "priority": "Medium",
       "start": "2026-06-18",
       "parent": "PG-3420"
-    },
-    {
-      "type": "작업",
-      "key": "PG-3475",
-      "title": "[SB] 파트너/폰기프트 > 개인정보수집이용동의 추가",
-      "status": "진행 중",
-      "comp": "",
-      "label": "s1,grow",
-      "owner": "김명수",
-      "due": "2026-06-22",
-      "priority": "Medium",
-      "start": "2026-06-19",
-      "parent": "PG-3464"
     },
     {
       "type": "작업",
@@ -2358,13 +2358,13 @@
       "type": "작업",
       "key": "PG-3169",
       "title": "[TASK-003] Barcode HTML 조회 인증 적용",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "",
       "label": "barcode,p0,security",
       "owner": "이지헌",
       "due": "",
       "priority": "Highest",
-      "start": "",
+      "start": "2026-06-22",
       "parent": "PG-3164"
     },
     {
@@ -3670,7 +3670,7 @@
     {
       "type": "에픽",
       "key": "PG-2566",
-      "title": "[Grow][S1] 약관 관리 화면 기획 파트",
+      "title": "[Grow][S1] 약관 관리 화면 기능 추가",
       "status": "진행 중",
       "comp": "partners-product",
       "label": "grow,ops,s1",
