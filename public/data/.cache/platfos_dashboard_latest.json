@@ -1,6 +1,19 @@
 {
-  "generated_at": "2026-06-23T10:13:24",
+  "generated_at": "2026-06-24T08:48:03",
   "issues": [
+    {
+      "type": "작업",
+      "key": "PG-3499",
+      "title": "[기획] 파트너센터/폰기프트몰/서비스소개 약관 버전 이력 정리 ",
+      "status": "진행 중",
+      "comp": "",
+      "label": "s1,grow",
+      "owner": "김명수",
+      "due": "2026-06-25",
+      "priority": "Medium",
+      "start": "2026-06-23",
+      "parent": "PG-3464"
+    },
     {
       "type": "작업",
       "key": "PG-3498",
@@ -9,9 +22,9 @@
       "comp": "",
       "label": "",
       "owner": "박창용",
-      "due": "",
+      "due": "2026-06-24",
       "priority": "Medium",
-      "start": "",
+      "start": "2026-06-23",
       "parent": "PG-1479"
     },
     {
@@ -43,7 +56,7 @@
     {
       "type": "하위 작업",
       "key": "PG-3493",
-      "title": "취소일시 typrorm dayjs 객체 호환  처리",
+      "title": "취소일시 typeorm dayjs 객체 호환  처리",
       "status": "배포대기",
       "comp": "",
       "label": "core",
@@ -289,19 +302,6 @@
     },
     {
       "type": "작업",
-      "key": "PG-3447",
-      "title": "EC2 스케줄러 서버 정리",
-      "status": "대기",
-      "comp": "",
-      "label": "core",
-      "owner": "정광희",
-      "due": "",
-      "priority": "Medium",
-      "start": "",
-      "parent": "PG-3437"
-    },
-    {
-      "type": "작업",
       "key": "PG-3446",
       "title": "젠킨스 운영서버 + 개발서버 정리(중지 후 삭제)",
       "status": "대기",
@@ -318,32 +318,6 @@
       "key": "PG-3445",
       "title": "External FRONTEND 젠킨스 배포 설정",
       "status": "대기",
-      "comp": "",
-      "label": "core",
-      "owner": "정광희",
-      "due": "",
-      "priority": "Medium",
-      "start": "",
-      "parent": "PG-3437"
-    },
-    {
-      "type": "작업",
-      "key": "PG-3444",
-      "title": "스케줄러 Stats 젠킨스 서버 배포 설정",
-      "status": "진행 중",
-      "comp": "",
-      "label": "core",
-      "owner": "정광희",
-      "due": "",
-      "priority": "Medium",
-      "start": "",
-      "parent": "PG-3437"
-    },
-    {
-      "type": "작업",
-      "key": "PG-3443",
-      "title": "스케줄러 서버 젠킨스 서버 배포 설정",
-      "status": "진행 중",
       "comp": "",
       "label": "core",
       "owner": "정광희",
@@ -382,7 +356,7 @@
       "type": "작업",
       "key": "PG-3440",
       "title": "CMS FRONTEND 젠킨스 배포 설정",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "",
       "label": "core",
       "owner": "정광희",
@@ -412,7 +386,7 @@
       "comp": "",
       "label": "core",
       "owner": "정광희",
-      "due": "2026-06-19",
+      "due": "",
       "priority": "Medium",
       "start": "2026-06-15",
       "parent": ""
@@ -2498,19 +2472,6 @@
       "parent": "PG-3123"
     },
     {
-      "type": "작업",
-      "key": "PG-3155",
-      "title": "데이터 취합 및 분석",
-      "status": "진행 중",
-      "comp": "",
-      "label": "run",
-      "owner": "정광희",
-      "due": "",
-      "priority": "Medium",
-      "start": "",
-      "parent": "PG-3152"
-    },
-    {
       "type": "에픽",
       "key": "PG-3152",
       "title": "💻 [Run][All]서비스 지연 개선 - DB 컬럼·상태값·인덱스 정리 및 마이그레이션",
@@ -2518,22 +2479,9 @@
       "comp": "",
       "label": "run",
       "owner": "정광희",
-      "due": "2026-06-19",
-      "priority": "Medium",
-      "start": "2026-05-18",
-      "parent": ""
-    },
-    {
-      "type": "작업",
-      "key": "PG-3151",
-      "title": "[공통] KCP v2 전환 사전 분석",
-      "status": "대기",
-      "comp": "",
-      "label": "",
-      "owner": "정광희",
       "due": "",
       "priority": "Medium",
-      "start": "",
+      "start": "2026-05-18",
       "parent": ""
     },
     {
@@ -3545,9 +3493,9 @@
       "comp": "infra-observability",
       "label": "Tier1,run,s7",
       "owner": "",
-      "due": "",
+      "due": "2026-12-29",
       "priority": "Medium",
-      "start": "",
+      "start": "2026-11-30",
       "parent": ""
     },
     {
@@ -3665,19 +3613,6 @@
       "due": "",
       "priority": "Medium",
       "start": "2026-03-19",
-      "parent": ""
-    },
-    {
-      "type": "에픽",
-      "key": "PG-2569",
-      "title": "💻 [S2][Structure] Pongift UI 공통 라이브러리 구축",
-      "status": "진행 중",
-      "comp": "infra-observability",
-      "label": "grow,ops,s2,개발확인필요",
-      "owner": "장석원",
-      "due": "2026-08-31",
-      "priority": "Medium",
-      "start": "2026-03-13",
       "parent": ""
     },
     {
