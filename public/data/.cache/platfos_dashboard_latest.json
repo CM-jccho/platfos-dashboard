@@ -1,6 +1,19 @@
 {
-  "generated_at": "2026-06-23T09:19:06",
+  "generated_at": "2026-06-23T10:13:24",
   "issues": [
+    {
+      "type": "작업",
+      "key": "PG-3498",
+      "title": "[공통] 2026년 6월 23일 배포",
+      "status": "대기",
+      "comp": "",
+      "label": "",
+      "owner": "박창용",
+      "due": "",
+      "priority": "Medium",
+      "start": "",
+      "parent": "PG-1479"
+    },
     {
       "type": "하위 작업",
       "key": "PG-3495",
