@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-23T08:47:29",
+  "generated_at": "2026-06-23T09:04:53",
   "issues": [
     {
       "type": "하위 작업",
@@ -3688,7 +3688,7 @@
       "comp": "partners-product",
       "label": "grow,ops,s1",
       "owner": "김명수",
-      "due": "2026-06-24",
+      "due": "2026-06-25",
       "priority": "Medium",
       "start": "2026-03-18",
       "parent": ""
