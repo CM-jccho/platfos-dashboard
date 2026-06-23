@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-23T09:04:53",
+  "generated_at": "2026-06-23T09:19:06",
   "issues": [
     {
       "type": "하위 작업",
@@ -208,19 +208,6 @@
       "priority": "Medium",
       "start": "2026-06-17",
       "parent": "PG-1481"
-    },
-    {
-      "type": "작업",
-      "key": "PG-3470",
-      "title": "[미팅] 폰기프트몰 약관 작업(비회원)_QR 기반 스토어몰 미팅",
-      "status": "진행 중",
-      "comp": "",
-      "label": "s1,grow",
-      "owner": "김명수",
-      "due": "2026-06-24",
-      "priority": "Medium",
-      "start": "2026-06-17",
-      "parent": "PG-3464"
     },
     {
       "type": "에픽",
