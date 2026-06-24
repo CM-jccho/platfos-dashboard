@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-24T08:48:03",
+  "generated_at": "2026-06-24T09:03:19",
   "issues": [
     {
       "type": "작업",
@@ -440,7 +440,7 @@
       "owner": "김명수",
       "due": "",
       "priority": "Medium",
-      "start": "",
+      "start": "2026-06-24",
       "parent": "PG-2566"
     },
     {
