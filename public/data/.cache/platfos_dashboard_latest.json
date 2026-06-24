@@ -1,6 +1,19 @@
 {
-  "generated_at": "2026-06-24T09:14:11",
+  "generated_at": "2026-06-24T10:11:50",
   "issues": [
+    {
+      "type": "하위 작업",
+      "key": "PG-3501",
+      "title": "[수정] 폰기프트몰 개인정보수집이용동의 운영서버",
+      "status": "대기",
+      "comp": "",
+      "label": "s1,grow",
+      "owner": "김명수",
+      "due": "",
+      "priority": "Medium",
+      "start": "",
+      "parent": "PG-3482"
+    },
     {
       "type": "작업",
       "key": "PG-3499",
@@ -187,13 +200,13 @@
       "type": "작업",
       "key": "PG-3482",
       "title": "카카오/네이버 > 동의항목 수정 및 심사",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "",
       "label": "s1,grow",
       "owner": "김명수",
       "due": "",
       "priority": "Medium",
-      "start": "",
+      "start": "2026-06-24",
       "parent": "PG-3464"
     },
     {
