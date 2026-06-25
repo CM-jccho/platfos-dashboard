@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-25T08:31:53",
+  "generated_at": "2026-06-25T09:05:26",
   "issues": [
     {
       "type": "스토리",
@@ -22,7 +22,7 @@
       "comp": "partners-product",
       "label": "grow,ops,s1",
       "owner": "김가영",
-      "due": "",
+      "due": "2026-06-24",
       "priority": "Medium",
       "start": "2026-06-24",
       "parent": "PG-2566"
