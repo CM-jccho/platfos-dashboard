@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-26T09:21:02",
+  "generated_at": "2026-06-26T10:18:45",
   "issues": [
     {
       "type": "작업",
@@ -1329,28 +1329,15 @@
     },
     {
       "type": "하위 작업",
-      "key": "PG-3248",
-      "title": "generateJwtToken 및 Outbox enqueue에 mall_member_id 전달",
-      "status": "대기",
-      "comp": "",
-      "label": "auth,barcode-api,p0",
-      "owner": "",
-      "due": "",
-      "priority": "Highest",
-      "start": "",
-      "parent": "PG-3238"
-    },
-    {
-      "type": "하위 작업",
       "key": "PG-3247",
       "title": "saveMemberAndMessage() 반환값 구조분해로 mall_member_id 추출",
-      "status": "대기",
+      "status": "배포대기",
       "comp": "",
       "label": "auth,barcode-api,p0",
-      "owner": "",
-      "due": "",
+      "owner": "이지헌",
+      "due": "2026-06-26",
       "priority": "Highest",
-      "start": "",
+      "start": "2026-06-26",
       "parent": "PG-3238"
     },
     {
@@ -1461,13 +1448,13 @@
       "type": "작업",
       "key": "PG-3238",
       "title": "[TASK-002] 회원가입 직후 JWT 토큰 mall_member_id 누락 수정",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "",
       "label": "auth,barcode-api,bugfix,p0,payment",
       "owner": "이지헌",
       "due": "",
       "priority": "Highest",
-      "start": "",
+      "start": "2026-06-26",
       "parent": "PG-3235"
     },
     {
