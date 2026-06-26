@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-26T09:05:30",
+  "generated_at": "2026-06-26T09:21:02",
   "issues": [
     {
       "type": "작업",
@@ -1036,7 +1036,7 @@
       "comp": "",
       "label": "crypto,p1,partners-api,reliability,security",
       "owner": "박창용",
-      "due": "2026-06-24",
+      "due": "2026-06-30",
       "priority": "High",
       "start": "2026-06-15",
       "parent": "PG-3265"
