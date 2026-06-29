@@ -1,6 +1,45 @@
 {
-  "generated_at": "2026-06-29T09:18:22",
+  "generated_at": "2026-06-29T10:21:40",
   "issues": [
+    {
+      "type": "하위 작업",
+      "key": "PG-3516",
+      "title": "[기획] 매장QR 개발서버 테스트",
+      "status": "진행 중",
+      "comp": "",
+      "label": "s8,expand",
+      "owner": "최다솔",
+      "due": "2026-06-29",
+      "priority": "Medium",
+      "start": "2026-06-26",
+      "parent": "PG-3478"
+    },
+    {
+      "type": "작업",
+      "key": "PG-3515",
+      "title": "[운영] 이전 약관 노출 처리",
+      "status": "대기",
+      "comp": "partners-product",
+      "label": "grow,ops,s1",
+      "owner": "강미희",
+      "due": "",
+      "priority": "Medium",
+      "start": "",
+      "parent": "PG-2566"
+    },
+    {
+      "type": "작업",
+      "key": "PG-3514",
+      "title": "[기획] 이전 약관 공지일/시행일 데이터 확인",
+      "status": "대기",
+      "comp": "partners-product",
+      "label": "grow,ops,s1",
+      "owner": "최다솔",
+      "due": "",
+      "priority": "Medium",
+      "start": "",
+      "parent": "PG-2566"
+    },
     {
       "type": "작업",
       "key": "PG-3508",
@@ -122,7 +161,7 @@
       "type": "스토리",
       "key": "PG-3478",
       "title": "[QA] 매장QR 개발서버 테스트",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "",
       "label": "expand,s8",
       "owner": "최다솔",
