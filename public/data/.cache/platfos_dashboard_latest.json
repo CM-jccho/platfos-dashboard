@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T09:05:13",
+  "generated_at": "2026-06-29T09:18:22",
   "issues": [
     {
       "type": "작업",
@@ -1690,19 +1690,6 @@
       "priority": "Medium",
       "start": "",
       "parent": "PG-3173"
-    },
-    {
-      "type": "하위 작업",
-      "key": "PG-3199",
-      "title": "Idempotency: refundForce / refundChannel / pointCharge / resendBarcode 적용",
-      "status": "진행 중",
-      "comp": "",
-      "label": "",
-      "owner": "이웅식",
-      "due": "",
-      "priority": "Medium",
-      "start": "",
-      "parent": "PG-3172"
     },
     {
       "type": "하위 작업",
