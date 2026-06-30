@@ -1,6 +1,19 @@
 {
-  "generated_at": "2026-06-30T09:18:05",
+  "generated_at": "2026-06-30T10:15:36",
   "issues": [
+    {
+      "type": "작업",
+      "key": "PG-3531",
+      "title": "[DES]QR몰 사용가이드 제작",
+      "status": "대기",
+      "comp": "",
+      "label": "expand,s8",
+      "owner": "김가영",
+      "due": "",
+      "priority": "Medium",
+      "start": "2026-06-30",
+      "parent": "PG-3420"
+    },
     {
       "type": "하위 작업",
       "key": "PG-3529",
