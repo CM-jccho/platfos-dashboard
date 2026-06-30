@@ -1,27 +1,14 @@
 {
-  "generated_at": "2026-06-30T09:04:24",
+  "generated_at": "2026-06-30T09:18:05",
   "issues": [
-    {
-      "type": "하위 작업",
-      "key": "PG-3530",
-      "title": "[QA] cms&partners의 사용처 상세정보 useplaceQr정보 추가",
-      "status": "진행 중",
-      "comp": "",
-      "label": "s8,expand",
-      "owner": "이웅식",
-      "due": "",
-      "priority": "Medium",
-      "start": "",
-      "parent": "PG-3478"
-    },
     {
       "type": "하위 작업",
       "key": "PG-3529",
       "title": "[QA] 모바일 구매 -> 결제 창에서 X 버튼 -> 결제 취소 페이지 -> 확인 후 \"/\" 으로 이동 ",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "",
       "label": "s8,expand",
-      "owner": "",
+      "owner": "이웅식",
       "due": "",
       "priority": "Medium",
       "start": "",
@@ -57,7 +44,7 @@
       "type": "작업",
       "key": "PG-3524",
       "title": "[DGN] CMS 판매관리 > 상품권현황 > 사용취소처리 디자인",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "",
       "label": "run,s4",
       "owner": "김가영",
@@ -243,7 +230,7 @@
       "comp": "",
       "label": "expand,s8",
       "owner": "최다솔",
-      "due": "2026-06-29",
+      "due": "2026-06-30",
       "priority": "Medium",
       "start": "2026-06-26",
       "parent": "PG-3420"
