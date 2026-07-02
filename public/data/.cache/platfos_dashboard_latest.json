@@ -1,6 +1,58 @@
 {
-  "generated_at": "2026-07-02T09:05:03",
+  "generated_at": "2026-07-02T09:19:14",
   "issues": [
+    {
+      "type": "작업",
+      "key": "PG-3546",
+      "title": "[SB] 사업자 권한 디스크립션",
+      "status": "대기",
+      "comp": "partners-auth",
+      "label": "Tier1,run,s7",
+      "owner": "김명수",
+      "due": "",
+      "priority": "Medium",
+      "start": "",
+      "parent": "PG-698"
+    },
+    {
+      "type": "작업",
+      "key": "PG-3545",
+      "title": "[WF] 사업자 권한 와이어프레임",
+      "status": "대기",
+      "comp": "partners-auth",
+      "label": "Tier1,run,s7",
+      "owner": "김명수",
+      "due": "",
+      "priority": "Medium",
+      "start": "",
+      "parent": "PG-698"
+    },
+    {
+      "type": "작업",
+      "key": "PG-3544",
+      "title": "[QA] 사업자 권한 시나리오",
+      "status": "대기",
+      "comp": "partners-auth",
+      "label": "Tier1,run,s7",
+      "owner": "김명수",
+      "due": "",
+      "priority": "Medium",
+      "start": "",
+      "parent": "PG-698"
+    },
+    {
+      "type": "작업",
+      "key": "PG-3543",
+      "title": "[정책서] 사업자 권한 정책서",
+      "status": "대기",
+      "comp": "partners-auth",
+      "label": "Tier1,run,s7",
+      "owner": "김명수",
+      "due": "",
+      "priority": "Medium",
+      "start": "",
+      "parent": "PG-698"
+    },
     {
       "type": "작업",
       "key": "PG-3542",
@@ -17,11 +69,11 @@
     {
       "type": "작업",
       "key": "PG-3540",
-      "title": "[FDS]",
+      "title": "[FDS] 사업자 권한 기능정의서",
       "status": "대기",
       "comp": "partners-auth",
       "label": "Tier1,run,s7",
-      "owner": "",
+      "owner": "김명수",
       "due": "",
       "priority": "Medium",
       "start": "",
