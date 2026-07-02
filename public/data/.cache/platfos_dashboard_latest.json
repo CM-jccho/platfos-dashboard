@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-02T09:19:14",
+  "generated_at": "2026-07-02T10:16:07",
   "issues": [
     {
       "type": "작업",
@@ -135,7 +135,7 @@
       "type": "에픽",
       "key": "PG-3522",
       "title": "CMS 관리자의 파트너센터 로그인 기능",
-      "status": "진행 중",
+      "status": "배포대기",
       "comp": "",
       "label": "",
       "owner": "박창용",
@@ -256,7 +256,7 @@
       "comp": "infra-observability",
       "label": "grow,ops,s2,개발확인필요",
       "owner": "김희진",
-      "due": "2026-06-30",
+      "due": "2026-07-10",
       "priority": "Medium",
       "start": "2026-06-22",
       "parent": "PG-2485"
@@ -272,45 +272,6 @@
       "due": "2026-06-30",
       "priority": "Medium",
       "start": "2026-06-26",
-      "parent": "PG-3420"
-    },
-    {
-      "type": "작업",
-      "key": "PG-3458",
-      "title": "[BE]테이블 의존구조 수정(trade_purchase - mall_purchase 관계 반전 & 컬럼 추가)",
-      "status": "진행 중",
-      "comp": "",
-      "label": "s8,expand",
-      "owner": "이웅식",
-      "due": "",
-      "priority": "Medium",
-      "start": "",
-      "parent": "PG-3420"
-    },
-    {
-      "type": "작업",
-      "key": "PG-3457",
-      "title": "[BE]폰기프트몰 비회원주문 기능 추가(guard포함)",
-      "status": "진행 중",
-      "comp": "",
-      "label": "s8,expand",
-      "owner": "이웅식",
-      "due": "",
-      "priority": "Medium",
-      "start": "",
-      "parent": "PG-3420"
-    },
-    {
-      "type": "작업",
-      "key": "PG-3456",
-      "title": "[BE] 매장 상품목록 조회기능 추가",
-      "status": "대기",
-      "comp": "",
-      "label": "dispf-B-gate,grp-Expand,triage-2026Q3,triage-B,s8,expand",
-      "owner": "이웅식",
-      "due": "",
-      "priority": "Medium",
-      "start": "",
       "parent": "PG-3420"
     },
     {
@@ -698,7 +659,7 @@
       "comp": "",
       "label": "crypto,p1,partners-api,security",
       "owner": "박창용",
-      "due": "2026-07-01",
+      "due": "2026-07-02",
       "priority": "High",
       "start": "2026-06-15",
       "parent": "PG-3272"
@@ -3220,7 +3181,7 @@
       "comp": "infra-observability",
       "label": "grow,ops,s2,개발확인필요",
       "owner": "김희진",
-      "due": "2026-06-30",
+      "due": "2026-07-31",
       "priority": "Medium",
       "start": "2026-03-05",
       "parent": ""
