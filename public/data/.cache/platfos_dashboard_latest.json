@@ -1,6 +1,19 @@
 {
-  "generated_at": "2026-07-03T10:16:17",
+  "generated_at": "2026-07-03T13:04:38",
   "issues": [
+    {
+      "type": "하위 작업",
+      "key": "PG-3550",
+      "title": "[DES]QR몰 사용가이드 수정",
+      "status": "진행 중",
+      "comp": "",
+      "label": "s8,expand",
+      "owner": "김가영",
+      "due": "2026-07-03",
+      "priority": "Medium",
+      "start": "2026-07-03",
+      "parent": "PG-3531"
+    },
     {
       "type": "작업",
       "key": "PG-3548",
@@ -77,19 +90,6 @@
       "due": "",
       "priority": "Medium",
       "start": "",
-      "parent": "PG-698"
-    },
-    {
-      "type": "작업",
-      "key": "PG-3537",
-      "title": "[PRD] 사업자 권한 PRD",
-      "status": "진행 중",
-      "comp": "partners-auth",
-      "label": "Tier1,run,s7",
-      "owner": "김명수",
-      "due": "2026-07-02",
-      "priority": "Medium",
-      "start": "2026-07-01",
       "parent": "PG-698"
     },
     {
