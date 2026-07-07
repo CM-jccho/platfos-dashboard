@@ -1,6 +1,19 @@
 {
-  "generated_at": "2026-07-07T10:22:59",
+  "generated_at": "2026-07-07T13:13:44",
   "issues": [
+    {
+      "type": "작업",
+      "key": "PG-3587",
+      "title": "[모노레포] 추가작업: apps/mall App Router 도메인별 마이그레이션",
+      "status": "진행 중",
+      "comp": "infra-observability",
+      "label": "grow,ops,s2,개발확인필요",
+      "owner": "김희진",
+      "due": "2026-07-31",
+      "priority": "Medium",
+      "start": "2026-07-07",
+      "parent": "PG-2485"
+    },
     {
       "type": "하위 작업",
       "key": "PG-3586",
@@ -406,19 +419,6 @@
     },
     {
       "type": "하위 작업",
-      "key": "PG-3434",
-      "title": "[FE] CMS <-> 파트너스 상품 채널 카테고리 매칭 버그 맵핑",
-      "status": "배포대기",
-      "comp": "",
-      "label": "dispf-C-hold,grp-Etc,triage-2026Q3,triage-C,core",
-      "owner": "김희진",
-      "due": "2026-07-06",
-      "priority": "Medium",
-      "start": "2026-07-06",
-      "parent": "PG-3432"
-    },
-    {
-      "type": "하위 작업",
       "key": "PG-3433",
       "title": "[BE] CMS <-> 파트너스 상품 채널 카테고리 매칭 버그 JSON 일치화",
       "status": "배포대기",
@@ -429,19 +429,6 @@
       "priority": "Medium",
       "start": "2026-07-01",
       "parent": "PG-3432"
-    },
-    {
-      "type": "작업",
-      "key": "PG-3432",
-      "title": "CMS <-> 파트너스 상품 채널 카테고리 매칭 버그",
-      "status": "배포대기",
-      "comp": "",
-      "label": "dispf-B-quarter,grp-Core,triage-2026Q3,triage-B,성능개선,core",
-      "owner": "정광희",
-      "due": "2026-07-09",
-      "priority": "Medium",
-      "start": "2026-07-01",
-      "parent": "PG-3393"
     },
     {
       "type": "에픽",
@@ -746,26 +733,26 @@
       "type": "하위 작업",
       "key": "PG-3284",
       "title": "product.service.ts:3716-3727 판매중지 흐름 outbox 전환",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "",
       "label": "dispf-C-check,grp-Etc,mq,p1,partners-api,triage-2026Q3,triage-C",
-      "owner": "",
-      "due": "",
+      "owner": "이지헌",
+      "due": "2026-07-07",
       "priority": "High",
-      "start": "",
+      "start": "2026-07-07",
       "parent": "PG-3269"
     },
     {
       "type": "하위 작업",
       "key": "PG-3283",
       "title": "product.service.ts:2674-2686 sendChannelProduct() → outbox INSERT 교체",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "",
       "label": "dispf-C-check,grp-Etc,mq,p1,partners-api,triage-2026Q3,triage-C",
-      "owner": "",
-      "due": "",
+      "owner": "이지헌",
+      "due": "2026-07-07",
       "priority": "High",
-      "start": "",
+      "start": "2026-07-07",
       "parent": "PG-3269"
     },
     {
@@ -824,13 +811,13 @@
       "type": "작업",
       "key": "PG-3269",
       "title": "[TASK-004] 상품 MQ 발행 transaction 위치 수정 (Outbox 전환)",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "",
       "label": "dispf-B-quarter,grp-P1,mq,p1,partners-api,reliability,security,triage-2026Q3,triage-B",
-      "owner": "이웅식",
+      "owner": "이지헌",
       "due": "",
       "priority": "High",
-      "start": "",
+      "start": "2026-07-07",
       "parent": "PG-3265"
     },
     {
@@ -853,7 +840,7 @@
       "status": "대기",
       "comp": "",
       "label": "bugfix,dispf-A-p0,grp-P0,p0,partners-api,security,triage-2026Q3,triage-A",
-      "owner": "",
+      "owner": "정광희",
       "due": "",
       "priority": "Highest",
       "start": "",
@@ -1897,19 +1884,6 @@
       "due": "",
       "priority": "Medium",
       "start": "",
-      "parent": "PG-3066"
-    },
-    {
-      "type": "하위 작업",
-      "key": "PG-3112",
-      "title": "[FE] 파트너센터 상품 상세 - 채널 - 카테고리 정보 맵핑 없이 카테고리 이름 보여주도록 수정",
-      "status": "배포대기",
-      "comp": "",
-      "label": "dispf-B-gate,grp-Expand,triage-2026Q3,triage-B,s8,expand",
-      "owner": "김희진",
-      "due": "2026-07-06",
-      "priority": "Medium",
-      "start": "2026-07-06",
       "parent": "PG-3066"
     },
     {
