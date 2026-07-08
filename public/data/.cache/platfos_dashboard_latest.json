@@ -1,18 +1,31 @@
 {
-  "generated_at": "2026-07-08T10:10:16",
+  "generated_at": "2026-07-08T12:39:13",
   "issues": [
     {
-      "type": "작업",
-      "key": "PG-3601",
-      "title": "[공통] 2026년 7월 8일 배포",
-      "status": "대기",
+      "type": "하위 작업",
+      "key": "PG-3603",
+      "title": "[FE] CMS WEB 영향도 체크 및 테스트 ",
+      "status": "진행 중",
       "comp": "",
       "label": "",
-      "owner": "이지헌",
+      "owner": "장석원",
+      "due": "2026-07-09",
+      "priority": "Medium",
+      "start": "2026-07-08",
+      "parent": "PG-3178"
+    },
+    {
+      "type": "작업",
+      "key": "PG-3602",
+      "title": "[홈페이지] 배경 보강 작업",
+      "status": "진행 중",
+      "comp": "",
+      "label": "",
+      "owner": "박창용",
       "due": "2026-07-08",
       "priority": "Medium",
       "start": "2026-07-08",
-      "parent": "PG-1479"
+      "parent": "PG-1481"
     },
     {
       "type": "하위 작업",
@@ -390,19 +403,6 @@
       "priority": "Medium",
       "start": "2026-07-03",
       "parent": ""
-    },
-    {
-      "type": "하위 작업",
-      "key": "PG-3550",
-      "title": "[DES]QR몰 사용가이드 수정",
-      "status": "진행 중",
-      "comp": "",
-      "label": "s8,expand",
-      "owner": "김가영",
-      "due": "2026-07-03",
-      "priority": "Medium",
-      "start": "2026-07-03",
-      "parent": "PG-3531"
     },
     {
       "type": "작업",
@@ -860,32 +860,6 @@
       "parent": "PG-3270"
     },
     {
-      "type": "하위 작업",
-      "key": "PG-3284",
-      "title": "product.service.ts:3716-3727 판매중지 흐름 outbox 전환",
-      "status": "배포대기",
-      "comp": "",
-      "label": "dispf-C-check,grp-Etc,mq,p1,partners-api,triage-2026Q3,triage-C",
-      "owner": "이지헌",
-      "due": "2026-07-07",
-      "priority": "High",
-      "start": "2026-07-07",
-      "parent": "PG-3269"
-    },
-    {
-      "type": "하위 작업",
-      "key": "PG-3283",
-      "title": "product.service.ts:2674-2686 sendChannelProduct() → outbox INSERT 교체",
-      "status": "배포대기",
-      "comp": "",
-      "label": "dispf-C-check,grp-Etc,mq,p1,partners-api,triage-2026Q3,triage-C",
-      "owner": "이지헌",
-      "due": "2026-07-07",
-      "priority": "High",
-      "start": "2026-07-07",
-      "parent": "PG-3269"
-    },
-    {
       "type": "작업",
       "key": "PG-3273",
       "title": "[TASK-008] 인증 API Rate Limit·멱등성 추가",
@@ -935,19 +909,6 @@
       "due": "",
       "priority": "High",
       "start": "",
-      "parent": "PG-3265"
-    },
-    {
-      "type": "작업",
-      "key": "PG-3269",
-      "title": "[TASK-004] 상품 MQ 발행 transaction 위치 수정 (Outbox 전환)",
-      "status": "진행 중",
-      "comp": "",
-      "label": "dispf-B-quarter,grp-P1,mq,p1,partners-api,reliability,security,triage-2026Q3,triage-B",
-      "owner": "이지헌",
-      "due": "",
-      "priority": "High",
-      "start": "2026-07-07",
       "parent": "PG-3265"
     },
     {
@@ -1121,45 +1082,6 @@
     },
     {
       "type": "하위 작업",
-      "key": "PG-3251",
-      "title": "Outbox publisher scheduler 구현 (10초 주기, ready→sent 상태 전이)",
-      "status": "배포대기",
-      "comp": "",
-      "label": "barcode-api,dispf-C-check,grp-Etc,mq,p0,triage-2026Q3,triage-C",
-      "owner": "이지헌",
-      "due": "2026-07-06",
-      "priority": "Highest",
-      "start": "2026-07-06",
-      "parent": "PG-3239"
-    },
-    {
-      "type": "하위 작업",
-      "key": "PG-3250",
-      "title": "결제 트랜잭션 내 MQ 직접 발행을 outbox INSERT로 교체",
-      "status": "배포대기",
-      "comp": "",
-      "label": "barcode-api,dispf-C-check,grp-Etc,mq,p0,payment,triage-2026Q3,triage-C",
-      "owner": "이지헌",
-      "due": "2026-07-06",
-      "priority": "Highest",
-      "start": "2026-07-06",
-      "parent": "PG-3239"
-    },
-    {
-      "type": "하위 작업",
-      "key": "PG-3249",
-      "title": "mq_outbox 엔티티·테이블 생성 (status/retry_count 포함)",
-      "status": "배포대기",
-      "comp": "",
-      "label": "barcode-api,dispf-C-check,grp-Etc,mq,p0,triage-2026Q3,triage-C",
-      "owner": "이지헌",
-      "due": "2026-07-06",
-      "priority": "Highest",
-      "start": "2026-07-06",
-      "parent": "PG-3239"
-    },
-    {
-      "type": "하위 작업",
       "key": "PG-3246",
       "title": "valid() 내 WELCOME 분기 처리 또는 전용 검증 함수 분리",
       "status": "대기",
@@ -1248,19 +1170,6 @@
       "priority": "High",
       "start": "",
       "parent": "PG-3236"
-    },
-    {
-      "type": "작업",
-      "key": "PG-3239",
-      "title": "[TASK-003] 결제 성공 후 MQ 메시지 유실 방지 (Outbox Pattern 적용)",
-      "status": "진행 중",
-      "comp": "",
-      "label": "barcode-api,bugfix,dispf-A-p0,grp-P0,mq,p0,payment,reliability,triage-2026Q3,triage-A",
-      "owner": "이지헌",
-      "due": "2026-07-07",
-      "priority": "Highest",
-      "start": "2026-07-06",
-      "parent": "PG-3235"
     },
     {
       "type": "작업",
