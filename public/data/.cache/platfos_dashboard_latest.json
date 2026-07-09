@@ -1,6 +1,32 @@
 {
-  "generated_at": "2026-07-09T10:14:17",
+  "generated_at": "2026-07-09T13:09:28",
   "issues": [
+    {
+      "type": "스토리",
+      "key": "PG-3615",
+      "title": "[네이버 스마트스토어] 역전우동 상품권 상세페이지 DB 수정 요청",
+      "status": "대기",
+      "comp": "",
+      "label": "",
+      "owner": "",
+      "due": "",
+      "priority": "Medium",
+      "start": "",
+      "parent": "PG-1481"
+    },
+    {
+      "type": "하위 작업",
+      "key": "PG-3614",
+      "title": "[DES]QR몰 신규 사용가이드 제작",
+      "status": "대기",
+      "comp": "",
+      "label": "s8,expand",
+      "owner": "김가영",
+      "due": "",
+      "priority": "Medium",
+      "start": "",
+      "parent": "PG-3531"
+    },
     {
       "type": "작업",
       "key": "PG-3613",
@@ -24,7 +50,7 @@
       "owner": "김가영",
       "due": "",
       "priority": "Medium",
-      "start": "",
+      "start": "2026-07-07",
       "parent": "PG-698"
     },
     {
@@ -78,19 +104,6 @@
       "priority": "Medium",
       "start": "2026-07-08",
       "parent": "PG-698"
-    },
-    {
-      "type": "스토리",
-      "key": "PG-3604",
-      "title": "[파트너센터] 사용처 목록(오프라인) 엑셀 다운로드 기능 추가 요청",
-      "status": "진행 중",
-      "comp": "",
-      "label": "",
-      "owner": "김희진",
-      "due": "2026-07-09",
-      "priority": "Medium",
-      "start": "2026-07-08",
-      "parent": "PG-1481"
     },
     {
       "type": "하위 작업",
@@ -152,7 +165,7 @@
       "comp": "",
       "label": "",
       "owner": "박창용",
-      "due": "",
+      "due": "2026-07-09",
       "priority": "Medium",
       "start": "2026-07-07",
       "parent": "PG-3588"
@@ -178,7 +191,7 @@
       "comp": "",
       "label": "cms-api,dispf-A-p0,grp-P0,p0,security,triage-2026Q3,triage-A",
       "owner": "이지헌",
-      "due": "",
+      "due": "2026-07-10",
       "priority": "Medium",
       "start": "2026-07-07",
       "parent": "PG-3164"
