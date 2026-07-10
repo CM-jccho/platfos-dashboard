@@ -1,17 +1,30 @@
 {
-  "generated_at": "2026-07-10T10:14:48",
+  "generated_at": "2026-07-10T13:09:26",
   "issues": [
+    {
+      "type": "작업",
+      "key": "PG-3626",
+      "title": "[데이터] 대시보드 데이터 정합성 정의",
+      "status": "진행 중",
+      "comp": "partners-auth",
+      "label": "Tier1,run,s7",
+      "owner": "김명수",
+      "due": "2026-07-13",
+      "priority": "Medium",
+      "start": "2026-07-09",
+      "parent": "PG-698"
+    },
     {
       "type": "하위 작업",
       "key": "PG-3625",
       "title": "message-sender outbox 전환",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "",
       "label": "",
       "owner": "이지헌",
-      "due": "",
+      "due": "2026-07-10",
       "priority": "Medium",
-      "start": "",
+      "start": "2026-07-10",
       "parent": "PG-3594"
     },
     {
@@ -48,7 +61,7 @@
       "comp": "",
       "label": "",
       "owner": "장석원",
-      "due": "",
+      "due": "2026-07-10",
       "priority": "Medium",
       "start": "2026-07-10",
       "parent": "PG-3178"
@@ -61,10 +74,10 @@
       "comp": "",
       "label": "s3",
       "owner": "최다솔",
-      "due": "2026-07-10",
+      "due": "2026-07-17",
       "priority": "Medium",
       "start": "2026-07-09",
-      "parent": "PG-3575"
+      "parent": "PG-3580"
     },
     {
       "type": "하위 작업",
@@ -104,19 +117,6 @@
       "priority": "Medium",
       "start": "2026-07-07",
       "parent": "PG-698"
-    },
-    {
-      "type": "작업",
-      "key": "PG-3611",
-      "title": "[파트너센터] 조회기간 디폴트 검토",
-      "status": "진행 중",
-      "comp": "",
-      "label": "grp-OpsIssue",
-      "owner": "김희진",
-      "due": "2026-07-10",
-      "priority": "Medium",
-      "start": "2026-07-09",
-      "parent": "PG-1481"
     },
     {
       "type": "하위 작업",
@@ -178,7 +178,7 @@
       "comp": "",
       "label": "",
       "owner": "박창용",
-      "due": "2026-07-09",
+      "due": "2026-07-14",
       "priority": "Medium",
       "start": "2026-07-07",
       "parent": "PG-3588"
@@ -295,7 +295,7 @@
       "comp": "",
       "label": "",
       "owner": "박창용",
-      "due": "2026-07-09",
+      "due": "2026-07-14",
       "priority": "Medium",
       "start": "2026-07-07",
       "parent": "PG-3272"
@@ -330,13 +330,13 @@
       "type": "작업",
       "key": "PG-3580",
       "title": "[S8] 시퀀스 업무 정리",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "",
       "label": "s8",
       "owner": "최다솔",
-      "due": "",
+      "due": "2026-07-17",
       "priority": "Medium",
-      "start": "",
+      "start": "2026-07-09",
       "parent": "PG-3572"
     },
     {
@@ -389,19 +389,6 @@
       "due": "",
       "priority": "Medium",
       "start": "",
-      "parent": "PG-3572"
-    },
-    {
-      "type": "작업",
-      "key": "PG-3575",
-      "title": "[S3] 시퀀스 업무 정리",
-      "status": "진행 중",
-      "comp": "",
-      "label": "s3",
-      "owner": "최다솔",
-      "due": "2026-07-10",
-      "priority": "Medium",
-      "start": "2026-07-03",
       "parent": "PG-3572"
     },
     {
@@ -945,7 +932,7 @@
       "comp": "",
       "label": "crypto,p1,partners-api,reliability,security",
       "owner": "박창용",
-      "due": "2026-07-09",
+      "due": "2026-07-14",
       "priority": "High",
       "start": "2026-06-15",
       "parent": "PG-3265"
@@ -1608,7 +1595,7 @@
       "comp": "",
       "label": "dispf-C-check,grp-PolicyLegacy,triage-2026Q3,triage-C",
       "owner": "이웅식",
-      "due": "2026-07-09",
+      "due": "2026-07-14",
       "priority": "Medium",
       "start": "2026-07-06",
       "parent": "PG-3173"
@@ -1621,7 +1608,7 @@
       "comp": "",
       "label": "dispf-C-check,grp-PolicyLegacy,triage-2026Q3,triage-C",
       "owner": "이웅식",
-      "due": "2026-07-09",
+      "due": "2026-07-14",
       "priority": "Medium",
       "start": "2026-07-06",
       "parent": "PG-3173"
@@ -1738,7 +1725,7 @@
       "comp": "",
       "label": "dispf-A-p0,grp-P0,infra,mq,p0,security,triage-2026Q3,triage-A",
       "owner": "이웅식",
-      "due": "2026-07-09",
+      "due": "2026-07-14",
       "priority": "Highest",
       "start": "2026-07-06",
       "parent": "PG-3164"
