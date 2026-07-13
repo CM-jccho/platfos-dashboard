@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-13T10:12:51",
+  "generated_at": "2026-07-13T12:53:30",
   "issues": [
     {
       "type": "작업",
@@ -269,7 +269,7 @@
       "comp": "",
       "label": "s7,grow",
       "owner": "김가영",
-      "due": "2026-07-15",
+      "due": "2026-07-24",
       "priority": "Medium",
       "start": "2026-07-10",
       "parent": "PG-3491"
@@ -427,7 +427,7 @@
       "owner": "김가영",
       "due": "",
       "priority": "Medium",
-      "start": "",
+      "start": "2026-06-24",
       "parent": "PG-3490"
     },
     {
