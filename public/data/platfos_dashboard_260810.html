@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Platfos 프로젝트 현황 — 2026-08-10</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ── Design Tokens ────────────────────────────────────── */
+:root {
+  /* Portfolio brand colors */
+  --run:       #B91C1C; --run-light:  #FEF2F2; --run-mid: #DC2626; --run-border: #FECACA;
+  --core:      #1D4ED8; --core-light: #EFF6FF; --core-mid:#2563EB; --core-border:#BFDBFE;
+  --grow:      #15803D; --grow-light: #F0FDF4; --grow-mid:#16A34A; --grow-border:#BBF7D0;
+  --exp:       #7C3AED; --exp-light:  #F5F3FF; --exp-mid: #8B5CF6; --exp-border: #DDD6FE;
+
+  /* Semantic */
+  --danger:    #DC2626; --danger-bg: #FEF2F2; --danger-border: #FECACA;
+  --warning:   #D97706; --warning-bg:#FFFBEB; --warning-border:#FDE68A;
+  --ok:        #15803D; --ok-bg:     #F0FDF4; --ok-border:     #BBF7D0;
+  --info:      #1D4ED8; --info-bg:   #EFF6FF; --info-border:   #BFDBFE;
+
+  /* Status colors */
+  --st-prog:   #0EA5E9; --st-wait:   #64748B; --st-hold:   #F59E0B;
+  --st-block:  #EF4444; --st-done:   #10B981; --st-deploy: #8B5CF6;
+
+  /* Neutrals */
+  --bg:        #F8FAFC;
+  --card:      #FFFFFF;
+  --text:      #0F172A;
+  --text2:     #475569;
+  --text3:     #94A3B8;
+  --border:    #E2E8F0;
+  --border2:   #CBD5E1;
+
+  --r: 12px; --rs: 8px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.05);
+  --shadow:    0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,.1), 0 12px 32px rgba(0,0,0,.06);
+}
+
+/* ── Reset & Base ─────────────────────────────────────── */
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0 }
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── Top Bar ──────────────────────────────────────────── */
+.topbar {
+  background: linear-gradient(135deg, #0F172A 0%, #1E3A5F 100%);
+  color: #fff;
+  padding: 0 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  position: sticky;
+  top: 0;
+  z-index: 300;
+  box-shadow: 0 2px 20px rgba(0,0,0,.25);
+}
+.tb-left { display:flex; align-items:center; gap:14px }
+.tb-logo {
+  width: 34px; height: 34px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #EF4444 0%, #8B5CF6 100%);
+  display: flex; align-items:center; justify-content:center;
+  font-size: 16px; font-weight: 800; color: #fff;
+  box-shadow: 0 2px 8px rgba(139,92,246,.4);
+}
+.tb-title { font-size:14px; font-weight:600; letter-spacing:-.2px }
+.tb-sub { font-size:11px; color:#94A3B8; margin-top:1px }
+.tb-right { display:flex; gap:6px; align-items:center; flex-wrap:wrap }
+
+/* ── Layout ───────────────────────────────────────────── */
+.main { max-width:1320px; margin:0 auto; padding:20px 24px 48px }
+
+/* ── KPI Strip ────────────────────────────────────────── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(148px,1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.kpi {
+  background: var(--card);
+  border-radius: var(--r);
+  padding: 16px 18px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--border2);
+  cursor: pointer;
+  transition: all .2s;
+  position: relative;
+}
+.kpi:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+  border-color: var(--border2);
+}
+.kpi.danger  { border-top-color: var(--danger); }
+.kpi.warning { border-top-color: var(--warning); }
+.kpi.ok      { border-top-color: var(--ok); }
+.kpi.info    { border-top-color: var(--core); }
+.kpi-l {
+  font-size: 10px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .6px;
+  color: var(--text3); margin-bottom: 6px;
+}
+.kpi-v {
+  font-size: 28px; font-weight: 700;
+  line-height: 1; font-family: 'JetBrains Mono', monospace;
+}
+.kpi-s { font-size: 11px; margin-top: 5px; color: var(--text2) }
+.kpi-click-hint {
+  position: absolute; top: 8px; right: 10px;
+  font-size: 10px; color: var(--text3); opacity: 0;
+  transition: opacity .2s;
+}
+.kpi:hover .kpi-click-hint { opacity: 1 }
+
+/* ── Tabs ─────────────────────────────────────────────── */
+.tab-nav {
+  display: flex; gap: 2px;
+  background: var(--card);
+  border-radius: var(--r);
+  padding: 5px;
+  margin-bottom: 18px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  overflow-x: auto;
+}
+.tab-btn {
+  padding: 9px 18px;
+  border: none; background: none;
+  cursor: pointer; font-size: 12px; font-weight: 600;
+  color: var(--text3); border-radius: var(--rs);
+  white-space: nowrap; transition: all .15s;
+  font-family: inherit; display: flex; align-items:center; gap:6px;
+}
+.tab-btn:hover { background: var(--bg); color: var(--text) }
+.tab-btn.on {
+  background: var(--core);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(29,78,216,.3);
+}
+
+/* ── Panel ────────────────────────────────────────────── */
+.panel { display:none }.panel.on { display:block }
+
+/* ── Cards ────────────────────────────────────────────── */
+.card {
+  background: var(--card);
+  border-radius: var(--r);
+  padding: 20px 22px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+.card-title {
+  font-size: 11px; font-weight: 700;
+  color: var(--text2);
+  text-transform: uppercase; letter-spacing: .6px;
+  margin-bottom: 16px;
+  display: flex; align-items: center; gap: 8px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.card-title-hint {
+  font-size: 10px; font-weight: 400; color: var(--text3);
+  text-transform: none; letter-spacing: 0;
+  margin-left: auto;
+}
+.g2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px }
+@media(max-width:900px) { .g2 { grid-template-columns:1fr } }
+
+/* ── Portfolio Section ────────────────────────────────── */
+.pf-card {
+  border-radius: var(--r);
+  padding: 16px 18px;
+  border: 1px solid;
+  cursor: pointer;
+  transition: all .2s;
+  position: relative;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.pf-card:hover { transform: translateX(3px); box-shadow: var(--shadow); }
+.pf-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  border-radius: 4px 0 0 4px;
+}
+.pf-card.run   { background:var(--run-light);   border-color:var(--run-border);   }
+.pf-card.run::before   { background:var(--run); }
+.pf-card.core  { background:var(--core-light);  border-color:var(--core-border);  }
+.pf-card.core::before  { background:var(--core); }
+.pf-card.grow  { background:var(--grow-light);  border-color:var(--grow-border);  }
+.pf-card.grow::before  { background:var(--grow); }
+.pf-card.exp   { background:var(--exp-light);   border-color:var(--exp-border);   }
+.pf-card.exp::before   { background:var(--exp); }
+.pf-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; padding-left:10px }
+.pf-name { font-size:13px; font-weight:700 }
+.pf-desc { font-size:11px; color:var(--text2); margin-top:2px; line-height:1.5 }
+.pf-stats { display:flex; gap:12px; font-size:11px; padding-left:10px; margin-top:8px }
+.pf-stat { display:flex; align-items:center; gap:4px }
+.pf-total { font-size:18px; font-weight:700; font-family:'JetBrains Mono',monospace }
+
+/* ── Progress Bar (NEW) ───────────────────────────────── */
+.prog-wrap { margin-bottom:10px }
+.prog-label-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:5px }
+.prog-label { font-size:11px; color:var(--text2); display:flex; align-items:center; gap:6px }
+.prog-val { font-size:11px; font-weight:600; font-family:'JetBrains Mono',monospace; color:var(--text) }
+.prog-track {
+  height: 10px;
+  background: #F1F5F9;
+  border-radius: 99px;
+  overflow: hidden;
+  display: flex;
+  gap: 1px;
+  border: 1px solid var(--border);
+}
+.prog-seg { height:100%; transition:width .6s cubic-bezier(.4,0,.2,1) }
+.prog-track.thin  { height:6px }
+.prog-track.thick { height:14px; border-radius:6px }
+
+/* ── Status Indicator ─────────────────────────────────── */
+.stat-dot { 
+  width:8px; height:8px; border-radius:50%;
+  display:inline-block; flex-shrink:0;
+}
+
+/* ── Health Grid ──────────────────────────────────────── */
+.health-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px }
+.health-item {
+  padding:12px 14px;
+  background: var(--bg);
+  border-radius: var(--rs);
+  border: 1px solid var(--border);
+}
+.health-name { font-size:11px; color:var(--text2); margin-bottom:6px; font-weight:500 }
+.health-pct {
+  font-size:22px; font-weight:700;
+  font-family: 'JetBrains Mono', monospace;
+  line-height:1; margin-bottom:6px;
+}
+.health-bar {
+  height: 5px; border-radius:99px; overflow:hidden;
+  background: var(--border);
+}
+.health-fill { height:100%; border-radius:99px; transition:width .6s }
+
+/* ── Seq Bars ─────────────────────────────────────────── */
+.seq-row {
+  display:grid;
+  grid-template-columns: 130px 1fr 36px;
+  gap:10px; align-items:center;
+  padding: 8px 10px; border-radius:8px;
+  cursor:pointer; transition:background .15s;
+  margin-bottom:2px;
+}
+.seq-row:hover { background:var(--bg) }
+.seq-label { font-size:12px }
+.seq-tag { font-weight:700; font-size:12px }
+.seq-desc { font-size:10px; color:var(--text3); margin-top:1px }
+
+/* ── Epic Seq Chart (stacked) ─────────────────────────── */
+.epic-seq-row {
+  display:grid;
+  grid-template-columns: 120px 1fr 56px;
+  gap:12px; align-items:center;
+  padding:10px 12px; border-radius:8px;
+  cursor:pointer; transition:background .15s;
+  margin-bottom:4px;
+}
+.epic-seq-row:hover { background:var(--bg) }
+.epic-seq-left { }
+.epic-seq-tag { font-weight:700; font-size:13px; color:var(--text) }
+.epic-seq-name { font-size:10px; color:var(--text3); margin-top:1px }
+.epic-seq-count { font-size:10px; color:var(--text3) }
+.epic-count { font-size:20px; font-weight:700; font-family:'JetBrains Mono',monospace; text-align:right }
+
+/* ── Badges ───────────────────────────────────────────── */
+.badge {
+  display:inline-flex; align-items:center; gap:3px;
+  padding:3px 10px; border-radius:99px;
+  font-size:11px; font-weight:600; white-space:nowrap;
+}
+.b-red   { background:var(--danger-bg);  color:var(--danger);  border:1px solid var(--danger-border) }
+.b-org   { background:var(--warning-bg); color:var(--warning); border:1px solid var(--warning-border) }
+.b-blue  { background:var(--info-bg);    color:var(--info);    border:1px solid var(--info-border) }
+.b-grn   { background:var(--ok-bg);      color:var(--ok);      border:1px solid var(--ok-border) }
+.b-gray  { background:#F8FAFC; color:var(--text2); border:1px solid var(--border) }
+.b-pur   { background:#F5F3FF; color:#7C3AED; border:1px solid #DDD6FE }
+.b-added { background:#F0FDF4; color:#15803D; border:1px solid #BBF7D0 }
+.b-removed { background:#FEF2F2; color:#B91C1C; border:1px solid #FECACA }
+.b-changed { background:#FFFBEB; color:#D97706; border:1px solid #FDE68A }
+.badge.cl { cursor:pointer; transition:opacity .15s }.badge.cl:hover { opacity:.75 }
+
+/* ── Jira Key Link ────────────────────────────────────── */
+.jira-key {
+  font-family:'JetBrains Mono',monospace; font-size:11px;
+  color:var(--core); text-decoration:none;
+  background: var(--core-light); border:1px solid var(--core-border);
+  padding:1px 6px; border-radius:4px;
+  white-space:nowrap; transition:all .15s;
+}
+.jira-key:hover { background:var(--core); color:#fff }
+
+/* ── Table ────────────────────────────────────────────── */
+.tbl { width:100%; border-collapse:collapse; font-size:12px }
+.tbl th {
+  padding:8px 12px; text-align:left;
+  background:#F8FAFC; font-size:10px; font-weight:700;
+  color:var(--text3); letter-spacing:.5px; text-transform:uppercase;
+  border-bottom:2px solid var(--border);
+}
+.tbl td { padding:9px 12px; border-bottom:1px solid var(--border); vertical-align:middle }
+.tbl tr:last-child td { border-bottom:none }
+.tbl tr:hover td { background:#F8FAFC }
+
+/* ── Urgent Row ───────────────────────────────────────── */
+.ui {
+  display:flex; gap:12px; align-items:flex-start;
+  padding:10px 0; border-bottom:1px solid var(--border);
+}
+.ui:last-child { border-bottom:none }
+.ui-key { min-width:82px; padding-top:2px }
+.ui-t { font-size:12px; font-weight:500; margin-bottom:4px }
+.ui-m { display:flex; gap:6px; align-items:center; flex-wrap:wrap; font-size:11px; color:var(--text2) }
+
+/* ── Alert ────────────────────────────────────────────── */
+.alert {
+  border-radius:var(--rs); padding:12px 16px;
+  font-size:12px; margin-bottom:14px;
+  display:flex; gap:10px; align-items:flex-start;
+  border:1px solid;
+}
+.alert.danger  { background:var(--danger-bg);  color:var(--danger);  border-color:var(--danger-border) }
+.alert.warning { background:var(--warning-bg); color:var(--warning); border-color:var(--warning-border) }
+.alert.ok      { background:var(--ok-bg);      color:var(--ok);      border-color:var(--ok-border) }
+.alert.info    { background:var(--info-bg);     color:var(--info);    border-color:var(--info-border) }
+
+/* ── Workload Bars ────────────────────────────────────── */
+.wl-row {
+  display:grid;
+  grid-template-columns:86px 1fr 110px 40px;
+  gap:12px; align-items:center; margin-bottom:12px;
+  padding:8px 10px; border-radius:8px; cursor:pointer;
+  transition:background .15s;
+}
+.wl-row:hover { background:var(--bg) }
+.wl-track {
+  height:12px; border-radius:99px;
+  background:#F1F5F9; border:1px solid var(--border);
+  overflow:hidden; position:relative;
+}
+.wl-fill { height:100%; border-radius:99px; transition:width .6s }
+.wl-marker {
+  position:absolute; top:-2px; width:2px; height:16px; border-radius:1px;
+}
+
+/* ── Tooltip ──────────────────────────────────────────── */
+.has-tip { position:relative; cursor:help }
+.tip {
+  display:none; position:absolute;
+  bottom:calc(100% + 8px); left:50%; transform:translateX(-50%);
+  background:#0F172A; color:#fff;
+  font-size:11px; line-height:1.5;
+  padding:8px 12px; border-radius:8px;
+  white-space:nowrap; z-index:400;
+  box-shadow:0 4px 16px rgba(0,0,0,.25);
+  pointer-events:none; max-width:260px; white-space:normal; text-align:left;
+}
+.tip::after {
+  content:''; position:absolute;
+  top:100%; left:50%; transform:translateX(-50%);
+  border:5px solid transparent;
+  border-top-color:#0F172A;
+}
+.has-tip:hover .tip { display:block }
+
+/* ── Donut ────────────────────────────────────────────── */
+.donut-wrap { display:flex; align-items:center; gap:20px }
+.donut-legend { flex:1 }
+.donut-item {
+  display:flex; align-items:center; gap:8px;
+  padding:5px 0; font-size:12px; cursor:pointer;
+  border-radius:6px; transition:background .15s; padding:5px 8px; margin:-5px -8px;
+}
+.donut-item:hover { background:var(--bg) }
+.donut-dot { width:10px; height:10px; border-radius:3px; flex-shrink:0 }
+.donut-name { flex:1; color:var(--text) }
+.donut-count { font-weight:600; font-family:'JetBrains Mono',monospace; font-size:11px }
+.donut-pct { font-size:10px; color:var(--text3); margin-left:4px }
+
+/* ── Chain ────────────────────────────────────────────── */
+.chain-node { display:flex; gap:12px; align-items:flex-start }
+.chain-circle {
+  width:24px; height:24px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:10px; font-weight:800; flex-shrink:0;
+}
+
+/* ── Seq Unassigned Tags ──────────────────────────────── */
+.seqtag {
+  display:inline-flex; align-items:center;
+  padding:2px 8px; border-radius:5px;
+  font-size:11px; font-weight:700;
+  background:var(--info-bg); color:var(--info); border:1px solid var(--info-border);
+}
+.seqtag.auto {
+  background:#FFFBEB; color:#D97706; border-color:#FDE68A;
+}
+
+/* ── History ──────────────────────────────────────────── */
+.diff-row {
+  display:grid;
+  grid-template-columns:90px 110px 1fr 190px 190px;
+  gap:8px; align-items:start;
+  padding:9px 12px; border-bottom:1px solid var(--border);
+  font-size:12px; transition:background .12s;
+}
+.diff-row:hover { background:#F8FAFC }
+.diff-before {
+  color:var(--danger); font-size:11px;
+  background:var(--danger-bg); border:1px solid var(--danger-border);
+  padding:2px 6px; border-radius:5px; word-break:break-all; line-height:1.4;
+}
+.diff-after {
+  color:var(--ok); font-size:11px;
+  background:var(--ok-bg); border:1px solid var(--ok-border);
+  padding:2px 6px; border-radius:5px; word-break:break-all; line-height:1.4;
+}
+.hf-btn {
+  padding:7px 14px; border:1px solid var(--border);
+  border-radius:var(--rs); background:var(--card);
+  font-size:11px; font-weight:600; cursor:pointer;
+  font-family:inherit; transition:all .15s; color:var(--text2);
+}
+.hf-btn:hover,.hf-btn.on {
+  background:var(--core); color:#fff;
+  border-color:var(--core);
+  box-shadow:0 2px 8px rgba(29,78,216,.3);
+}
+
+/* ── History summary cards ────────────────────────────── */
+.hist-stat {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:var(--r); padding:14px 16px;
+  text-align:center; cursor:pointer; transition:all .2s;
+}
+.hist-stat:hover { box-shadow:var(--shadow-md); transform:translateY(-2px) }
+.hist-stat-v { font-size:28px; font-weight:700; font-family:'JetBrains Mono',monospace; line-height:1 }
+.hist-stat-l { font-size:11px; font-weight:600; margin-top:4px }
+
+/* ── Modal ────────────────────────────────────────────── */
+.modal-ov {
+  position:fixed; inset:0; background:rgba(15,23,42,.6);
+  z-index:500; display:flex; align-items:flex-start;
+  justify-content:center; padding:60px 20px 20px; overflow-y:auto;
+  backdrop-filter:blur(3px);
+}
+.modal-box {
+  background:var(--card); border-radius:var(--r);
+  width:100%; max-width:960px;
+  box-shadow:0 20px 60px rgba(0,0,0,.2);
+  animation:mup .2s ease; flex-shrink:0;
+  border:1px solid var(--border);
+}
+@keyframes mup{ from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)} }
+.modal-hdr {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 22px; border-bottom:1px solid var(--border);
+  background:#F8FAFC;
+}
+.modal-title { font-size:14px; font-weight:700 }
+.modal-x {
+  width:30px; height:30px; border-radius:8px;
+  border:1px solid var(--border); background:var(--card);
+  cursor:pointer; font-size:14px; display:flex;
+  align-items:center; justify-content:center; color:var(--text2);
+  transition:all .15s;
+}
+.modal-x:hover { background:var(--danger-bg); color:var(--danger); border-color:var(--danger) }
+.modal-body { padding:16px 22px; max-height:65vh; overflow-y:auto }
+.modal-srch {
+  width:100%; padding:9px 14px;
+  border:1px solid var(--border); border-radius:var(--rs);
+  font-size:12px; font-family:inherit; margin-bottom:12px; outline:none;
+  transition:border-color .15s; background:var(--bg);
+}
+.modal-srch:focus { border-color:var(--core); background:var(--card) }
+.modal-cnt { font-size:11px; color:var(--text3); margin-bottom:8px }
+
+/* ── D7 Grid ──────────────────────────────────────────── */
+.d7-card {
+  display:flex; gap:10px; padding:11px 14px;
+  border-radius:10px; background:var(--card);
+  border:1px solid var(--border); transition:all .15s;
+}
+.d7-card:hover { box-shadow:var(--shadow); border-color:var(--border2) }
+
+/* ── Misc ─────────────────────────────────────────────── */
+.legend { display:flex; gap:16px; flex-wrap:wrap; font-size:11px; color:var(--text2); margin-bottom:14px }
+.legend-i { display:flex; align-items:center; gap:6px }
+.section-note { font-size:10px; color:var(--text3); margin-left:auto; font-weight:400; text-transform:none; letter-spacing:0 }
+.footer {
+  text-align:center; padding:18px 24px;
+  font-size:11px; color:var(--text3);
+  border-top:1px solid var(--border); margin-top:8px;
+}
+::-webkit-scrollbar { width:5px; height:5px }
+::-webkit-scrollbar-track { background:var(--bg) }
+::-webkit-scrollbar-thumb { background:var(--border2); border-radius:99px }
+
+/* ── Icon Components ──────────────────────────────────── */
+.ico { display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; }
+.status-empty { display:flex; flex-direction:column; align-items:center; gap:8px; padding:24px; color:var(--text3); font-size:12px }
+
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="tb-left">
+    <div class="tb-logo">P</div>
+    <div>
+      <div class="tb-title">Platfos · Pongift — 프로젝트 현황 대시보드</div>
+      <div class="tb-sub">기준일: 2026-08-10 (월) &nbsp;·&nbsp; 94개 이슈 (완료·비활성화 제외) &nbsp;·&nbsp; 전일 대비 4건 변경</div>
+    </div>
+  </div>
+  <div class="tb-right" id="tb-badges"></div>
+</div>
+
+<div class="main">
+  <div class="kpi-grid" id="kpi-grid"></div>
+
+  <!-- TABS -->
+  <div class="tab-nav">
+    <button class="tab-btn" onclick="sw('overview')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> 전체 현황</button>
+    <button class="tab-btn" onclick="sw('urgent')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> 긴급 · 블로커</button>
+    <button class="tab-btn" onclick="sw('seq')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> 시퀀스별</button>
+    <button class="tab-btn" onclick="sw('workload')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> 담당자 부하</button>
+    <button class="tab-btn" onclick="sw('history')" style="position:relative">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><polyline points="12 7 12 12 16 14"/></svg> 변경 이력
+      <span style="width:7px;height:7px;border-radius:50%;background:#EF4444;display:inline-block;margin-left:2px"></span>
+    </button>
+    <button class="tab-btn on" onclick="sw('status')" style="position:relative">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> 실행 상황판
+      <span style="position:absolute;top:6px;right:6px;width:6px;height:6px;border-radius:50%;background:#DC2626"></span>
+    </button>
+    <button class="tab-btn" onclick="sw('monthly')" style="display:flex;align-items:center;gap:5px"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>월별업무</button>
+  </div>
+
+  <!-- ① 전체현황 -->
+  <div class="panel" id="p-overview">
+    <div class="g2">
+      <!-- 포트폴리오 -->
+      <div class="card">
+        <div class="card-title">
+          포트폴리오별 현황
+          <span class="section-note">클릭하면 전체 이슈 목록</span>
+        </div>
+        <div id="pf-section"></div>
+      </div>
+      <!-- 상태 분포 -->
+      <div class="card">
+        <div class="card-title">
+          이슈 현황 분포
+          <span class="section-note">항목 클릭하면 목록 확인</span>
+        </div>
+        <div style="margin-bottom:20px">
+          <div style="font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">상태별</div>
+          <div id="status-bars"></div>
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">이슈 유형별</div>
+          <div id="type-bars"></div>
+        </div>
+      </div>
+    </div>
+    <div class="g2">
+      <!-- 시퀀스 -->
+      <div class="card">
+        <div class="card-title">시퀀스별 이슈 수 <span class="section-note">클릭하면 목록</span></div>
+        <div id="seq-mini"></div>
+      </div>
+      <!-- 건강 지표 -->
+      <div class="card">
+        <div class="card-title">프로젝트 건강 지표</div>
+        <div class="health-grid" id="health-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ② 긴급 -->
+  <div class="panel" id="p-urgent">
+    <div id="urgent-alert"></div>
+    <div class="g2">
+      <div class="card"><div class="card-title"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg> 막힘 블로커</div><div id="blocked-list"></div></div>
+      <div class="card"><div class="card-title"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--warning)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> D-3 이내 기한</div><div id="d3-list"></div></div>
+    </div>
+    <div class="card"><div class="card-title"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> D-7 이내 기한 <span class="section-note">이번 주 완료 대상</span></div><div id="d7-list"></div></div>
+    <div class="card">
+      <div class="card-title"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg> 기한 경과 이슈 전체 <span class="section-note">기한 재조정 필요</span></div>
+      <div style="overflow-x:auto"><table class="tbl" id="expired-tbl"></table></div>
+    </div>
+  </div>
+
+  <!-- ③ 시퀀스 -->
+  <div class="panel" id="p-seq">
+    <div class="card">
+      <div class="card-title">에픽 시퀀스별 진행 현황 <span class="section-note">클릭하면 시퀀스 전체 이슈</span></div>
+      <div class="legend">
+        <div class="legend-i"><span style="width:12px;height:12px;border-radius:3px;background:var(--st-prog);display:inline-block"></span>진행 중</div>
+        <div class="legend-i"><span style="width:12px;height:12px;border-radius:3px;background:var(--st-wait);display:inline-block"></span>대기</div>
+        <div class="legend-i"><span style="width:12px;height:12px;border-radius:3px;background:var(--st-hold);display:inline-block"></span>보류</div>
+      </div>
+      <div id="seq-detail"></div>
+    </div>
+    <div class="g2">
+      <div class="card"><div class="card-title"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg> 크리티컬 패스 <span class="section-note">미배정 에픽 직렬 체인</span></div><div id="cp-chain"></div></div>
+      <div class="card"><div class="card-title">시퀀스 미배정 이슈 <span class="section-note" style="color:var(--warning)">자동 추정 포함 — 클릭하면 목록</span></div><div id="seq-un"></div></div>
+    </div>
+  </div>
+
+  <!-- ④ 담당자 -->
+  <div class="panel" id="p-workload">
+    <div class="card">
+      <div class="card-title">담당자별 이슈 부하 <span class="section-note">클릭하면 담당 이슈 목록</span></div>
+      <div style="display:flex;gap:16px;font-size:11px;color:var(--text2);margin-bottom:16px;align-items:center">
+        <span>막대 길이 = 담당 이슈 수</span>
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:2px;height:14px;background:var(--warning);border-radius:1px;display:inline-block"></span>7개 경고</span>
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:2px;height:14px;background:var(--danger);border-radius:1px;display:inline-block"></span>15개 위험</span>
+      </div>
+      <div id="wl-bars"></div>
+    </div>
+    <div class="g2">
+      <div class="card"><div class="card-title">미배정 이슈 현황 <span class="section-note">클릭하면 목록</span></div><div id="ua-detail"></div></div>
+      <div class="card"><div class="card-title">담당자별 기한 경과 <span class="section-note">클릭하면 목록</span></div><div id="exp-owner"></div></div>
+    </div>
+  </div>
+
+  <!-- ⑤ 이력 -->
+  <div class="panel" id="p-history">
+    <div class="card">
+      <div class="card-title"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><polyline points="12 7 12 12 16 14"/></svg> 변경 이력 — 2026-08-07 → 2026-08-10
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px" id="hist-filter">
+        <button class="hf-btn on" onclick="filterHist('all')">전체 (4)</button>
+        <button class="hf-btn" onclick="filterHist('added')">신규 (0)</button>
+        <button class="hf-btn" onclick="filterHist('removed')">제거 (2)</button>
+        <button class="hf-btn" onclick="filterHist('title')">요약 (1)</button>
+        <button class="hf-btn" onclick="filterHist('label')">레이블 (1)</button>
+        <button class="hf-btn" onclick="filterHist('comp')">컴포넌트 (102)</button>
+      </div>
+      <input style="width:100%;padding:9px 14px;border:1px solid var(--border);border-radius:var(--rs);font-size:12px;font-family:inherit;margin-bottom:10px;outline:none;background:var(--bg)" 
+             placeholder="키 · 요약으로 검색..." id="hist-srch" oninput="renderHist()">
+      <div style="font-size:11px;color:var(--text3);margin-bottom:10px" id="hist-cnt"></div>
+      <div style="display:grid;grid-template-columns:90px 110px 1fr 190px 190px;gap:4px;padding:7px 12px;background:var(--bg);border-radius:8px;font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;border:1px solid var(--border)">
+        <div>Jira 키</div><div>변경 유형</div><div>요약</div><div>이전</div><div>변경 후</div>
+      </div>
+      <div id="hist-list"></div>
+    </div>
+  </div>
+</div>
+
+
+  <!-- ⑥ 담당자 현황 -->
+  
+  <div class="panel on" id="p-status">
+
+<div id="plat-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.45);backdrop-filter:blur(2px)" onclick="if(event.target===this)closePlatModal()">
+  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:16px;width:min(660px,95vw);max-height:82vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.25)">
+    <div style="padding:18px 20px 14px;border-bottom:1px solid #F1F5F9;display:flex;align-items:center;gap:10px;flex-shrink:0">
+      <div id="plat-modal-icon" style="width:12px;height:12px;flex-shrink:0"></div>
+      <div style="flex:1"><div id="plat-modal-title" style="font-size:16px;font-weight:700;color:#111827"></div><div id="plat-modal-sub" style="font-size:11px;color:#9CA3AF;margin-top:1px"></div></div>
+      <button onclick="closePlatModal()" style="background:none;border:none;cursor:pointer;color:#9CA3AF;font-size:20px;padding:4px 8px;border-radius:6px">&#x2715;</button>
+    </div>
+    <div id="plat-modal-body" style="padding:16px 20px;overflow-y:auto;flex:1"></div>
+  </div>
+</div>
+<script>
+const MEMBER_STORE={"최다솔": {"name": "최다솔", "signal": "orange", "signal_txt": "오늘기한 1건", "prog": [{"key": "PG-3777", "title": "[기획][CMS] 유통채널 설정관리 & 카테고리 관리 프로토타입 작성", "status": "진행 중", "owner": "최다솔", "due": "2026-08-10", "start": "2026-08-06", "elapsed": 4}, {"key": "PG-3767", "title": "[Grow][S2][S8] 파트너센터 상품/채널 연동 관리 구조 개편", "status": "진행 중", "owner": "최다솔", "due": "2026-08-31", "start": "2026-08-04", "elapsed": 6}, {"key": "PG-3742", "title": "[S4] 상품권 사용/사용취소 흐름 정리", "status": "진행 중", "owner": "최다솔", "due": "2026-08-28", "start": "2026-07-30", "elapsed": 11}, {"key": "PG-3580", "title": "[S8] 시퀀스 업무 정리 (채널/API/몰/확장)", "status": "진행 중", "owner": "최다솔", "due": "2026-08-28", "start": "2026-07-09", "elapsed": 32}, {"key": "PG-3576", "title": "[S4] 시퀀스 업무 정리 (사용/사용취소/유효기간)", "status": "진행 중", "owner": "최다솔", "due": "2026-08-28", "start": "2026-07-30", "elapsed": 11}, {"key": "PG-3572", "title": "[AX] 시퀀스별(S1~S8) 업무 정리", "status": "진행 중", "owner": "최다솔", "due": "2026-08-31", "start": "2026-07-03", "elapsed": 38}], "deploy": [], "overdue": [], "d7": [], "blk": []}, "김명수": {"name": "김명수", "signal": "yellow", "signal_txt": "기한경과 1건", "prog": [{"key": "PG-3757", "title": "[Grow][S1] 파트너센터 온보딩 전체 구조 개편", "status": "진행 중", "owner": "김명수", "due": "2026-08-25", "start": "2026-08-04", "elapsed": 6}, {"key": "PG-3755", "title": "[분석] 파트너스 온보딩 현재 고객 진입 분석", "status": "진행 중", "owner": "김명수", "due": "2026-08-07", "start": "2026-08-04", "elapsed": 6}, {"key": "PG-3573", "title": "[S1] 시퀀스 업무 정리 (온보딩/승인)", "status": "진행 중", "owner": "김명수", "due": "2026-08-14", "start": "2026-08-04", "elapsed": 6}], "deploy": [], "overdue": [{"key": "PG-3755", "title": "[분석] 파트너스 온보딩 현재 고객 진입 분석", "status": "진행 중", "owner": "김명수", "due": "2026-08-07", "start": "2026-08-04", "elapsed": 6}], "d7": [{"key": "PG-3573", "title": "[S1] 시퀀스 업무 정리 (온보딩/승인)", "status": "진행 중", "owner": "김명수", "due": "2026-08-14", "start": "2026-08-04", "elapsed": 6}], "blk": []}, "김가영": {"name": "김가영", "signal": "green", "signal_txt": "정상 진행", "prog": [{"key": "PG-3751", "title": "디자인 시스템 전반 업데이트 및 적용", "status": "진행 중", "owner": "김가영", "due": "2026-08-31", "start": "2026-08-03", "elapsed": 7}], "deploy": [], "overdue": [], "d7": [], "blk": []}, "박창용": {"name": "박창용", "signal": "red", "signal_txt": "막힘 1건", "prog": [], "deploy": [{"key": "PG-3764", "title": "[BE] 불필요한 fastify metric 의존성 제거", "status": "배포대기", "owner": "박창용", "due": "2026-08-05", "start": "2026-08-03", "elapsed": 7}], "overdue": [], "d7": [], "blk": [{"key": "PG-3758", "title": "[BE] 파트너센터 서비스 대시보드 API 속도 개선", "status": "막힘", "owner": "박창용", "due": "2026-08-05", "start": "2026-08-03", "elapsed": 7}]}, "이지헌": {"name": "이지헌", "signal": "gray", "signal_txt": "대기중", "prog": [], "deploy": [], "overdue": [], "d7": [], "blk": []}, "이웅식": {"name": "이웅식", "signal": "gray", "signal_txt": "대기중", "prog": [], "deploy": [], "overdue": [], "d7": [], "blk": []}, "김희진": {"name": "김희진", "signal": "orange", "signal_txt": "오늘기한 1건", "prog": [{"key": "PG-3776", "title": "[모노레포] 폰기프트 디자인 시스템 v2.0 colors 적용", "status": "진행 중", "owner": "김희진", "due": "2026-08-10", "start": "2026-08-06", "elapsed": 4}, {"key": "PG-3769", "title": "프론트엔드 시스템 학습 (pongift-frontend-system)", "status": "진행 중", "owner": "김희진", "due": "2026-08-31", "start": "2026-08-05", "elapsed": 5}, {"key": "PG-2485", "title": "💻 프론트엔드 기술 개선 및 안정화", "status": "진행 중", "owner": "김희진", "due": "2026-08-31", "start": "2026-03-05", "elapsed": 158}], "deploy": [{"key": "PG-3375", "title": "CMS 주문관리 -> 상품권 현황", "status": "배포대기", "owner": "김희진", "due": "", "start": "", "elapsed": null}, {"key": "PG-3374", "title": "CMS 주문관리 -> 엑셀다운로드", "status": "배포대기", "owner": "김희진", "due": "", "start": "", "elapsed": null}, {"key": "PG-3373", "title": "CMS 직접발송 -> 포인트 현황 엑셀다운로드", "status": "배포대기", "owner": "김희진", "due": "", "start": "", "elapsed": null}, {"key": "PG-3372", "title": "CMS 직접발송 -> 포인트 충전내역 엑셀다운로드", "status": "배포대기", "owner": "김희진", "due": "", "start": "", "elapsed": null}, {"key": "PG-3371", "title": "CMS 직접발송 -> 발송현황 엑셀다운로드", "status": "배포대기", "owner": "김희진", "due": "", "start": "", "elapsed": null}, {"key": "PG-3370", "title": "CMS 상품목록 엑셀다운로드", "status": "배포대기", "owner": "김희진", "due": "", "start": "", "elapsed": null}], "overdue": [], "d7": [], "blk": []}, "장석원": {"name": "장석원", "signal": "yellow", "signal_txt": "기한경과 1건", "prog": [{"key": "PG-3752", "title": "[FE] 프론트엔드 시스템", "status": "진행 중", "owner": "장석원", "due": "2026-08-07", "start": "2026-08-03", "elapsed": 7}], "deploy": [], "overdue": [{"key": "PG-3752", "title": "[FE] 프론트엔드 시스템", "status": "진행 중", "owner": "장석원", "due": "2026-08-07", "start": "2026-08-03", "elapsed": 7}], "d7": [], "blk": []}, "정광희": {"name": "정광희", "signal": "green", "signal_txt": "정상 진행", "prog": [{"key": "PG-3437", "title": "💻  [Core][All] AWS 인프라 정리", "status": "진행 중", "owner": "정광희", "due": "", "start": "2026-06-15", "elapsed": 56}], "deploy": [{"key": "PG-3368", "title": "💻 [Core][All] 엑셀다운로드", "status": "배포대기", "owner": "정광희", "due": "2026-08-14", "start": "2026-06-01", "elapsed": 70}], "overdue": [], "d7": [], "blk": []}};
+const SEQ_STORE={"s1": {"seq": "s1", "name": "온보딩", "total": 1, "blk": [], "exp": [], "today": [], "d7": [], "prog": [], "wait": [{"key": "PG-2081", "title": "[S1][Ops] 로그인 후 공지사항 팝업 노출 기능", "status": "대기", "owner": "최다솔", "due": "", "start": "", "elapsed": null}], "hold": []}, "s2": {"seq": "s2", "name": "상품채널", "total": 5, "blk": [], "exp": [{"key": "PG-3752", "title": "[FE] 프론트엔드 시스템", "status": "진행 중", "owner": "장석원", "due": "2026-08-07", "start": "2026-08-03", "elapsed": 7}], "today": [{"key": "PG-3776", "title": "[모노레포] 폰기프트 디자인 시스템 v2.0 colors 적용", "status": "진행 중", "owner": "김희진", "due": "2026-08-10", "start": "2026-08-06", "elapsed": 4}], "d7": [], "prog": [{"key": "PG-3776", "title": "[모노레포] 폰기프트 디자인 시스템 v2.0 colors 적용", "status": "진행 중", "owner": "김희진", "due": "2026-08-10", "start": "2026-08-06", "elapsed": 4}, {"key": "PG-3769", "title": "프론트엔드 시스템 학습 (pongift-frontend-system)", "status": "진행 중", "owner": "김희진", "due": "2026-08-31", "start": "2026-08-05", "elapsed": 5}, {"key": "PG-3752", "title": "[FE] 프론트엔드 시스템", "status": "진행 중", "owner": "장석원", "due": "2026-08-07", "start": "2026-08-03", "elapsed": 7}, {"key": "PG-2485", "title": "💻 프론트엔드 기술 개선 및 안정화", "status": "진행 중", "owner": "김희진", "due": "2026-08-31", "start": "2026-03-05", "elapsed": 158}], "wait": [{"key": "PG-2108", "title": "[S2][Ops] 공지사항 노출 기간 설정 기능", "status": "대기", "owner": "", "due": "", "start": "", "elapsed": null}], "hold": []}, "s3": {"seq": "s3", "name": "주문발행", "total": 1, "blk": [], "exp": [], "today": [], "d7": [], "prog": [], "wait": [{"key": "PG-2720", "title": "[S3][FE] 결제 완료 화면", "status": "대기", "owner": "", "due": "", "start": "", "elapsed": null}], "hold": []}, "s4": {"seq": "s4", "name": "사용인증", "total": 0, "blk": [], "exp": [], "today": [], "d7": [], "prog": [], "wait": [], "hold": []}, "s5": {"seq": "s5", "name": "환불취소", "total": 0, "blk": [], "exp": [], "today": [], "d7": [], "prog": [], "wait": [], "hold": []}, "s6": {"seq": "s6", "name": "정산", "total": 0, "blk": [], "exp": [], "today": [], "d7": [], "prog": [], "wait": [], "hold": []}, "s7": {"seq": "s7", "name": "운영통제", "total": 1, "blk": [], "exp": [], "today": [], "d7": [], "prog": [], "wait": [{"key": "PG-2670", "title": "[S7][Policy] 운영 민감 이벤트 분류 및 심각도 기준 반영", "status": "대기", "owner": "", "due": "2026-12-29", "start": "2026-11-30", "elapsed": -112}], "hold": []}, "s8": {"seq": "s8", "name": "외부연동", "total": 4, "blk": [], "exp": [], "today": [], "d7": [], "prog": [], "wait": [{"key": "PG-3066", "title": "[Expand][S8][카페24] 7. 파트너센터/CMS - 운영 관리 화면 및 관리자 처리 기능 반영", "status": "대기", "owner": "김명수", "due": "", "start": "2026-05-07", "elapsed": 95}, {"key": "PG-3064", "title": "[Expand][S8][카페24] 5. 취소/환불 - 주문 취소 및 환불 예외 처리 기준 정리", "status": "대기", "owner": "김명수", "due": "", "start": "", "elapsed": null}, {"key": "PG-3061", "title": "[Expand][S8][카페24] 2. 상품 연동 - 상품권 등록 및 판매 상품 매핑 처리", "status": "대기", "owner": "", "due": "", "start": "", "elapsed": null}, {"key": "PG-3059", "title": "[Expand][S8][카페24] 1. 연동 설정 - 앱 설정 및 기본 연동값 정리", "status": "대기", "owner": "", "due": "", "start": "", "elapsed": null}], "hold": []}};
+const _JB='https://platfos.atlassian.net/browse/',_TD='2026-08-10',_D7='2026-08-17';
+function _elB(d){if(d==null)return'';const[c,bg,bc]=d<=3?['#16A34A','#F0FDF4','#BBF7D0']:d<=7?['#D97706','#FFFBEB','#FDE68A']:d<=14?['#C2410C','#FFF7ED','#FED7AA']:['#DC2626','#FEF2F2','#FECACA'];return`<span style="font-size:9px;padding:2px 7px;border-radius:99px;background:${bg};color:${c};border:1px solid ${bc};font-weight:700;white-space:nowrap;font-family:'JetBrains Mono',monospace">D+${d}</span>`;}
+function _owC(o){if(!o)return'';const m={'최다솔':'#7C3AED','김명수':'#7C3AED','김가영':'#7C3AED','박창용':'#1D6AE5','이지헌':'#1D6AE5','이웅식':'#1D6AE5','정광희':'#059669','김희진':'#0891B2','장석원':'#0891B2'};const c=m[o]||'#6B7280';return`<span style="font-size:9px;padding:1px 6px;border-radius:4px;background:${c}18;color:${c};font-weight:600;white-space:nowrap">${o}</span>`;}
+function _iRow(r){const t=r.title?.length>52?r.title.slice(0,52)+'\u2026':r.title||'';const isDep=r.status==='배포대기';const isBlk=r.status==='막힘';const dc=!isDep&&!isBlk&&r.due&&r.due<=_TD?'#DC2626':r.due&&r.due<=_D7?'#D97706':'#9CA3AF';const dH=r.due?`<span style="font-size:9px;color:${dc};font-weight:600;white-space:nowrap;flex-shrink:0">${r.due}</span>`:'';const stC=isBlk?'#DC2626':isDep?'#0891B2':'#1D4ED8';const stB=isBlk?'#FEF2F2':isDep?'#ECFEFF':'#EFF6FF';return`<div style="display:flex;gap:7px;align-items:flex-start;padding:9px 12px;border-radius:9px;background:#F8FAFC;border:1px solid #E2E8F0;margin-bottom:6px"><a href="${_JB}${r.key}" target="_blank" style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#1D4ED8;text-decoration:none;background:#EFF6FF;border:1px solid #BFDBFE;padding:1px 6px;border-radius:4px;white-space:nowrap;flex-shrink:0">${r.key}</a><div style="flex:1;min-width:0"><div style="font-size:11px;color:#374151;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;margin-bottom:4px">${t}</div><div style="display:flex;gap:5px;align-items:center;flex-wrap:wrap"><span style="font-size:8px;padding:1px 5px;border-radius:3px;background:${stB};color:${stC};font-weight:700">${r.status}</span>${_owC(r.owner)}${_elB(r.elapsed)}</div></div>${dH}</div>`;}
+function _sec(title,items,color){if(!items?.length)return'';return`<div style="margin-bottom:16px"><div style="font-size:10px;font-weight:700;color:${color};text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">${title} (${items.length}건)</div>${items.map(r=>_iRow(r)).join('')}</div>`;}
+function _showPlatModal(title,sub,iconStyle,body){const ic=document.getElementById('plat-modal-icon');Object.assign(ic.style,iconStyle);document.getElementById('plat-modal-title').innerHTML=title;document.getElementById('plat-modal-sub').innerHTML=sub;document.getElementById('plat-modal-body').innerHTML=body||'<div style="padding:20px;text-align:center;color:#D1D5DB">이슈 없음</div>';document.getElementById('plat-modal').style.display='block';document.body.style.overflow='hidden';}
+function openPlatMemberModal(name){const d=MEMBER_STORE[name];if(!d)return;const SIG={green:'#16A34A',yellow:'#D97706',orange:'#DC2626',red:'#DC2626',gray:'#9CA3AF'};const dot=SIG[d.signal]||'#9CA3AF';const body=[_sec('막힘',d.blk,'#DC2626'),_sec('기한 경과(진행중)',d.overdue,'#C2410C'),_sec('D-7 이내',d.d7,'#D97706'),_sec('진행 중',d.prog,'#1D4ED8'),_sec('배포 대기',d.deploy,'#0891B2')].join('');_showPlatModal(name+' 업무 현황',d.signal_txt,{background:dot,boxShadow:`0 0 0 3px ${dot}33`,borderRadius:'50%'},body);}
+function openPlatSeqModal(seq){const d=SEQ_STORE[seq];if(!d)return;const body=[_sec('막힘',d.blk,'#DC2626'),_sec('오늘 기한',d.today,'#DC2626'),_sec('기한 경과',d.exp,'#C2410C'),_sec('D-7 이내',d.d7,'#D97706'),_sec('진행 중',d.prog,'#1D4ED8'),_sec('대기',d.wait,'#6B7280')].join('');_showPlatModal(seq.toUpperCase()+' '+d.name,'전체 '+d.total+'건',{background:'#374151',boxShadow:'0 0 0 3px #37415133',borderRadius:'3px'},body);}
+function closePlatModal(){document.getElementById('plat-modal').style.display='none';document.body.style.overflow='';}
+function toggleAcc(id){const el=document.getElementById('acc-'+id);const ic=document.getElementById('acc-icon-'+id);const open=el.style.display==='block';el.style.display=open?'none':'block';if(ic)ic.style.transform=open?'':'rotate(180deg)';}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closePlatModal();});
+</script>
+<div style="background:linear-gradient(135deg,#7C2D12,#9A3412);border-radius:12px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:12px"><span style="font-size:20px">⚠️</span><div><div style="font-size:13px;font-weight:700;color:#FED7AA">8월 2주차 월요일 — 블로커 1건 확인 필요</div><div style="font-size:11px;color:#FDBA74;margin-top:2px">완료 2건 · 신규 0건 · 배포대기 8건 · 블로커 1건</div></div><div style="margin-left:auto;text-align:right"><div style="font-size:18px;font-weight:800;color:#FED7AA">94</div><div style="font-size:9px;color:#FDBA74">활성 이슈</div></div></div><div style="background:#fff;border-radius:12px;border:1px solid #6EE7B7;margin-bottom:12px;overflow:hidden"><button onclick="toggleAcc('dn')" style="width:100%;display:flex;align-items:center;gap:8px;padding:12px 16px;background:none;border:none;cursor:pointer;font-family:inherit;text-align:left"><span style="font-size:10px;font-weight:700;color:#059669;text-transform:uppercase;letter-spacing:.5px;flex:1">✅ 완료·릴리즈 (2건)</span><span style="font-size:10px;font-weight:700;color:#059669;background:#ECFDF5;border:1px solid #6EE7B7;padding:1px 8px;border-radius:99px">2건</span><svg id="acc-icon-dn" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" style="transition:transform .2s;flex-shrink:0"><polyline points="6 9 12 15 18 9"/></svg></button><div id="acc-dn" style="display:none;padding:0 16px 12px"><div style="display:flex;gap:8px;align-items:center;padding:6px 8px;border-radius:7px;background:#F8FAFC;border:1px solid #E2E8F0;margin-bottom:4px"><a href="https://platfos.atlassian.net/browse/PG-3766" target="_blank" style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#1D4ED8;text-decoration:none;background:#EFF6FF;border:1px solid #BFDBFE;padding:1px 6px;border-radius:4px;white-space:nowrap;flex-shrink:0">PG-3766</a><span style="font-size:11px;color:#374151;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">[분석] 파트너스 온보딩 구조 분석</span><span style="font-size:10px;color:#059669;font-weight:600;white-space:nowrap">진행 중→제거</span></div><div style="display:flex;gap:8px;align-items:center;padding:6px 8px;border-radius:7px;background:#F8FAFC;border:1px solid #E2E8F0;margin-bottom:4px"><a href="https://platfos.atlassian.net/browse/PG-3772" target="_blank" style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#1D4ED8;text-decoration:none;background:#EFF6FF;border:1px solid #BFDBFE;padding:1px 6px;border-radius:4px;white-space:nowrap;flex-shrink:0">PG-3772</a><span style="font-size:11px;color:#374151;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">[공통] 2026년 8월 6일 배포</span><span style="font-size:10px;color:#059669;font-weight:600;white-space:nowrap">대기→제거</span></div></div></div><div style="background:#fff;border-radius:12px;border:1px solid #FDE68A;margin-bottom:12px;overflow:hidden"><button onclick="toggleAcc('du')" style="width:100%;display:flex;align-items:center;gap:8px;padding:12px 16px;background:none;border:none;cursor:pointer;font-family:inherit;text-align:left"><span style="font-size:10px;font-weight:700;color:#D97706;text-transform:uppercase;letter-spacing:.5px;flex:1">기한 변경 (2건)</span><span style="font-size:10px;font-weight:700;color:#D97706;background:#FFFBEB;border:1px solid #FDE68A;padding:1px 8px;border-radius:99px">2건</span><svg id="acc-icon-du" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2" stroke-linecap="round" style="transition:transform .2s;flex-shrink:0"><polyline points="6 9 12 15 18 9"/></svg></button><div id="acc-du" style="display:none;padding:0 16px 12px"><div style="display:flex;gap:8px;align-items:center;padding:6px 8px;border-radius:7px;background:#F8FAFC;border:1px solid #E2E8F0;margin-bottom:4px"><a href="https://platfos.atlassian.net/browse/PG-2485" target="_blank" style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#1D4ED8;text-decoration:none;background:#EFF6FF;border:1px solid #BFDBFE;padding:1px 6px;border-radius:4px;white-space:nowrap;flex-shrink:0">PG-2485</a><span style="font-size:11px;color:#374151;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">💻 프론트엔드 기술 개선 및 안정화</span><span style="font-size:10px;color:#D97706;font-weight:600;white-space:nowrap">2026-08-→2026-08-</span></div><div style="display:flex;gap:8px;align-items:center;padding:6px 8px;border-radius:7px;background:#F8FAFC;border:1px solid #E2E8F0;margin-bottom:4px"><a href="https://platfos.atlassian.net/browse/PG-3776" target="_blank" style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#1D4ED8;text-decoration:none;background:#EFF6FF;border:1px solid #BFDBFE;padding:1px 6px;border-radius:4px;white-space:nowrap;flex-shrink:0">PG-3776</a><span style="font-size:11px;color:#374151;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">[모노레포] 폰기프트 디자인 시스템 v2.0 colors 적용</span><span style="font-size:10px;color:#D97706;font-weight:600;white-space:nowrap">2026-08-→2026-08-</span></div></div></div><div style="background:linear-gradient(135deg,#0F172A,#1E3A5F);border-radius:14px;padding:18px 22px;margin-bottom:20px;color:#fff"><div style="display:flex;align-items:center;gap:10px;margin-bottom:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#93C5FD" stroke-width="2" stroke-linecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg><span style="font-size:15px;font-weight:700">실행 상황판</span><span style="font-size:11px;color:#94A3B8;background:rgba(255,255,255,.1);padding:2px 10px;border-radius:99px">2026-08-10 (월) · 8월 2주차 · 94개 활성</span></div><div style="font-size:12px;color:#94A3B8">전일 대비 4건 변경 · 완료 2건 · 배포대기 8건 · 기한경과 2건</div></div><div style="display:grid;grid-template-columns:auto 1fr 1fr 1fr 1fr 1fr;gap:10px;margin-bottom:20px;align-items:stretch"><div style="background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:16px 20px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:120px;position:relative" onmouseenter="document.getElementById('score-tip').style.display='block'" onmouseleave="document.getElementById('score-tip').style.display='none'"><div style="width:64px;height:64px;border-radius:50%;border:4px solid #D97706;display:flex;align-items:center;justify-content:center;margin-bottom:8px;background:#D9770610"><span style="font-size:20px;font-weight:800;color:#D97706">56</span></div><div style="font-size:12px;font-weight:700;color:#D97706">주의</div><div style="font-size:10px;color:#9CA3AF;margin-top:2px">프로젝트 점수</div><div id="score-tip" style="display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#fff;border:1px solid #E2E8F0;border-radius:10px;padding:12px 16px;box-shadow:0 8px 24px rgba(0,0,0,.14);min-width:240px;z-index:999;white-space:nowrap"><div style="font-size:10px;font-weight:700;color:#374151;margin-bottom:8px">점수 산정 기준</div><div style="display:flex;justify-content:space-between;gap:16px;padding:4px 0;border-bottom:1px solid #F1F5F9"><span style="font-size:11px;color:#6B7280">기준점</span><span style="font-size:11px;font-weight:700;color:#374151;font-family:'JetBrains Mono',monospace">40</span></div><div style="display:flex;justify-content:space-between;gap:16px;padding:4px 0;border-bottom:1px solid #F1F5F9"><span style="font-size:11px;color:#6B7280">막힘 1건×(-10)</span><span style="font-size:11px;font-weight:700;color:#DC2626;font-family:'JetBrains Mono',monospace">-10</span></div><div style="display:flex;justify-content:space-between;gap:16px;padding:4px 0;border-bottom:1px solid #F1F5F9"><span style="font-size:11px;color:#6B7280">기한경과 2건×(-2)</span><span style="font-size:11px;font-weight:700;color:#D97706;font-family:'JetBrains Mono',monospace">-4</span></div><div style="display:flex;justify-content:space-between;gap:16px;padding:4px 0;border-bottom:1px solid #F1F5F9"><span style="font-size:11px;color:#6B7280">착수 0건×(+3)</span><span style="font-size:11px;font-weight:700;color:#16A34A;font-family:'JetBrains Mono',monospace">+0</span></div><div style="display:flex;justify-content:space-between;gap:16px;padding:4px 0;border-bottom:1px solid #F1F5F9"><span style="font-size:11px;color:#6B7280">진행중+배포대기 15건×(+2)</span><span style="font-size:11px;font-weight:700;color:#16A34A;font-family:'JetBrains Mono',monospace">+30</span></div><div style="display:flex;justify-content:space-between;gap:16px;padding:6px 0 0"><span style="font-size:12px;font-weight:700;color:#111827">최종 점수</span><span style="font-size:13px;font-weight:800;color:#D97706">56점 (주의)</span></div></div></div><div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:12px;padding:12px 14px"><div style="font-size:22px;font-weight:800;color:#1D4ED8">17</div><div style="font-size:10px;color:#9CA3AF;margin-top:2px">진행 중</div></div><div style="background:#ECFEFF;border:1px solid #A5F3FC;border-radius:12px;padding:12px 14px"><div style="font-size:22px;font-weight:800;color:#0891B2">8</div><div style="font-size:10px;color:#9CA3AF;margin-top:2px">배포 대기</div></div><div style="background:#FFF7ED;border:1px solid #FED7AA;border-radius:12px;padding:12px 14px"><div style="font-size:22px;font-weight:800;color:#D97706">1</div><div style="font-size:10px;color:#9CA3AF;margin-top:2px">막힘</div></div><div style="background:#FFF7ED;border:1px solid #FED7AA;border-radius:12px;padding:12px 14px"><div style="font-size:22px;font-weight:800;color:#D97706">2</div><div style="font-size:10px;color:#9CA3AF;margin-top:2px">기한경과</div><div style="font-size:9px;color:#9CA3AF">진행중만</div></div><div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:12px;padding:12px 14px"><div style="font-size:22px;font-weight:800;color:#6B7280">40</div><div style="font-size:10px;color:#9CA3AF;margin-top:2px">미배정</div></div></div><div style="margin-bottom:10px;padding-bottom:8px;border-bottom:2px solid #E2E8F0"><div style="font-size:10px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:.6px">오늘 진행 현황 <span style="font-size:9px;color:#9CA3AF;font-weight:400">(카드 클릭 → 상세)</span></div></div><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px"><span style="font-size:10px;color:#64748B;font-weight:600">D+ 경과일:</span><span style="font-size:9px;padding:2px 7px;border-radius:99px;background:#F0FDF4;color:#16A34A;border:1px solid #BBF7D0;font-weight:700">~3일</span><span style="font-size:9px;padding:2px 7px;border-radius:99px;background:#FFFBEB;color:#D97706;border:1px solid #FDE68A;font-weight:700">~7일</span><span style="font-size:9px;padding:2px 7px;border-radius:99px;background:#FFF7ED;color:#C2410C;border:1px solid #FED7AA;font-weight:700">~14일</span><span style="font-size:9px;padding:2px 7px;border-radius:99px;background:#FEF2F2;color:#DC2626;border:1px solid #FECACA;font-weight:700">15일+</span><span style="font-size:9px;color:#9CA3AF;margin-left:4px">기한경과 = 진행중 상태만</span></div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px"><div style="font-size:9px;font-weight:700;color:#7C3AED;text-transform:uppercase;letter-spacing:.5px;padding-bottom:4px;border-bottom:1px solid #DDD6FE;grid-column:1/-1">기획팀</div><div onclick="openPlatMemberModal('최다솔')" style="width:100%;box-sizing:border-box;background:#FFF7ED;border:1px solid #FED7AA;border-radius:12px;padding:13px 15px;cursor:pointer;transition:box-shadow .15s,transform .1s" onmouseover="this.style.boxShadow='0 4px 16px rgba(0,0,0,.12)';this.style.transform='translateY(-1px)'" onmouseout="this.style.boxShadow='';this.style.transform=''"><div style="display:flex;align-items:center;gap:9px;margin-bottom:10px"><div style="width:10px;height:10px;border-radius:50%;background:#DC2626;box-shadow:0 0 0 3px #DC262633;flex-shrink:0"></div><span style="font-size:13px;font-weight:700;color:#111827">최다솔</span><span style="font-size:10px;padding:2px 7px;border-radius:99px;background:rgba(255,255,255,.7);color:#374151;font-weight:500">오늘기한 1건</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" style="margin-left:auto;flex-shrink:0"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div><div style="display:flex;gap:6px;margin-bottom:8px"><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#1D4ED8">6</div><div style="font-size:9px;color:#9CA3AF">진행중</div></div><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#0891B2">0</div><div style="font-size:9px;color:#9CA3AF">배포대기</div></div><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#9CA3AF">0</div><div style="font-size:9px;color:#9CA3AF">기한경과</div></div><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#9CA3AF">0</div><div style="font-size:9px;color:#9CA3AF">D-7</div></div><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#DC2626">1</div><div style="font-size:9px;color:#9CA3AF">오늘마감</div></div></div><div style="display:flex;gap:4px;align-items:center;margin-bottom:3px"><a href="https://platfos.atlassian.net/browse/PG-3777" target="_blank" style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#1D4ED8;text-decoration:none;background:#EFF6FF;border:1px solid #BFDBFE;padding:1px 6px;border-radius:4px;white-space:nowrap;flex-shrink:0">PG-3777</a><span style="font-size:8px;padding:1px 5px;border-radius:3px;background:#EFF6FF;color:#1D4ED8;font-weight:700;white-space:nowrap">진행 중</span><span style="font-size:10px;color:#374151;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">[기획][CMS] 유통채널 설정관리 & 카테고리 관리 프로…</span><span style="font-size:9px;padding:2px 7px;border-radius:99px;background:#FFFBEB;color:#D97706;border:1px solid #FDE68A;font-weight:700;white-space:nowrap;font-family:'JetBrains Mono',monospace">D+4</span><span style="font-size:9px;color:#DC2626;font-weight:500">2026-08-10</span></div><div style="margin-top:9px;border-top:1px solid rgba(0,0,0,.07);padding-top:8px"><div style="display:flex;gap:4px;flex-wrap:wrap;align-items:center;margin-bottom:6px"><span style="font-size:9px;color:#9CA3AF;font-weight:600;white-space:nowrap;flex-shrink:0">집중 시퀀스:</span><span style="font-size:9px;color:#9CA3AF">—</span></div><div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:6px;padding:7px 10px"><div style="font-size:11px;color:#D97706;line-height:1.55;font-weight:500">🟠 오늘 기한 1건 — 금일 완료 목표. AX·시퀀스 정리 1건 진행 중.</div></div></div><div style="margin-top:8px;font-size:9px;color:#7C3AED;text-align:right;font-weight:500">클릭하여 전체 보기 →</div></div><div onclick="openPlatMemberModal('김명수')" style="width:100%;box-sizing:border-box;background:#FFFBEB;border:1px solid #FDE68A;border-radius:12px;padding:13px 15px;cursor:pointer;transition:box-shadow .15s,transform .1s" onmouseover="this.style.boxShadow='0 4px 16px rgba(0,0,0,.12)';this.style.transform='translateY(-1px)'" onmouseout="this.style.boxShadow='';this.style.transform=''"><div style="display:flex;align-items:center;gap:9px;margin-bottom:10px"><div style="width:10px;height:10px;border-radius:50%;background:#D97706;box-shadow:0 0 0 3px #D9770633;flex-shrink:0"></div><span style="font-size:13px;font-weight:700;color:#111827">김명수</span><span style="font-size:10px;padding:2px 7px;border-radius:99px;background:rgba(255,255,255,.7);color:#374151;font-weight:500">기한경과 1건</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" style="margin-left:auto;flex-shrink:0"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div><div style="display:flex;gap:6px;margin-bottom:8px"><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#1D4ED8">3</div><div style="font-size:9px;color:#9CA3AF">진행중</div></div><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#0891B2">0</div><div style="font-size:9px;color:#9CA3AF">배포대기</div></div><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#DC2626">1</div><div style="font-size:9px;color:#9CA3AF">기한경과</div></div><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#D97706">1</div><div style="font-size:9px;color:#9CA3AF">D-7</div></div><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#9CA3AF">0</div><div style="font-size:9px;color:#9CA3AF">오늘마감</div></div></div><div style="display:flex;gap:4px;align-items:center;margin-bottom:3px"><a href="https://platfos.atlassian.net/browse/PG-3755" target="_blank" style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#1D4ED8;text-decoration:none;background:#EFF6FF;border:1px solid #BFDBFE;padding:1px 6px;border-radius:4px;white-space:nowrap;flex-shrink:0">PG-3755</a><span style="font-size:8px;padding:1px 5px;border-radius:3px;background:#FFF7ED;color:#D97706;font-weight:700;white-space:nowrap">진행 중</span><span style="font-size:10px;color:#374151;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">[분석] 파트너스 온보딩 현재 고객 진입 분석</span><span style="font-size:9px;padding:2px 7px;border-radius:99px;background:#FFFBEB;color:#D97706;border:1px solid #FDE68A;font-weight:700;white-space:nowrap;font-family:'JetBrains Mono',monospace">D+6</span><span style="font-size:9px;color:#DC2626;font-weight:500">2026-08-07</span></div><div style="margin-top:9px;border-top:1px solid rgba(0,0,0,.07);padding-top:8px"><div style="display:flex;gap:4px;flex-wrap:wrap;align-items:center;margin-bottom:6px"><span style="font-size:9px;color:#9CA3AF;font-weight:600;white-space:nowrap;flex-shrink:0">집중 시퀀스:</span><span style="font-size:9px;color:#9CA3AF">—</span></div><div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:6px;padding:7px 10px"><div style="font-size:11px;color:#D97706;line-height:1.55;font-weight:500">⚠ 기한경과 1건(진행중) — 최우선 처리 필요.</div></div></div><div style="margin-top:8px;font-size:9px;color:#7C3AED;text-align:right;font-weight:500">클릭하여 전체 보기 →</div></div><div onclick="openPlatMemberModal('김가영')" style="width:100%;box-sizing:border-box;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:13px 15px;cursor:pointer;transition:box-shadow .15s,transform .1s" onmouseover="this.style.boxShadow='0 4px 16px rgba(0,0,0,.12)';this.style.transform='translateY(-1px)'" onmouseout="this.style.boxShadow='';this.style.transform=''"><div style="display:flex;align-items:center;gap:9px;margin-bottom:10px"><div style="width:10px;height:10px;border-radius:50%;background:#16A34A;box-shadow:0 0 0 3px #16A34A33;flex-shrink:0"></div><span style="font-size:13px;font-weight:700;color:#111827">김가영</span><span style="font-size:10px;padding:2px 7px;border-radius:99px;background:rgba(255,255,255,.7);color:#374151;font-weight:500">정상 진행</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" style="margin-left:auto;flex-shrink:0"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div><div style="display:flex;gap:6px;margin-bottom:8px"><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#1D4ED8">1</div><div style="font-size:9px;color:#9CA3AF">진행중</div></div><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#0891B2">0</div><div style="font-size:9px;color:#9CA3AF">배포대기</div></div><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#9CA3AF">0</div><div style="font-size:9px;color:#9CA3AF">기한경과</div></div><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#9CA3AF">0</div><div style="font-size:9px;color:#9CA3AF">D-7</div></div><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#9CA3AF">0</div><div style="font-size:9px;color:#9CA3AF">오늘마감</div></div></div><div style="display:flex;gap:4px;align-items:center;margin-bottom:3px"><a href="https://platfos.atlassian.net/browse/PG-3751" target="_blank" style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#1D4ED8;text-decoration:none;background:#EFF6FF;border:1px solid #BFDBFE;padding:1px 6px;border-radius:4px;white-space:nowrap;flex-shrink:0">PG-3751</a><span style="font-size:8px;padding:1px 5px;border-radius:3px;background:#EFF6FF;color:#1D4ED8;font-weight:700;white-space:nowrap">진행 중</span><span style="font-size:10px;color:#374151;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">디자인 시스템 전반 업데이트 및 적용</span><span style="font-size:9px;padding:2px 7px;border-radius:99px;background:#FFFBEB;color:#D97706;border:1px solid #FDE68A;font-weight:700;white-space:nowrap;font-family:'JetBrains Mono',monospace">D+7</span><span style="font-size:9px;color:#9CA3AF;font-weight:500">2026-08-31</span></div><div style="margin-top:9px;border-top:1px solid rgba(0,0,0,.07);padding-top:8px"><div style="display:flex;gap:4px;flex-wrap:wrap;align-items:center;margin-bottom:6px"><span style="font-size:9px;color:#9CA3AF;font-weight:600;white-space:nowrap;flex-shrink:0">집중 시퀀스:</span><span style="font-size:9px;color:#9CA3AF">—</span></div><div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:6px;padding:7px 10px"><div style="font-size:11px;color:#1D6AE5;line-height:1.55;font-weight:500">정상 진행 중.</div></div></div><div style="margin-top:8px;font-size:9px;color:#7C3AED;text-align:right;font-weight:500">클릭하여 전체 보기 →</div></div></div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:10px"><div style="font-size:9px;font-weight:700;color:#1D4ED8;text-transform:uppercase;letter-spacing:.5px;padding-bottom:4px;border-bottom:1px solid #BFDBFE;grid-column:1/-1">개발팀 BE (백엔드)</div><div onclick="openPlatMemberModal('박창용')" style="width:100%;box-sizing:border-box;background:#FEF2F2;border:1px solid #FECACA;border-radius:12px;padding:13px 15px;cursor:pointer;transition:box-shadow .15s,transform .1s" onmouseover="this.style.boxShadow='0 4px 16px rgba(0,0,0,.12)';this.style.transform='translateY(-1px)'" onmouseout="this.style.boxShadow='';this.style.transform=''"><div style="display:flex;align-items:center;gap:9px;margin-bottom:10px"><div style="width:10px;height:10px;border-radius:50%;background:#DC2626;box-shadow:0 0 0 3px #DC262633;flex-shrink:0"></div><span style="font-size:13px;font-weight:700;color:#111827">박창용</span><span style="font-size:10px;padding:2px 7px;border-radius:99px;background:rgba(255,255,255,.7);color:#374151;font-weight:500">막힘 1건</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" style="margin-left:auto;flex-shrink:0"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div><div style="display:flex;gap:6px;margin-bottom:8px"><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#1D4ED8">0</div><div style="font-size:9px;color:#9CA3AF">진행중</div></div><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#DC2626">1</div><div style="font-size:9px;color:#9CA3AF">배포대기</div><div style="font-size:8px;color:#9CA3AF;margin-top:1px">기한초과1건</div></div><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#9CA3AF">0</div><div style="font-size:9px;color:#9CA3AF">기한경과</div></div><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#9CA3AF">0</div><div style="font-size:9px;color:#9CA3AF">D-7</div></div><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#9CA3AF">0</div><div style="font-size:9px;color:#9CA3AF">오늘마감</div></div></div><div style="display:flex;gap:4px;align-items:center;margin-bottom:3px"><a href="https://platfos.atlassian.net/browse/PG-3758" target="_blank" style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#1D4ED8;text-decoration:none;background:#EFF6FF;border:1px solid #BFDBFE;padding:1px 6px;border-radius:4px;white-space:nowrap;flex-shrink:0">PG-3758</a><span style="font-size:8px;padding:1px 5px;border-radius:3px;background:#FEF2F2;color:#DC2626;font-weight:700;white-space:nowrap">막힘</span><span style="font-size:10px;color:#374151;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">[BE] 파트너센터 서비스 대시보드 API 속도 개선</span><span style="font-size:9px;padding:2px 7px;border-radius:99px;background:#FFFBEB;color:#D97706;border:1px solid #FDE68A;font-weight:700;white-space:nowrap;font-family:'JetBrains Mono',monospace">D+7</span><span style="font-size:9px;color:#DC2626;font-weight:500">2026-08-05</span></div><div style="margin-top:9px;border-top:1px solid rgba(0,0,0,.07);padding-top:8px"><div style="display:flex;gap:4px;flex-wrap:wrap;align-items:center;margin-bottom:6px"><span style="font-size:9px;color:#9CA3AF;font-weight:600;white-space:nowrap;flex-shrink:0">집중 시퀀스:</span><span style="font-size:9px;color:#9CA3AF">—</span></div><div style="background:#FEF2F2;border:1px solid #FECACA;border-radius:6px;padding:7px 10px"><div style="font-size:11px;color:#DC2626;line-height:1.55;font-weight:500">🔴 막힘 1건 즉각 해소 필요. 배포대기 1건 (1건 기한초과) — 릴리즈 일정 확인.</div></div></div><div style="margin-top:8px;font-size:9px;color:#1D6AE5;text-align:right;font-weight:500">클릭하여 전체 보기 →</div></div><div onclick="openPlatMemberModal('이지헌')" style="width:100%;box-sizing:border-box;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:12px;padding:13px 15px;cursor:pointer;transition:box-shadow .15s,transform .1s" onmouseover="this.style.boxShadow='0 4px 16px rgba(0,0,0,.12)';this.style.transform='translateY(-1px)'" onmouseout="this.style.boxShadow='';this.style.transform=''"><div style="display:flex;align-items:center;gap:9px;margin-bottom:10px"><div style="width:10px;height:10px;border-radius:50%;background:#9CA3AF;box-shadow:0 0 0 3px #9CA3AF33;flex-shrink:0"></div><span style="font-size:13px;font-weight:700;color:#111827">이지헌</span><span style="font-size:10px;padding:2px 7px;border-radius:99px;background:rgba(255,255,255,.7);color:#374151;font-weight:500">대기중</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" style="margin-left:auto;flex-shrink:0"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div><div style="display:flex;gap:6px;margin-bottom:8px"><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#1D4ED8">0</div><div style="font-size:9px;color:#9CA3AF">진행중</div></div><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#0891B2">0</div><div style="font-size:9px;color:#9CA3AF">배포대기</div></div><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#9CA3AF">0</div><div style="font-size:9px;color:#9CA3AF">기한경과</div></div><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#9CA3AF">0</div><div style="font-size:9px;color:#9CA3AF">D-7</div></div><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#9CA3AF">0</div><div style="font-size:9px;color:#9CA3AF">오늘마감</div></div></div><div style="font-size:10px;color:#9CA3AF;margin-bottom:2px">진행 중 없음</div><div style="margin-top:9px;border-top:1px solid rgba(0,0,0,.07);padding-top:8px"><div style="display:flex;gap:4px;flex-wrap:wrap;align-items:center;margin-bottom:6px"><span style="font-size:9px;color:#9CA3AF;font-weight:600;white-space:nowrap;flex-shrink:0">집중 시퀀스:</span><span style="font-size:9px;color:#9CA3AF">—</span></div><div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:6px;padding:7px 10px"><div style="font-size:11px;color:#9CA3AF;line-height:1.55;font-weight:500">신규 착수 이슈 없음 — 작업 배정 확인 필요.</div></div></div><div style="margin-top:8px;font-size:9px;color:#1D6AE5;text-align:right;font-weight:500">클릭하여 전체 보기 →</div></div><div onclick="openPlatMemberModal('이웅식')" style="width:100%;box-sizing:border-box;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:12px;padding:13px 15px;cursor:pointer;transition:box-shadow .15s,transform .1s" onmouseover="this.style.boxShadow='0 4px 16px rgba(0,0,0,.12)';this.style.transform='translateY(-1px)'" onmouseout="this.style.boxShadow='';this.style.transform=''"><div style="display:flex;align-items:center;gap:9px;margin-bottom:10px"><div style="width:10px;height:10px;border-radius:50%;background:#9CA3AF;box-shadow:0 0 0 3px #9CA3AF33;flex-shrink:0"></div><span style="font-size:13px;font-weight:700;color:#111827">이웅식</span><span style="font-size:10px;padding:2px 7px;border-radius:99px;background:rgba(255,255,255,.7);color:#374151;font-weight:500">대기중</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" style="margin-left:auto;flex-shrink:0"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div><div style="display:flex;gap:6px;margin-bottom:8px"><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#1D4ED8">0</div><div style="font-size:9px;color:#9CA3AF">진행중</div></div><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#0891B2">0</div><div style="font-size:9px;color:#9CA3AF">배포대기</div></div><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#9CA3AF">0</div><div style="font-size:9px;color:#9CA3AF">기한경과</div></div><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#9CA3AF">0</div><div style="font-size:9px;color:#9CA3AF">D-7</div></div><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#9CA3AF">0</div><div style="font-size:9px;color:#9CA3AF">오늘마감</div></div></div><div style="font-size:10px;color:#9CA3AF;margin-bottom:2px">진행 중 없음</div><div style="margin-top:9px;border-top:1px solid rgba(0,0,0,.07);padding-top:8px"><div style="display:flex;gap:4px;flex-wrap:wrap;align-items:center;margin-bottom:6px"><span style="font-size:9px;color:#9CA3AF;font-weight:600;white-space:nowrap;flex-shrink:0">집중 시퀀스:</span><span style="font-size:9px;color:#9CA3AF">—</span></div><div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:6px;padding:7px 10px"><div style="font-size:11px;color:#9CA3AF;line-height:1.55;font-weight:500">신규 착수 이슈 없음 — 작업 배정 확인 필요.</div></div></div><div style="margin-top:8px;font-size:9px;color:#1D6AE5;text-align:right;font-weight:500">클릭하여 전체 보기 →</div></div></div><div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:24px"><div style="font-size:9px;font-weight:700;color:#0891B2;text-transform:uppercase;letter-spacing:.5px;padding-bottom:4px;border-bottom:1px solid #A5F3FC;grid-column:1/-1">개발팀 FE (프론트엔드)</div><div onclick="openPlatMemberModal('김희진')" style="width:100%;box-sizing:border-box;background:#FFF7ED;border:1px solid #FED7AA;border-radius:12px;padding:13px 15px;cursor:pointer;transition:box-shadow .15s,transform .1s" onmouseover="this.style.boxShadow='0 4px 16px rgba(0,0,0,.12)';this.style.transform='translateY(-1px)'" onmouseout="this.style.boxShadow='';this.style.transform=''"><div style="display:flex;align-items:center;gap:9px;margin-bottom:10px"><div style="width:10px;height:10px;border-radius:50%;background:#DC2626;box-shadow:0 0 0 3px #DC262633;flex-shrink:0"></div><span style="font-size:13px;font-weight:700;color:#111827">김희진</span><span style="font-size:10px;padding:2px 7px;border-radius:99px;background:rgba(255,255,255,.7);color:#374151;font-weight:500">오늘기한 1건</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" style="margin-left:auto;flex-shrink:0"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div><div style="display:flex;gap:6px;margin-bottom:8px"><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#1D4ED8">3</div><div style="font-size:9px;color:#9CA3AF">진행중</div></div><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#0891B2">6</div><div style="font-size:9px;color:#9CA3AF">배포대기</div></div><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#9CA3AF">0</div><div style="font-size:9px;color:#9CA3AF">기한경과</div></div><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#9CA3AF">0</div><div style="font-size:9px;color:#9CA3AF">D-7</div></div><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#DC2626">1</div><div style="font-size:9px;color:#9CA3AF">오늘마감</div></div></div><div style="display:flex;gap:4px;align-items:center;margin-bottom:3px"><a href="https://platfos.atlassian.net/browse/PG-3375" target="_blank" style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#1D4ED8;text-decoration:none;background:#EFF6FF;border:1px solid #BFDBFE;padding:1px 6px;border-radius:4px;white-space:nowrap;flex-shrink:0">PG-3375</a><span style="font-size:8px;padding:1px 5px;border-radius:3px;background:#ECFEFF;color:#0891B2;font-weight:700;white-space:nowrap">배포대기</span><span style="font-size:10px;color:#374151;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">CMS 주문관리 -> 상품권 현황</span></div><div style="margin-top:9px;border-top:1px solid rgba(0,0,0,.07);padding-top:8px"><div style="display:flex;gap:4px;flex-wrap:wrap;align-items:center;margin-bottom:6px"><span style="font-size:9px;color:#9CA3AF;font-weight:600;white-space:nowrap;flex-shrink:0">집중 시퀀스:</span><span style="font-size:9px;color:#9CA3AF">—</span></div><div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:6px;padding:7px 10px"><div style="font-size:11px;color:#D97706;line-height:1.55;font-weight:500">🟠 오늘 기한 1건 — 금일 완료 목표. 배포대기 6건 — 릴리즈 준비. 엑셀 다운로드 5건 진행 중.</div></div></div><div style="margin-top:8px;font-size:9px;color:#0891B2;text-align:right;font-weight:500">클릭하여 전체 보기 →</div></div><div onclick="openPlatMemberModal('장석원')" style="width:100%;box-sizing:border-box;background:#FFFBEB;border:1px solid #FDE68A;border-radius:12px;padding:13px 15px;cursor:pointer;transition:box-shadow .15s,transform .1s" onmouseover="this.style.boxShadow='0 4px 16px rgba(0,0,0,.12)';this.style.transform='translateY(-1px)'" onmouseout="this.style.boxShadow='';this.style.transform=''"><div style="display:flex;align-items:center;gap:9px;margin-bottom:10px"><div style="width:10px;height:10px;border-radius:50%;background:#D97706;box-shadow:0 0 0 3px #D9770633;flex-shrink:0"></div><span style="font-size:13px;font-weight:700;color:#111827">장석원</span><span style="font-size:10px;padding:2px 7px;border-radius:99px;background:rgba(255,255,255,.7);color:#374151;font-weight:500">기한경과 1건</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" style="margin-left:auto;flex-shrink:0"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div><div style="display:flex;gap:6px;margin-bottom:8px"><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#1D4ED8">1</div><div style="font-size:9px;color:#9CA3AF">진행중</div></div><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#0891B2">0</div><div style="font-size:9px;color:#9CA3AF">배포대기</div></div><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#DC2626">1</div><div style="font-size:9px;color:#9CA3AF">기한경과</div></div><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#9CA3AF">0</div><div style="font-size:9px;color:#9CA3AF">D-7</div></div><div style="text-align:center;flex:1"><div style="font-size:16px;font-weight:800;color:#9CA3AF">0</div><div style="font-size:9px;color:#9CA3AF">오늘마감</div></div></div><div style="display:flex;gap:4px;align-items:center;margin-bottom:3px"><a href="https://platfos.atlassian.net/browse/PG-3752" target="_blank" style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#1D4ED8;text-decoration:none;background:#EFF6FF;border:1px solid #BFDBFE;padding:1px 6px;border-radius:4px;white-space:nowrap;flex-shrink:0">PG-3752</a><span style="font-size:8px;padding:1px 5px;border-radius:3px;background:#FFF7ED;color:#D97706;font-weight:700;white-space:nowrap">진행 중</span><span style="font-size:10px;color:#374151;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">[FE] 프론트엔드 시스템</span><span style="font-size:9px;padding:2px 7px;border-radius:99px;background:#FFFBEB;color:#D97706;border:1px solid #FDE68A;font-weight:700;white-space:nowrap;font-family:'JetBrains Mono',monospace">D+7</span><span style="font-size:9px;color:#DC2626;font-weight:500">2026-08-07</span></div><div style="margin-top:9px;border-top:1px solid rgba(0,0,0,.07);padding-top:8px"><div style="display:flex;gap:4px;flex-wrap:wrap;align-items:center;margin-bottom:6px"><span style="font-size:9px;color:#9CA3AF;font-weight:600;white-space:nowrap;flex-shrink:0">집중 시퀀스:</span><span style="font-size:9px;color:#9CA3AF">—</span></div><div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:6px;padding:7px 10px"><div style="font-size:11px;color:#D97706;line-height:1.55;font-weight:500">⚠ 기한경과 1건(진행중) — 최우선 처리 필요.</div></div></div><div style="margin-top:8px;font-size:9px;color:#0891B2;text-align:right;font-weight:500">클릭하여 전체 보기 →</div></div></div><div style="display:grid;grid-template-columns:3fr 2fr;gap:16px;margin-bottom:20px"><div style="background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:16px 18px"><div style="font-size:10px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">시퀀스별 진행 현황</div><div style="display:flex;gap:10px;align-items:center;margin-bottom:12px;font-size:9px;color:#9CA3AF"><span style="display:flex;align-items:center;gap:3px"><span style="width:10px;height:10px;border-radius:2px;background:#3B82F6;display:inline-block"></span>진행중</span><span style="display:flex;align-items:center;gap:3px"><span style="width:10px;height:10px;border-radius:2px;background:#CBD5E1;display:inline-block"></span>대기</span><span style="margin-left:auto">카드 클릭 → 상세 이슈</span></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div onclick="openPlatSeqModal('s1')" style="background:#FFFFFF;border:1px solid #E2E8F0;border-radius:10px;padding:12px 14px;cursor:pointer;transition:box-shadow .15s,transform .1s" onmouseover="this.style.boxShadow='0 4px 14px rgba(0,0,0,.10)';this.style.transform='translateY(-1px)'" onmouseout="this.style.boxShadow='';this.style.transform=''"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px"><div style="display:flex;align-items:center;gap:7px"><span style="font-size:11px;font-weight:800;color:#374151;font-family:'JetBrains Mono',monospace">S1</span><span style="font-size:11px;font-weight:600;color:#111827">온보딩</span></div><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div><div style="height:10px;background:#F1F5F9;border-radius:99px;overflow:hidden;display:flex;margin:8px 0 6px"><div style="width:0.0%;background:#3B82F6"></div><div style="width:100.0%;background:#CBD5E1"></div></div><div style="display:flex;gap:6px;flex-wrap:wrap"><span style="font-size:9px;color:#6B7280">대기 1</span><span style="font-size:9px;color:#CBD5E1;margin-left:auto">전체 1</span></div></div><div onclick="openPlatSeqModal('s2')" style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;padding:12px 14px;cursor:pointer;transition:box-shadow .15s,transform .1s" onmouseover="this.style.boxShadow='0 4px 14px rgba(0,0,0,.10)';this.style.transform='translateY(-1px)'" onmouseout="this.style.boxShadow='';this.style.transform=''"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px"><div style="display:flex;align-items:center;gap:7px"><span style="font-size:11px;font-weight:800;color:#374151;font-family:'JetBrains Mono',monospace">S2</span><span style="font-size:11px;font-weight:600;color:#111827">상품채널</span></div><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div><div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:4px"><span style="font-size:9px;padding:1px 6px;border-radius:99px;background:#FFF7ED;color:#C2410C;border:1px solid #FED7AA;font-weight:700">경과 1</span></div><div style="height:10px;background:#F1F5F9;border-radius:99px;overflow:hidden;display:flex;margin:8px 0 6px"><div style="width:80.0%;background:#3B82F6"></div><div style="width:20.0%;background:#CBD5E1"></div></div><div style="display:flex;gap:6px;flex-wrap:wrap"><span style="font-size:9px;color:#3B82F6;font-weight:600">진행중 4</span><span style="font-size:9px;color:#6B7280">대기 1</span><span style="font-size:9px;color:#CBD5E1;margin-left:auto">전체 5</span></div></div><div onclick="openPlatSeqModal('s3')" style="background:#FFFFFF;border:1px solid #E2E8F0;border-radius:10px;padding:12px 14px;cursor:pointer;transition:box-shadow .15s,transform .1s" onmouseover="this.style.boxShadow='0 4px 14px rgba(0,0,0,.10)';this.style.transform='translateY(-1px)'" onmouseout="this.style.boxShadow='';this.style.transform=''"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px"><div style="display:flex;align-items:center;gap:7px"><span style="font-size:11px;font-weight:800;color:#374151;font-family:'JetBrains Mono',monospace">S3</span><span style="font-size:11px;font-weight:600;color:#111827">주문발행</span></div><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div><div style="height:10px;background:#F1F5F9;border-radius:99px;overflow:hidden;display:flex;margin:8px 0 6px"><div style="width:0.0%;background:#3B82F6"></div><div style="width:100.0%;background:#CBD5E1"></div></div><div style="display:flex;gap:6px;flex-wrap:wrap"><span style="font-size:9px;color:#6B7280">대기 1</span><span style="font-size:9px;color:#CBD5E1;margin-left:auto">전체 1</span></div></div><div onclick="openPlatSeqModal('s4')" style="background:#FFFFFF;border:1px solid #E2E8F0;border-radius:10px;padding:12px 14px;cursor:pointer;transition:box-shadow .15s,transform .1s" onmouseover="this.style.boxShadow='0 4px 14px rgba(0,0,0,.10)';this.style.transform='translateY(-1px)'" onmouseout="this.style.boxShadow='';this.style.transform=''"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px"><div style="display:flex;align-items:center;gap:7px"><span style="font-size:11px;font-weight:800;color:#374151;font-family:'JetBrains Mono',monospace">S4</span><span style="font-size:11px;font-weight:600;color:#111827">사용인증</span></div><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div><div style="height:10px;background:#F1F5F9;border-radius:99px;overflow:hidden;display:flex;margin:8px 0 6px"><div style="width:0%;background:#3B82F6"></div><div style="width:0%;background:#CBD5E1"></div></div><div style="display:flex;gap:6px;flex-wrap:wrap"><span style="font-size:9px;color:#CBD5E1;margin-left:auto">전체 0</span></div></div><div onclick="openPlatSeqModal('s5')" style="background:#FFFFFF;border:1px solid #E2E8F0;border-radius:10px;padding:12px 14px;cursor:pointer;transition:box-shadow .15s,transform .1s" onmouseover="this.style.boxShadow='0 4px 14px rgba(0,0,0,.10)';this.style.transform='translateY(-1px)'" onmouseout="this.style.boxShadow='';this.style.transform=''"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px"><div style="display:flex;align-items:center;gap:7px"><span style="font-size:11px;font-weight:800;color:#374151;font-family:'JetBrains Mono',monospace">S5</span><span style="font-size:11px;font-weight:600;color:#111827">환불취소</span></div><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div><div style="height:10px;background:#F1F5F9;border-radius:99px;overflow:hidden;display:flex;margin:8px 0 6px"><div style="width:0%;background:#3B82F6"></div><div style="width:0%;background:#CBD5E1"></div></div><div style="display:flex;gap:6px;flex-wrap:wrap"><span style="font-size:9px;color:#CBD5E1;margin-left:auto">전체 0</span></div></div><div onclick="openPlatSeqModal('s6')" style="background:#FFFFFF;border:1px solid #E2E8F0;border-radius:10px;padding:12px 14px;cursor:pointer;transition:box-shadow .15s,transform .1s" onmouseover="this.style.boxShadow='0 4px 14px rgba(0,0,0,.10)';this.style.transform='translateY(-1px)'" onmouseout="this.style.boxShadow='';this.style.transform=''"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px"><div style="display:flex;align-items:center;gap:7px"><span style="font-size:11px;font-weight:800;color:#374151;font-family:'JetBrains Mono',monospace">S6</span><span style="font-size:11px;font-weight:600;color:#111827">정산</span></div><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div><div style="height:10px;background:#F1F5F9;border-radius:99px;overflow:hidden;display:flex;margin:8px 0 6px"><div style="width:0%;background:#3B82F6"></div><div style="width:0%;background:#CBD5E1"></div></div><div style="display:flex;gap:6px;flex-wrap:wrap"><span style="font-size:9px;color:#CBD5E1;margin-left:auto">전체 0</span></div></div><div onclick="openPlatSeqModal('s7')" style="background:#FFFFFF;border:1px solid #E2E8F0;border-radius:10px;padding:12px 14px;cursor:pointer;transition:box-shadow .15s,transform .1s" onmouseover="this.style.boxShadow='0 4px 14px rgba(0,0,0,.10)';this.style.transform='translateY(-1px)'" onmouseout="this.style.boxShadow='';this.style.transform=''"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px"><div style="display:flex;align-items:center;gap:7px"><span style="font-size:11px;font-weight:800;color:#374151;font-family:'JetBrains Mono',monospace">S7</span><span style="font-size:11px;font-weight:600;color:#111827">운영통제</span></div><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div><div style="height:10px;background:#F1F5F9;border-radius:99px;overflow:hidden;display:flex;margin:8px 0 6px"><div style="width:0.0%;background:#3B82F6"></div><div style="width:100.0%;background:#CBD5E1"></div></div><div style="display:flex;gap:6px;flex-wrap:wrap"><span style="font-size:9px;color:#6B7280">대기 1</span><span style="font-size:9px;color:#CBD5E1;margin-left:auto">전체 1</span></div></div><div onclick="openPlatSeqModal('s8')" style="background:#FFFFFF;border:1px solid #E2E8F0;border-radius:10px;padding:12px 14px;cursor:pointer;transition:box-shadow .15s,transform .1s" onmouseover="this.style.boxShadow='0 4px 14px rgba(0,0,0,.10)';this.style.transform='translateY(-1px)'" onmouseout="this.style.boxShadow='';this.style.transform=''"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px"><div style="display:flex;align-items:center;gap:7px"><span style="font-size:11px;font-weight:800;color:#374151;font-family:'JetBrains Mono',monospace">S8</span><span style="font-size:11px;font-weight:600;color:#111827">외부연동</span></div><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div><div style="height:10px;background:#F1F5F9;border-radius:99px;overflow:hidden;display:flex;margin:8px 0 6px"><div style="width:0.0%;background:#3B82F6"></div><div style="width:100.0%;background:#CBD5E1"></div></div><div style="display:flex;gap:6px;flex-wrap:wrap"><span style="font-size:9px;color:#6B7280">대기 4</span><span style="font-size:9px;color:#CBD5E1;margin-left:auto">전체 4</span></div></div></div></div><div style="background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:16px 18px"><div style="font-size:10px;font-weight:700;color:#D97706;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">의사결정 · 선행작업</div><div style="display:flex;gap:8px;align-items:center;padding:7px 10px;border-radius:8px;background:#FFF7ED;border:1px solid #FED7AA;margin-bottom:5px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><a href="https://platfos.atlassian.net/browse/PG-3756" target="_blank" style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#1D4ED8;text-decoration:none;background:#EFF6FF;border:1px solid #BFDBFE;padding:1px 6px;border-radius:4px;white-space:nowrap;flex-shrink:0">PG-3756</a><span style="font-size:11px;color:#374151;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">2026-08 단기 안정성 개선</span><span style="font-size:10px;padding:1px 6px;border-radius:3px;background:white;color:#1D4ED8;border:1px solid #1D4ED833;white-space:nowrap">진행 중</span></div><div style="display:flex;gap:8px;align-items:center;padding:7px 10px;border-radius:8px;background:#FFF7ED;border:1px solid #FED7AA;margin-bottom:5px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><a href="https://platfos.atlassian.net/browse/PG-3715" target="_blank" style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#1D4ED8;text-decoration:none;background:#EFF6FF;border:1px solid #BFDBFE;padding:1px 6px;border-radius:4px;white-space:nowrap;flex-shrink:0">PG-3715</a><span style="font-size:11px;color:#374151;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis"> [운영개선] 파트너 경험 VOC 및 개선 요구사항 관리</span><span style="font-size:10px;padding:1px 6px;border-radius:3px;background:white;color:#9CA3AF;border:1px solid #9CA3AF33;white-space:nowrap">에픽구분</span></div><div style="display:flex;gap:8px;align-items:center;padding:7px 10px;border-radius:8px;background:#FFF7ED;border:1px solid #FED7AA;margin-bottom:5px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><a href="https://platfos.atlassian.net/browse/PG-3392" target="_blank" style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#1D4ED8;text-decoration:none;background:#EFF6FF;border:1px solid #BFDBFE;padding:1px 6px;border-radius:4px;white-space:nowrap;flex-shrink:0">PG-3392</a><span style="font-size:11px;color:#374151;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">옥션 로직 수정</span><span style="font-size:10px;padding:1px 6px;border-radius:3px;background:white;color:#1D4ED8;border:1px solid #1D4ED833;white-space:nowrap">진행 중</span></div><div style="display:flex;gap:8px;align-items:center;padding:7px 10px;border-radius:8px;background:#FFF7ED;border:1px solid #FED7AA;margin-bottom:5px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><a href="https://platfos.atlassian.net/browse/PG-1481" target="_blank" style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#1D4ED8;text-decoration:none;background:#EFF6FF;border:1px solid #BFDBFE;padding:1px 6px;border-radius:4px;white-space:nowrap;flex-shrink:0">PG-1481</a><span style="font-size:11px;color:#374151;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">운영이슈</span><span style="font-size:10px;padding:1px 6px;border-radius:3px;background:white;color:#9CA3AF;border:1px solid #9CA3AF33;white-space:nowrap">에픽구분</span></div><div style="display:flex;gap:8px;align-items:center;padding:7px 10px;border-radius:8px;background:#FFF7ED;border:1px solid #FED7AA;margin-bottom:5px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><a href="https://platfos.atlassian.net/browse/PG-1479" target="_blank" style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#1D4ED8;text-decoration:none;background:#EFF6FF;border:1px solid #BFDBFE;padding:1px 6px;border-radius:4px;white-space:nowrap;flex-shrink:0">PG-1479</a><span style="font-size:11px;color:#374151;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">운영배포</span><span style="font-size:10px;padding:1px 6px;border-radius:3px;background:white;color:#9CA3AF;border:1px solid #9CA3AF33;white-space:nowrap">에픽구분</span></div></div></div>
+</div>
+
+<div class="footer">
+  Platfos · Pongift 프로젝트 현황 &nbsp;·&nbsp; 기준일: 2026-08-10 (월) &nbsp;·&nbsp; 94개 이슈 &nbsp;·&nbsp; 전일 대비 4건 변경</div>
+
+<!-- MODAL -->
+<div id="modal" class="modal-ov" style="display:none" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box">
+    <div class="modal-hdr">
+      <div><div class="modal-title" id="m-title"></div></div>
+      <button class="modal-x" onclick="closeModal()"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <input class="modal-srch" id="m-srch" placeholder="키 · 요약 · 담당자 · 레이블 검색..." oninput="filterModal()">
+      <div class="modal-cnt" id="m-cnt"></div>
+      <div id="m-list"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const JIRA_BASE = 'https://platfos.atlassian.net/browse/';
+const DONE_ST   = ['완료','Done','done'];
+const RAW_DATA  = [{"type":"작업","key":"PG-3777","title":"[기획][CMS] 유통채널 설정관리 & 카테고리 관리 프로토타입 작성","status":"진행 중","comp":"","label":"","owner":"최다솔","due":"2026-08-10","priority":"Medium","start":"2026-08-06"},{"type":"작업","key":"PG-3776","title":"[모노레포] 폰기프트 디자인 시스템 v2.0 colors 적용","status":"진행 중","comp":"infra-observability","label":"grow,ops,s2,개발확인필요","owner":"김희진","due":"2026-08-10","priority":"Medium","start":"2026-08-06"},{"type":"작업","key":"PG-3775","title":"[DES] 회원가입 화면 디자인","status":"대기","comp":"","label":"","owner":"","due":"","priority":"Medium","start":""},{"type":"작업","key":"PG-3769","title":"프론트엔드 시스템 학습 (pongift-frontend-system)","status":"진행 중","comp":"infra-observability","label":"grow,ops,s2,개발확인필요","owner":"김희진","due":"2026-08-31","priority":"Medium","start":"2026-08-05"},{"type":"에픽","key":"PG-3767","title":"[Grow][S2][S8] 파트너센터 상품/채널 연동 관리 구조 개편","status":"진행 중","comp":"","label":"","owner":"최다솔","due":"2026-08-31","priority":"Medium","start":"2026-08-04"},{"type":"작업","key":"PG-3764","title":"[BE] 불필요한 fastify metric 의존성 제거","status":"배포대기","comp":"","label":"","owner":"박창용","due":"2026-08-05","priority":"Medium","start":"2026-08-03"},{"type":"작업","key":"PG-3758","title":"[BE] 파트너센터 서비스 대시보드 API 속도 개선","status":"막힘","comp":"","label":"","owner":"박창용","due":"2026-08-05","priority":"Medium","start":"2026-08-03"},{"type":"에픽","key":"PG-3757","title":"[Grow][S1] 파트너센터 온보딩 전체 구조 개편","status":"진행 중","comp":"","label":"","owner":"김명수","due":"2026-08-25","priority":"Medium","start":"2026-08-04"},{"type":"에픽","key":"PG-3756","title":"2026-08 단기 안정성 개선","status":"진행 중","comp":"","label":"","owner":"","due":"","priority":"Medium","start":"2026-08-03"},{"type":"하위 작업","key":"PG-3755","title":"[분석] 파트너스 온보딩 현재 고객 진입 분석","status":"진행 중","comp":"","label":"","owner":"김명수","due":"2026-08-07","priority":"Medium","start":"2026-08-04"},{"type":"작업","key":"PG-3752","title":"[FE] 프론트엔드 시스템","status":"진행 중","comp":"infra-observability","label":"grow,ops,s2,개발확인필요","owner":"장석원","due":"2026-08-07","priority":"Medium","start":"2026-08-03"},{"type":"에픽","key":"PG-3751","title":"디자인 시스템 전반 업데이트 및 적용","status":"진행 중","comp":"","label":"design,design-system,frontend,tech-debt,ui-ux","owner":"김가영","due":"2026-08-31","priority":"Medium","start":"2026-08-03"},{"type":"하위 작업","key":"PG-3742","title":"[S4] 상품권 사용/사용취소 흐름 정리","status":"진행 중","comp":"","label":"","owner":"최다솔","due":"2026-08-28","priority":"Medium","start":"2026-07-30"},{"type":"하위 작업","key":"PG-3730","title":"[매장 선물하기] 서비스 노출 설정 기능 개선 요청","status":"대기","comp":"","label":"","owner":"","due":"","priority":"Medium","start":""},{"type":"작업","key":"PG-3727","title":"[매장선물하기] 구매자 선물 메시지 입력 기능 추가","status":"대기","comp":"","label":"","owner":"","due":"","priority":"Medium","start":""},{"type":"하위 작업","key":"PG-3725","title":"[통합/서비스] 정산 예정금액, 채널별 판매금액 날짜 표기","status":"대기","comp":"","label":"","owner":"","due":"","priority":"Medium","start":""},{"type":"하위 작업","key":"PG-3724","title":"[통합/서비스] 월별 현황/서비스 현황 - 판매, 사용 그래프 색상 변경","status":"대기","comp":"","label":"","owner":"","due":"","priority":"Medium","start":""},{"type":"하위 작업","key":"PG-3719","title":"[서비스] 사용전환율 목록 순서 변경","status":"대기","comp":"","label":"","owner":"","due":"","priority":"Medium","start":""},{"type":"작업","key":"PG-3718","title":"기타","status":"에픽구분","comp":"","label":"","owner":"김명수","due":"2026-08-31","priority":"Medium","start":"2026-07-24"},{"type":"작업","key":"PG-3717","title":"매장 선물하기","status":"에픽구분","comp":"","label":"","owner":"김명수","due":"2026-08-31","priority":"Medium","start":"2026-07-24"},{"type":"작업","key":"PG-3716","title":"[파트너센터] 대시보드","status":"에픽구분","comp":"","label":"","owner":"김명수","due":"2026-08-31","priority":"Medium","start":"2026-07-24"},{"type":"에픽","key":"PG-3715","title":" [운영개선] 파트너 경험 VOC 및 개선 요구사항 관리","status":"에픽구분","comp":"","label":"","owner":"","due":"","priority":"Medium","start":""},{"type":"작업","key":"PG-3711","title":"[분석] 파트너센터 회원 및 현황 분석","status":"대기","comp":"","label":"","owner":"김명수","due":"","priority":"Medium","start":""},{"type":"에픽","key":"PG-3706","title":"[Run][S1] 파트너센터 대시보드 고도화 (사업자/서비스/사용처) — 2차 개선","status":"대기","comp":"","label":"","owner":"김명수","due":"","priority":"Medium","start":""},{"type":"작업","key":"PG-3580","title":"[S8] 시퀀스 업무 정리 (채널/API/몰/확장)","status":"진행 중","comp":"","label":"","owner":"최다솔","due":"2026-08-28","priority":"Medium","start":"2026-07-09"},{"type":"작업","key":"PG-3578","title":"[S6] 시퀀스 업무 정리 (정산/포인트)","status":"대기","comp":"","label":"","owner":"김명수","due":"","priority":"Medium","start":""},{"type":"작업","key":"PG-3577","title":"[S5] 시퀀스 업무 정리 (취소/환불/예외처리)","status":"대기","comp":"","label":"","owner":"최다솔","due":"","priority":"Medium","start":""},{"type":"작업","key":"PG-3576","title":"[S4] 시퀀스 업무 정리 (사용/사용취소/유효기간)","status":"진행 중","comp":"","label":"","owner":"최다솔","due":"2026-08-28","priority":"Medium","start":"2026-07-30"},{"type":"작업","key":"PG-3573","title":"[S1] 시퀀스 업무 정리 (온보딩/승인)","status":"진행 중","comp":"","label":"","owner":"김명수","due":"2026-08-14","priority":"Medium","start":"2026-08-04"},{"type":"에픽","key":"PG-3572","title":"[AX] 시퀀스별(S1~S8) 업무 정리","status":"진행 중","comp":"","label":"","owner":"최다솔","due":"2026-08-31","priority":"Medium","start":"2026-07-03"},{"type":"에픽","key":"PG-3552","title":"[Run] 디자인 현행화","status":"에픽구분","comp":"","label":"design,현행화","owner":"김가영","due":"2026-12-31","priority":"Medium","start":""},{"type":"하위 작업","key":"PG-3503","title":"- 코드 부여작업 필요","status":"대기","comp":"","label":"dispf-C-hold,grp-Etc,triage-2026Q3,triage-C","owner":"","due":"","priority":"Medium","start":""},{"type":"에픽","key":"PG-3490","title":"[Grow][S7] AX디자인 시스템","status":"대기","comp":"","label":"AX,dispf-C-hold,grp-Grow,triage-2026Q3,triage-C","owner":"김가영","due":"","priority":"Medium","start":"2026-06-22"},{"type":"작업","key":"PG-3446","title":"젠킨스 운영서버 + 개발서버 정리(중지 후 삭제)","status":"대기","comp":"","label":"dispf-B-quarter,grp-Core,triage-2026Q3,triage-B","owner":"정광희","due":"","priority":"Medium","start":""},{"type":"작업","key":"PG-3445","title":"External FRONTEND 젠킨스 배포 설정","status":"대기","comp":"","label":"dispf-B-quarter,grp-Core,triage-2026Q3,triage-B","owner":"정광희","due":"","priority":"Medium","start":""},{"type":"작업","key":"PG-3442","title":"PARTNER FRONTEND 젠킨스 배포 설정","status":"대기","comp":"","label":"dispf-B-quarter,grp-Core,triage-2026Q3,triage-B","owner":"정광희","due":"","priority":"Medium","start":""},{"type":"작업","key":"PG-3441","title":"MLL FRONTEND 젠킨스 배포 설정","status":"대기","comp":"","label":"dispf-B-quarter,grp-Core,triage-2026Q3,triage-B","owner":"정광희","due":"","priority":"Medium","start":""},{"type":"작업","key":"PG-3440","title":"CMS FRONTEND 젠킨스 배포 설정","status":"대기","comp":"","label":"dispf-C-hold,grp-Run,triage-2026Q3,triage-C","owner":"정광희","due":"","priority":"Medium","start":""},{"type":"작업","key":"PG-3438","title":"내부 서버 젠킨스 설정","status":"대기","comp":"","label":"dispf-C-hold,grp-Run,triage-2026Q3,triage-C","owner":"정광희","due":"","priority":"Medium","start":""},{"type":"에픽","key":"PG-3437","title":"💻  [Core][All] AWS 인프라 정리","status":"진행 중","comp":"","label":"core","owner":"정광희","due":"","priority":"Medium","start":"2026-06-15"},{"type":"하위 작업","key":"PG-3392","title":"옥션 로직 수정","status":"진행 중","comp":"","label":"","owner":"","due":"","priority":"Medium","start":""},{"type":"작업","key":"PG-3375","title":"CMS 주문관리 -> 상품권 현황","status":"배포대기","comp":"","label":"dispf-B-quarter,grp-Core,triage-2026Q3,triage-B","owner":"김희진","due":"","priority":"Medium","start":""},{"type":"작업","key":"PG-3374","title":"CMS 주문관리 -> 엑셀다운로드","status":"배포대기","comp":"","label":"dispf-B-quarter,grp-Core,triage-2026Q3,triage-B","owner":"김희진","due":"","priority":"Medium","start":""},{"type":"작업","key":"PG-3373","title":"CMS 직접발송 -> 포인트 현황 엑셀다운로드","status":"배포대기","comp":"","label":"dispf-B-quarter,grp-Core,triage-2026Q3,triage-B","owner":"김희진","due":"","priority":"Medium","start":""},{"type":"작업","key":"PG-3372","title":"CMS 직접발송 -> 포인트 충전내역 엑셀다운로드","status":"배포대기","comp":"","label":"dispf-B-quarter,grp-Core,triage-2026Q3,triage-B","owner":"김희진","due":"","priority":"Medium","start":""},{"type":"작업","key":"PG-3371","title":"CMS 직접발송 -> 발송현황 엑셀다운로드","status":"배포대기","comp":"","label":"dispf-B-quarter,grp-Core,triage-2026Q3,triage-B","owner":"김희진","due":"","priority":"Medium","start":""},{"type":"작업","key":"PG-3370","title":"CMS 상품목록 엑셀다운로드","status":"배포대기","comp":"","label":"dispf-B-quarter,grp-Core,triage-2026Q3,triage-B","owner":"김희진","due":"","priority":"Medium","start":""},{"type":"에픽","key":"PG-3368","title":"💻 [Core][All] 엑셀다운로드","status":"배포대기","comp":"","label":"core","owner":"정광희","due":"2026-08-14","priority":"Medium","start":"2026-06-01"},{"type":"하위 작업","key":"PG-3321","title":"[??] 몰 POPUP 오류","status":"대기","comp":"","label":"dispf-C-check,grp-Etc,triage-2026Q3,triage-C","owner":"","due":"","priority":"Medium","start":""},{"type":"에픽","key":"PG-3265","title":"💻 [P1] pongift-partners-api 보안·안정성 강화","status":"대기","comp":"","label":"dispf-B-quarter,grp-P1,p1,partners-api,reliability,security,triage-2026Q3,triage-B","owner":"","due":"","priority":"High","start":""},{"type":"하위 작업","key":"PG-3258","title":"RabbitMQ 연결 관리 안정화 (매 발행마다 connect/close 제거, 채널 재사용)","status":"대기","comp":"","label":"barcode-api,dispf-C-check,grp-Etc,mq,p1,triage-2026Q3,triage-C","owner":"","due":"","priority":"High","start":""},{"type":"하위 작업","key":"PG-3257","title":"waitForConfirms() + deliveryMode: 2(persistent) 적용","status":"대기","comp":"","label":"barcode-api,dispf-C-check,grp-Etc,mq,p1,triage-2026Q3,triage-C","owner":"","due":"","priority":"High","start":""},{"type":"하위 작업","key":"PG-3256","title":"channel을 createConfirmChannel()로 전환","status":"대기","comp":"","label":"barcode-api,dispf-C-check,grp-Etc,mq,p1,triage-2026Q3,triage-C","owner":"","due":"","priority":"High","start":""},{"type":"에픽","key":"PG-3236","title":"💻 [P1] pongift-barcode-api 보안·안정성 강화","status":"대기","comp":"","label":"barcode-api,dispf-B-quarter,grp-P1,p1,reliability,security,triage-2026Q3,triage-B","owner":"","due":"","priority":"High","start":""},{"type":"하위 작업","key":"PG-3229","title":"Product 임시저장 서비스 권한/작성자(admin_id) 기준 필터 추가","status":"대기","comp":"","label":"dispf-C-check,grp-Etc,triage-2026Q3,triage-C","owner":"이웅식","due":"","priority":"Medium","start":""},{"type":"하위 작업","key":"PG-3228","title":"Direct Send 바코드 마스킹 RAW_BARCODE_READ 권한 분리 + 감사 로그","status":"대기","comp":"","label":"dispf-C-check,grp-Etc,triage-2026Q3,triage-C","owner":"이웅식","due":"","priority":"Medium","start":""},{"type":"하위 작업","key":"PG-3226","title":"Template deprecated API 바인딩 키 오타 수정 + Service total_page 계산 수정","status":"대기","comp":"","label":"dispf-C-check,grp-Etc,triage-2026Q3,triage-C","owner":"박창용","due":"","priority":"Medium","start":""},{"type":"하위 작업","key":"PG-3225","title":"normalizePagination helper 구현 + Merchant/Template/Service 전체 적용","status":"대기","comp":"","label":"dispf-C-check,grp-Etc,triage-2026Q3,triage-C","owner":"박창용","due":"","priority":"Medium","start":""},{"type":"하위 작업","key":"PG-3222","title":"Popup 요청 ID 중복 제거 + cnt === uniqueIds.length 검증 + 누락 ID 에러 응답","status":"대기","comp":"","label":"dispf-C-check,grp-Etc,triage-2026Q3,triage-C","owner":"","due":"","priority":"Medium","start":""},{"type":"하위 작업","key":"PG-3221","title":"Trade 환불/거부 권한 분리 + idempotency key + 처리 전/후 상태 로그 테이블","status":"대기","comp":"","label":"dispf-C-check,grp-Etc,triage-2026Q3,triage-C","owner":"","due":"","priority":"Medium","start":""},{"type":"하위 작업","key":"PG-3220","title":"Member 회원/탈퇴 상태 변경 권한 세분화 + 탈퇴 감사 로그","status":"대기","comp":"","label":"dispf-C-check,grp-Etc,triage-2026Q3,triage-C","owner":"","due":"","priority":"Medium","start":""},{"type":"하위 작업","key":"PG-3219","title":"Partners 계약 상태 변경 전 영향 count 반환 + 감사 로그 필수화","status":"대기","comp":"","label":"dispf-C-check,grp-Etc,triage-2026Q3,triage-C","owner":"","due":"","priority":"Medium","start":""},{"type":"하위 작업","key":"PG-3218","title":"Maintain admin_id 전달 + 변경 전/후/변경자/사유 로그 테이블 기록","status":"대기","comp":"","label":"dispf-C-check,grp-Etc,triage-2026Q3,triage-C","owner":"","due":"","priority":"Medium","start":""},{"type":"하위 작업","key":"PG-3118","title":"[BE] 카페24 상품연동 > 상품권상품이 구매제한수량 1건으로 등록되도록 재확인","status":"대기","comp":"","label":"dispf-B-gate,grp-Expand,triage-2026Q3,triage-B","owner":"이지헌","due":"","priority":"Medium","start":""},{"type":"하위 작업","key":"PG-3117","title":"[BE] 카페24 상품연동 시 구매제한수량 설정 상태 확인","status":"대기","comp":"","label":"dispf-B-gate,grp-Expand,triage-2026Q3,triage-B","owner":"이지헌","due":"","priority":"Medium","start":""},{"type":"하위 작업","key":"PG-3114","title":"[BE] CMS & 파트너센터 | 상품/주문 상세 > 채널api에 스토어 연동 정보 (store id, other id) 응답","status":"대기","comp":"","label":"dispf-B-gate,grp-Expand,triage-2026Q3,triage-B","owner":"이지헌","due":"","priority":"Medium","start":""},{"type":"하위 작업","key":"PG-3100","title":"[BE] 파트너센터 > 상품 등록/수정 > cafe24연동","status":"대기","comp":"","label":"dispf-B-gate,grp-Expand,triage-2026Q3,triage-B","owner":"","due":"","priority":"Medium","start":""},{"type":"하위 작업","key":"PG-3093","title":"[기획] 카페24 사용분 정산 프로세스 관련 내용 분석","status":"대기","comp":"","label":"dispf-B-gate,grp-Expand,triage-2026Q3,triage-B","owner":"최다솔","due":"","priority":"Medium","start":""},{"type":"하위 작업","key":"PG-3084","title":"[BE] 카페24 상품 상세조회 api 신설","status":"대기","comp":"","label":"dispf-B-gate,grp-Expand,triage-2026Q3,triage-B","owner":"","due":"","priority":"Medium","start":""},{"type":"하위 작업","key":"PG-3083","title":"[BE] 카페24 주문 취소 Webhook 수신 및 상품권사용 상태복구","status":"대기","comp":"","label":"dispf-B-gate,grp-Expand,triage-2026Q3,triage-B","owner":"","due":"","priority":"Medium","start":""},{"type":"하위 작업","key":"PG-3082","title":"[BE] 카페24 주문 취소 Webhook 수신 및 상품권발행 취소폐기","status":"대기","comp":"","label":"dispf-B-gate,grp-Expand,triage-2026Q3,triage-B","owner":"","due":"","priority":"Medium","start":""},{"type":"하위 작업","key":"PG-3074","title":"[기획] 카페24 부분취소 정책 분석 & 폰기프트 정책 수립","status":"대기","comp":"","label":"dispf-B-gate,grp-Expand,triage-2026Q3,triage-B","owner":"최다솔","due":"","priority":"Medium","start":""},{"type":"하위 작업","key":"PG-3070","title":"[BE] 카페24 상품 등록 > G마켓 연동","status":"대기","comp":"","label":"dispf-B-gate,grp-Expand,triage-2026Q3,triage-B","owner":"","due":"","priority":"Medium","start":""},{"type":"하위 작업","key":"PG-3069","title":"[BE] 카페24 상품 등록 > 옥션 연동","status":"대기","comp":"","label":"dispf-B-gate,grp-Expand,triage-2026Q3,triage-B","owner":"","due":"","priority":"Medium","start":""},{"type":"하위 작업","key":"PG-3068","title":"[BE] 카페24 상품 등록 > 네이버 연동","status":"대기","comp":"","label":"dispf-B-gate,grp-Expand,triage-2026Q3,triage-B","owner":"","due":"","priority":"Medium","start":""},{"type":"작업","key":"PG-3066","title":"[Expand][S8][카페24] 7. 파트너센터/CMS - 운영 관리 화면 및 관리자 처리 기능 반영","status":"대기","comp":"","label":"dispf-B-gate,expand,grp-Expand,s8,triage-2026Q3,triage-B","owner":"김명수","due":"","priority":"Medium","start":"2026-05-07"},{"type":"작업","key":"PG-3065","title":"[Expand][S8][카페24] 6. 온라인 사용 - 사용처 URL 및 온라인 사용 흐름 반영","status":"대기","comp":"","label":"dispf-B-gate,grp-Expand,triage-2026Q3,triage-B","owner":"김명수","due":"","priority":"Medium","start":""},{"type":"작업","key":"PG-3064","title":"[Expand][S8][카페24] 5. 취소/환불 - 주문 취소 및 환불 예외 처리 기준 정리","status":"대기","comp":"","label":"dispf-B-gate,expand,grp-Expand,s8,triage-2026Q3,triage-B","owner":"김명수","due":"","priority":"Medium","start":""},{"type":"작업","key":"PG-3062","title":"[Expand][S8][카페24] 3. 구매/발행 - 주문 기반 상품권 발행 흐름 정리","status":"대기","comp":"","label":"dispf-B-gate,grp-Expand,triage-2026Q3,triage-B","owner":"김명수","due":"","priority":"Medium","start":""},{"type":"작업","key":"PG-3061","title":"[Expand][S8][카페24] 2. 상품 연동 - 상품권 등록 및 판매 상품 매핑 처리","status":"대기","comp":"","label":"dispf-B-gate,expand,grp-Expand,s8,triage-2026Q3,triage-B","owner":"","due":"","priority":"Medium","start":""},{"type":"하위 작업","key":"PG-3060","title":"[BE] 로그인 에러케이스 영문 -> 한글표기","status":"대기","comp":"","label":"dispf-B-gate,grp-Expand,triage-2026Q3,triage-B","owner":"","due":"","priority":"Medium","start":""},{"type":"작업","key":"PG-3059","title":"[Expand][S8][카페24] 1. 연동 설정 - 앱 설정 및 기본 연동값 정리","status":"대기","comp":"","label":"dispf-B-gate,expand,grp-Expand,s8,triage-2026Q3,triage-B","owner":"","due":"","priority":"Medium","start":""},{"type":"작업","key":"PG-3003","title":"[CMS/파트너센터] 서비스 미사용 처리 시 사용처  처리 개선","status":"대기","comp":"","label":"dispf-C-check,grp-OpsIssue,triage-2026Q3,triage-C","owner":"김명수","due":"","priority":"Medium","start":""},{"type":"스토리","key":"PG-3002","title":"[CMS/파트너센터] 포인트 충전 KCP 결제 취소 시 상태값 연동 요청","status":"대기","comp":"","label":"dispf-C-check,grp-OpsIssue,triage-2026Q3,triage-C","owner":"","due":"","priority":"Medium","start":""},{"type":"하위 작업","key":"PG-2892","title":"[BE] 상품권 폐기 API 멱등성 보장 (중복 웹훅 수신 방지)","status":"대기","comp":"","label":"dispf-B-gate,grp-Expand,triage-2026Q3,triage-B","owner":"","due":"","priority":"Medium","start":""},{"type":"하위 작업","key":"PG-2865","title":"[S8][보안] 상품권 코드 1회성 처리 및 토큰 만료 보안 로직 구현","status":"대기","comp":"","label":"dispf-B-gate,grp-Expand,triage-2026Q3,triage-B","owner":"","due":"","priority":"Medium","start":""},{"type":"스토리","key":"PG-2720","title":"[S3][FE] 결제 완료 화면","status":"대기","comp":"FE","label":"agent-generated,dispf-C-hold,grp-Etc,s3,triage-2026Q3,triage-C,시스템스쿼드","owner":"","due":"","priority":"Medium","start":""},{"type":"스토리","key":"PG-2716","title":"[S3][FE] 결제 완료 화면","status":"대기","comp":"","label":"dispf-C-check,grp-Etc,triage-2026Q3,triage-C,시스템스쿼드","owner":"","due":"","priority":"Medium","start":""},{"type":"스토리","key":"PG-2670","title":"[S7][Policy] 운영 민감 이벤트 분류 및 심각도 기준 반영","status":"대기","comp":"infra-observability","label":"Tier1,dispf-C-hold,grp-PolicyLegacy,run,s7,triage-2026Q3,triage-C","owner":"","due":"2026-12-29","priority":"Medium","start":"2026-11-30"},{"type":"에픽","key":"PG-2485","title":"💻 프론트엔드 기술 개선 및 안정화","status":"진행 중","comp":"infra-observability","label":"grow,ops,s2,개발확인필요","owner":"김희진","due":"2026-08-31","priority":"Medium","start":"2026-03-05"},{"type":"스토리","key":"PG-2108","title":"[S2][Ops] 공지사항 노출 기간 설정 기능","status":"대기","comp":"cms-product","label":"dispf-C-check,grow,grp-OpsIssue,s2,triage-2026Q3,triage-C","owner":"","due":"","priority":"Low","start":""},{"type":"스토리","key":"PG-2081","title":"[S1][Ops] 로그인 후 공지사항 팝업 노출 기능","status":"대기","comp":"cms-partner","label":"dispf-C-check,grow,grp-OpsIssue,ops,s1,triage-2026Q3,triage-C","owner":"최다솔","due":"","priority":"Medium","start":""},{"type":"에픽","key":"PG-1481","title":"운영이슈","status":"에픽구분","comp":"","label":"","owner":"","due":"","priority":"Medium","start":""},{"type":"에픽","key":"PG-1479","title":"운영배포","status":"에픽구분","comp":"","label":"","owner":"","due":"","priority":"Medium","start":""}];
+const CHANGES   = [{"type":"removed","key":"PG-3766","title":"[분석] 파트너스 온보딩 구조 분석","field":"제거","before":"진행 중","after":"제거","owner":"김명수","status":"진행 중"},{"type":"removed","key":"PG-3772","title":"[공통] 2026년 8월 6일 배포","field":"제거","before":"대기","after":"제거","owner":"이지헌","status":"대기"},{"type":"changed","key":"PG-2485","title":"💻 프론트엔드 기술 개선 및 안정화","field":"기한","before":"2026-08-14","after":"2026-08-31","owner":"김희진","status":"진행 중"},{"type":"changed","key":"PG-3776","title":"[모노레포] 폰기프트 디자인 시스템 v2.0 colors 적용","field":"기한","before":"2026-08-07","after":"2026-08-10","owner":"김희진","status":"진행 중"}];
+
+// ── Utilities ─────────────────────────────────────────
+const $ = id => document.getElementById(id);
+const pct = (v,t) => t ? Math.round(v/t*100) : 0;
+const bdg = (t,c) => `<span class="badge ${c}">${t}</span>`;
+const today = new Date('2026-08-10'); today.setHours(0,0,0,0);
+const addD  = (d,n) => { const r=new Date(d); r.setDate(r.getDate()+n); return r; };
+const d3 = addD(today,3), d7 = addD(today,7);
+const parseDate = s => { if(!s) return null; const d=new Date(s); d.setHours(0,0,0,0); return isNaN(d)?null:d; };
+const fmt = d => d ? `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}` : '—';
+
+// Jira link chip
+const jiraLink = key => `<a href="${JIRA_BASE}${key}" target="_blank" class="jira-key">${key}</a>`;
+
+// Status badge
+const stBdg = (s, cl=false) => {
+  const m={'진행 중':'b-grn','배포대기':'b-pur','막힘':'b-red','대기':'b-blue','보류':'b-org','완료':'b-gray'};
+  const c=(m[s]||'b-gray')+(cl?' cl':'');
+  return `<span class="badge ${c}"${cl?` onclick="G.showSt('${s}')" title="클릭→목록"`:''}}>${s}</span>`;
+};
+
+// ── Portfolio definitions ─────────────────────────────
+const PF_DEF = {
+  run:  {
+    key:'run',  color:'var(--run)',  light:'var(--run-light)',  border:'var(--run-border)',
+    label:'Run', icon:`<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>`,
+    title:'런 — 시스템 안정화',
+    desc:'현재 운영 중인 서비스의 안정성·보안·인프라 관리. Tier1 보안 패치, 운영 통제, 모니터링, 배포 자동화.',
+    horizons:'현재 (0~3개월)',
+    metrics:'시스템 장애율, 보안 취약점 수, Tier1 완료율',
+  },
+  core: {
+    key:'core', color:'var(--core)', light:'var(--core-light)', border:'var(--core-border)',
+    label:'Core', icon:`<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>`,
+    title:'코어 — 핵심 비즈니스 시퀀스',
+    desc:'파트너 온보딩(S1) → 상품 등록(S2) → 주문·발행(S3) → 사용·인증(S4) → 환불(S5)까지 전체 머니패스(Money Path) 완성.',
+    horizons:'단기 (1~6개월)',
+    metrics:'TTFV, 시퀀스 완성률, Money Path 오류율',
+  },
+  grow: {
+    key:'grow', color:'var(--grow)', light:'var(--grow-light)', border:'var(--grow-border)',
+    label:'Grow', icon:`<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>`,
+    title:'그로우 — 운영 레버리지',
+    desc:'파트너 셀프서브 온보딩 개선, GA4 도입, 운영 효율화 기능. Platfos를 "모바일 상품권의 Shopify"로 성장시키는 기능군.',
+    horizons:'중기 (3~12개월)',
+    metrics:'파트너 온보딩 리드타임, 운영 공수 절감율',
+  },
+  expand: {
+    key:'expand', color:'var(--exp)', light:'var(--exp-light)', border:'var(--exp-border)',
+    label:'Expand', icon:`<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/></svg>`,
+    title:'익스팬드 — 플랫폼 확장',
+    desc:'Open API 3.0 공개, Cafe24·옥션 채널 연동, 파트너 자사몰 지원. 외부 채널과의 연결로 유통 생태계를 확장.',
+    horizons:'중장기 (6~18개월)',
+    metrics:'API 파트너 수, 채널 연동 GMV, 개발자 온보딩 시간',
+  },
+};
+
+// ── Sequence definitions ─────────────────────────────
+const SEQ_DEF = {
+  s1:{ label:'S1', name:'온보딩/승인',  color:'#3B82F6', desc:'파트너 가입 · 사업자 인증 · 서비스 신청 · 관리자 승인까지 온보딩 전체 흐름' },
+  s2:{ label:'S2', name:'상품/채널',    color:'#8B5CF6', desc:'상품 등록 · 권종 설정 · 유통채널 배정 · 판매 설정 관리' },
+  s3:{ label:'S3', name:'주문/발행',    color:'#0EA5E9', desc:'주문 접수 → 결제 → 상품권 발행 → 메시지 전달 (Money Path 핵심)' },
+  s4:{ label:'S4', name:'사용/인증',    color:'#10B981', desc:'바코드 스캔 · e쿠폰함 사용처리 · 가맹점 인증 · 사용 검증' },
+  s5:{ label:'S5', name:'환불/취소',    color:'#F59E0B', desc:'소비자 환불 신청 → CMS 승인 → 결제 취소 처리 흐름' },
+  s6:{ label:'S6', name:'정산/과금',    color:'#EF4444', desc:'파트너 정산 자동화 · 수수료 과금 · 운영 마감 처리' },
+  s7:{ label:'S7', name:'운영통제',     color:'#6366F1', desc:'모니터링 · 보안 통제 · 감사 로그 · 권한 관리 · 재처리 운영' },
+  s8:{ label:'S8', name:'채널/API',     color:'#EC4899', desc:'Open API 3.0 · Cafe24 · 네이버 · 외부 채널 연동 확장' },
+};
+
+// ── Sequence auto-guess ──────────────────────────────
+const SEQ_RULES = [
+  {seq:'S1', kw:['온보딩','가입','승인','파트너 관리','사업자','회원','탈퇴','계약','로그인','인증','약관']},
+  {seq:'S2', kw:['상품','서비스','채널','유통채널','엑셀다운','판매','전시','카테고리','등록','리뷰','재고','품절','상품권 현황','공지사항']},
+  {seq:'S3', kw:['주문','결제','발행','전달','LMS','MMS','발송','SMS','알림톡','바코드 발행','선물','구매']},
+  {seq:'S4', kw:['사용','사용취소','바코드','검증','e쿠폰','쿠폰함','사용처','가맹점']},
+  {seq:'S5', kw:['환불','취소','반품','환불 신청','취소 신청']},
+  {seq:'S6', kw:['정산','과금','계좌이체','직접발송','포인트','운영마감','수수료']},
+  {seq:'S7', kw:['모니터링','보안','인프라','마스킹','WAF','권한','RBAC','운영통제','감사','로그','알람','Slack','배포','AWS','EC2','민감정보','성능']},
+  {seq:'S8', kw:['API','Open API','카페24','네이버','외부연동','채널 연동','옥션','지마켓','OAuth']},
+];
+function guessSeq(r) {
+  const text=((r.title||'')+' '+(r.label||'')+' '+(r.comp||'')).toLowerCase();
+  let best=null,bestScore=0;
+  for(const rule of SEQ_RULES){ const s=rule.kw.filter(kw=>text.includes(kw.toLowerCase())).length; if(s>bestScore){bestScore=s;best=rule.seq;} }
+  return best?{seq:best,score:bestScore}:null;
+}
+
+// ── Data init ────────────────────────────────────────
+const data   = RAW_DATA.map(r=>({...r,due:parseDate(r.due)}));
+const active = data.filter(r=>!DONE_ST.includes(r.status));
+const epics  = data.filter(r=>r.type==='에픽');
+const total  = data.length;
+
+// ── Global context ───────────────────────────────────
+const G = {
+  data, active,
+  showSt:     s  => showModal(`상태: ${s}`,        data.filter(r=>r.status===s)),
+  showType:   t  => showModal(`유형: ${t}`,        data.filter(r=>r.type===t)),
+  showSeq:    s  => showModal(`시퀀스: ${SEQ_DEF[s]?.label||s.toUpperCase()} ${SEQ_DEF[s]?.name||''}`,
+                               data.filter(r=>(r.label||'').toLowerCase().split(',').map(x=>x.trim()).includes(s.toLowerCase()))),
+  showPf:     k  => showModal(`포트폴리오: ${PF_DEF[k]?.title||k}`, data.filter(r=>(r.label||'').toLowerCase().includes(k))),
+  showOwner:  o  => showModal(`담당자: ${o}`,       active.filter(r=>(r.owner&&r.owner.trim()?r.owner.trim():'미배정')===o)),
+  showUnasgn: () => showModal('미배정 이슈',         active.filter(r=>!r.owner||r.owner.trim()===''||r.owner==='-')),
+  showExpired:() => showModal('기한 경과 이슈',      active.filter(r=>r.due&&r.due<today)),
+  showImm7:   () => showModal('D-7 이내 기한',       active.filter(r=>r.due&&r.due>=today&&r.due<=d7)),
+  showSeqUn:  seq=>{
+    const sl=new Set(['s1','s2','s3','s4','s5','s6','s7','s8']);
+    const items=active.filter(r=>!((r.label||'').toLowerCase().split(',').map(x=>x.trim()).some(l=>sl.has(l))))
+                      .filter(r=>(guessSeq(r)?guessSeq(r).seq:'미추정')===seq);
+    showModal(`추정 시퀀스: ${seq} — Jira에서 레이블 ${seq.toLowerCase()} 추가 권장`,items);
+  },
+};
+
+// ── Modal ────────────────────────────────────────────
+let _md=[];
+function showModal(title,items){ _md=items||[]; $('m-title').textContent=title; $('m-srch').value=''; $('modal').style.display='flex'; document.body.style.overflow='hidden'; renderModal(_md); setTimeout(()=>$('m-srch').focus(),80); }
+function closeModal(){ $('modal').style.display='none'; document.body.style.overflow=''; }
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+function renderModal(items){
+  $('m-cnt').textContent=`${items.length}개 이슈`;
+  if(!items.length){ $('m-list').innerHTML='<div style="padding:30px;text-align:center;color:var(--text3)">해당 이슈 없음</div>'; return; }
+  $('m-list').innerHTML=`<div style="overflow-x:auto"><table class="tbl">
+    <thead><tr><th>키</th><th>요약</th><th>담당자</th><th>상태</th><th>기한</th><th>레이블</th></tr></thead>
+    <tbody>${items.map(r=>`<tr>
+      <td>${jiraLink(r.key)}</td>
+      <td style="font-size:12px;max-width:300px">${r.title.substring(0,56)}${r.title.length>56?'…':''}</td>
+      <td style="white-space:nowrap;color:${!r.owner?'var(--danger)':'var(--text)'}">${r.owner||'미배정'}</td>
+      <td>${stBdg(r.status)}</td>
+      <td style="white-space:nowrap;font-size:11px;color:${r.due&&r.due<today?'var(--danger)':r.due&&r.due<=d7?'var(--warning)':'var(--text2)'}">${fmt(r.due)}</td>
+      <td style="font-size:10px;color:var(--text2)">${(r.label||'').split(',').filter(Boolean).slice(0,4).map(x=>x.trim()).join(', ')}</td>
+    </tr>`).join('')}</tbody>
+  </table></div>`;
+}
+function filterModal(){ const q=$('m-srch').value.toLowerCase(); renderModal(q?_md.filter(r=>r.key.toLowerCase().includes(q)||r.title.toLowerCase().includes(q)||(r.owner||'').toLowerCase().includes(q)||(r.label||'').toLowerCase().includes(q)):_md); }
+
+// ── Stats ────────────────────────────────────────────
+const statC={},typeC={};
+data.forEach(r=>{ statC[r.status]=(statC[r.status]||0)+1; typeC[r.type]=(typeC[r.type]||0)+1; });
+
+const pfD={};
+['core','run','grow','expand'].forEach(k=>pfD[k]={total:0,prog:0,wait:0,hold:0,block:0,done:0});
+data.forEach(r=>{
+  const lb=(r.label||'').toLowerCase();
+  ['core','run','grow','expand'].forEach(k=>{
+    if(!lb.includes(k))return; pfD[k].total++;
+    if(['진행 중','배포대기'].includes(r.status)) pfD[k].prog++;
+    else if(r.status==='대기')  pfD[k].wait++;
+    else if(r.status==='보류')  pfD[k].hold++;
+    else if(r.status==='막힘')  pfD[k].block++;
+    else if(DONE_ST.includes(r.status)) pfD[k].done++;
+  });
+});
+
+const seqC={},seqE={};
+['s1','s2','s3','s4','s5','s6','s7','s8'].forEach(s=>{ seqC[s]=0; seqE[s]={total:0,prog:0,wait:0,hold:0}; });
+data.forEach(r=>{
+  (r.label||'').toLowerCase().split(',').map(x=>x.trim()).forEach(l=>{ if(seqC[l]!==undefined) seqC[l]++; });
+  if(r.type==='에픽'){
+    (r.label||'').toLowerCase().split(',').map(x=>x.trim()).forEach(l=>{
+      if(!seqE[l])return; seqE[l].total++;
+      if(['진행 중','배포대기'].includes(r.status)) seqE[l].prog++;
+      else if(r.status==='대기') seqE[l].wait++;
+      else seqE[l].hold++;
+    });
+  }
+});
+
+const expired  = active.filter(r=>r.due&&r.due<today);
+const imm7     = active.filter(r=>r.due&&r.due>=today&&r.due<=d7);
+const imm3     = active.filter(r=>r.due&&r.due>=today&&r.due<=d3);
+const blocked  = active.filter(r=>r.status==='막힘');
+const unasgn   = active.filter(r=>!r.owner||r.owner.trim()===''||r.owner==='-'||r.owner==='없음');
+const tier1    = data.filter(r=>(r.label||'').toLowerCase().includes('tier1'));
+
+const seqLbls = new Set(['s1','s2','s3','s4','s5','s6','s7','s8']);
+const seqUnasgn = active.filter(r=>!((r.label||'').toLowerCase().split(',').map(x=>x.trim()).some(l=>seqLbls.has(l))));
+const seqGuessMap={};
+seqUnasgn.forEach(r=>{ const g=guessSeq(r); const key=g?g.seq:'미추정'; (seqGuessMap[key]=seqGuessMap[key]||[]).push(r); });
+
+const ownerMap={};
+active.forEach(r=>{ const o=r.owner&&r.owner.trim()?r.owner.trim():'미배정'; if(!ownerMap[o])ownerMap[o]={total:0,expired:0,imm:0}; ownerMap[o].total++; if(r.due&&r.due<today)ownerMap[o].expired++; if(r.due&&r.due>=today&&r.due<=d7)ownerMap[o].imm++; });
+const owners = Object.entries(ownerMap).sort((a,b)=>b[1].total-a[1].total);
+const maxOwner = owners.length?owners[0][1].total:1;
+
+const prog = (statC['진행 중']||0)+(statC['배포대기']||0);
+const topWarn = owners.filter(([,v])=>v.imm>=3).map(([k,v])=>`${k}(D-7 ${v.imm}건)`);
+
+// ── Render: Top badges ───────────────────────────────
+$('tb-badges').innerHTML=[
+  expired.length?`<span class="badge b-red" style="cursor:pointer" onclick="G.showExpired()">기한 경과 ${expired.length}건</span>`:'',
+  imm7.length?`<span class="badge b-org" style="cursor:pointer" onclick="G.showImm7()">D-7 이내 ${imm7.length}건</span>`:'',
+  blocked.length?`<span class="badge b-red" style="cursor:pointer" onclick="G.showSt('막힘')">막힘 ${blocked.length}건</span>`:'',
+  unasgn.length?`<span class="badge b-gray" style="cursor:pointer" onclick="G.showUnasgn()">미배정 ${unasgn.length}건</span>`:'',
+  `<span class="badge b-changed" style="cursor:pointer" onclick="sw('history')">변경 ${CHANGES.length}건</span>`,
+].filter(Boolean).join('');
+
+// ── Render: KPI ──────────────────────────────────────
+$('kpi-grid').innerHTML=[
+  {l:'전체 이슈',v:total,s:`에픽 ${typeC['에픽']||0} · Task ${typeC['작업']||0}`,cls:'info',fn:''},
+  {l:'진행 중',v:prog,s:'배포대기 포함',cls:'ok',fn:"G.showSt('진행 중')"},
+  {l:'기한 경과',v:expired.length,s:'즉시 재조정 필요',cls:expired.length?'danger':'ok',fn:'G.showExpired()'},
+  {l:'D-7 기한',v:imm7.length,s:'이번 주 완료 대상',cls:imm7.length?'warning':'ok',fn:'G.showImm7()'},
+  {l:'막힘 블로커',v:blocked.length,s:blocked.map(r=>r.key).join(' · ')||'없음',cls:blocked.length?'danger':'ok',fn:"G.showSt('막힘')"},
+  {l:'미배정',v:unasgn.length,s:`전체의 ${pct(unasgn.length,total)}%`,cls:unasgn.length>total*.3?'warning':'info',fn:'G.showUnasgn()'},
+  {l:'Tier1 이슈',v:tier1.length,s:'보안 최우선 항목',cls:'info',fn:"showModal('Tier1 이슈',G.data.filter(r=>(r.label||'').toLowerCase().includes('tier1')))"},
+  {l:'전일 변경',v:CHANGES.length,s:'이력 탭에서 확인',cls:'info',fn:"sw('history')"},
+].map(k=>`<div class="kpi ${k.cls}"${k.fn?` onclick="${k.fn}"`:''}><span class="kpi-click-hint">${k.fn?'↗':''}</span><div class="kpi-l">${k.l}</div><div class="kpi-v" style="color:var(--${k.cls==='danger'?'danger':k.cls==='warning'?'warning':k.cls==='ok'?'ok':'core'})">${k.v}</div><div class="kpi-s">${k.s}</div></div>`).join('');
+
+// ── Render: Portfolio ────────────────────────────────
+$('pf-section').innerHTML = ['run','core','grow','expand'].map(k=>{
+  const d=pfD[k], def=PF_DEF[k]; if(!d.total) return '';
+  const progPct = pct(d.prog,d.total), waitPct = pct(d.wait,d.total), holdPct = pct(d.hold,d.total), blockPct=pct(d.block,d.total);
+  return `
+  <div class="pf-card ${k}" onclick="G.showPf('${k}')">
+    <div class="pf-header">
+      <div>
+        <div class="pf-name" style="color:${def.color}">${def.icon} ${def.label}
+          <div class="has-tip" style="display:inline-block;margin-left:6px;vertical-align:middle">
+            <span style="width:16px;height:16px;border-radius:50%;border:1.5px solid;border-color:${def.color};color:${def.color};font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;cursor:help">?</span>
+            <div class="tip"><strong>${def.title}</strong><br>${def.desc}<br><br><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><path d="M21.3 8.7 8.7 21.3c-.4.4-1 .4-1.4 0l-6.6-6.6c-.4-.4-.4-1 0-1.4L13.3 0.7c.4-.4 1-.4 1.4 0l6.6 6.6c.4.4.4 1 0 1.4z"/><path d="m7.5 10.5 3 3"/><path d="m10.5 7.5 3 3"/><path d="m13.5 4.5 3 3"/></svg> ${def.horizons}<br><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> ${def.metrics}</div>
+          </div>
+        </div>
+        <div class="pf-desc">${def.desc.substring(0,50)}…</div>
+      </div>
+      <div style="text-align:right">
+        <div class="pf-total" style="color:${def.color}">${d.total}</div>
+        <div style="font-size:10px;color:var(--text3)">이슈 전체</div>
+      </div>
+    </div>
+    <div style="padding-left:10px">
+      <div class="prog-track thick" style="margin-bottom:6px">
+        <div class="prog-seg" style="width:${progPct}%;background:var(--st-prog)"></div>
+        <div class="prog-seg" style="width:${waitPct}%;background:var(--st-wait)"></div>
+        <div class="prog-seg" style="width:${holdPct}%;background:var(--st-hold)"></div>
+        <div class="prog-seg" style="width:${blockPct}%;background:var(--st-block)"></div>
+      </div>
+      <div class="pf-stats">
+        ${d.prog?`<span class="pf-stat"><span style="width:8px;height:8px;border-radius:2px;background:var(--st-prog);display:inline-block"></span><span style="color:var(--text2)">진행 ${d.prog}</span></span>`:''}
+        ${d.wait?`<span class="pf-stat"><span style="width:8px;height:8px;border-radius:2px;background:var(--st-wait);display:inline-block"></span><span style="color:var(--text2)">대기 ${d.wait}</span></span>`:''}
+        ${d.hold?`<span class="pf-stat"><span style="width:8px;height:8px;border-radius:2px;background:var(--st-hold);display:inline-block"></span><span style="color:var(--text2)">보류 ${d.hold}</span></span>`:''}
+        ${d.block?`<span class="pf-stat"><span style="width:8px;height:8px;border-radius:2px;background:var(--st-block);display:inline-block"></span><strong style="color:var(--danger)">막힘 ${d.block}</strong></span>`:''}
+      </div>
+    </div>
+  </div>`;
+}).join('');
+
+// ── Render: Status bars ──────────────────────────────
+const stO=['진행 중','배포대기','대기','보류','막힘','완료'];
+const stC={'진행 중':'var(--st-prog)','배포대기':'var(--st-deploy)','대기':'var(--st-wait)','보류':'var(--st-hold)','막힘':'var(--st-block)','완료':'var(--st-done)'};
+const stDesc={'진행 중':'현재 작업 중인 이슈','배포대기':'개발 완료, 배포 대기 중','대기':'아직 시작하지 않은 이슈','보류':'의도적으로 홀드된 이슈','막힘':'선행 작업 또는 외부 요인으로 진행 불가','완료':'완료된 이슈'};
+$('status-bars').innerHTML=stO.filter(s=>statC[s]).map(s=>`
+  <div class="prog-wrap" style="cursor:pointer" onclick="G.showSt('${s}')">
+    <div class="prog-label-row">
+      <div class="prog-label">
+        <span style="width:10px;height:10px;border-radius:3px;background:${stC[s]||'#888'};flex-shrink:0;display:inline-block"></span>
+        <div class="has-tip">${stBdg(s)}
+          <div class="tip">${stDesc[s]||''}<br>전체 ${pct(statC[s],total)}% (${statC[s]}건)</div>
+        </div>
+      </div>
+      <div class="prog-val">${statC[s]}<span style="font-size:10px;color:var(--text3);font-family:'Noto Sans KR'">&nbsp;${pct(statC[s],total)}%</span></div>
+    </div>
+    <div class="prog-track">
+      <div class="prog-seg" style="width:${pct(statC[s],total)}%;background:${stC[s]||'#888'}"></div>
+    </div>
+  </div>`).join('');
+
+// ── Render: Type bars ────────────────────────────────
+const tpO=['작업','하위 작업','스토리','에픽','버그'];
+const tpC={'작업':'#3B82F6','하위 작업':'#8B5CF6','스토리':'#10B981','에픽':'#F59E0B','버그':'#EF4444'};
+const tpDesc={'작업':'구체적인 개발/기획 작업 단위','하위 작업':'상위 작업의 세부 분해 항목','스토리':'사용자 시나리오 기반 기능 단위','에픽':'복수 스토리를 묶는 대형 기능','버그':'버그/결함 이슈'};
+$('type-bars').innerHTML=tpO.filter(t=>typeC[t]).map(t=>`
+  <div class="prog-wrap" style="cursor:pointer" onclick="G.showType('${t}')">
+    <div class="prog-label-row">
+      <div class="prog-label">
+        <span style="width:10px;height:10px;border-radius:3px;background:${tpC[t]||'#888'};flex-shrink:0;display:inline-block"></span>
+        <div class="has-tip">${t}
+          <div class="tip">${tpDesc[t]||''}<br>${pct(typeC[t],total)}% (${typeC[t]}건)</div>
+        </div>
+      </div>
+      <div class="prog-val">${typeC[t]}</div>
+    </div>
+    <div class="prog-track thin">
+      <div class="prog-seg" style="width:${pct(typeC[t],total)}%;background:${tpC[t]||'#888'}"></div>
+    </div>
+  </div>`).join('');
+
+// ── Render: Seq mini ─────────────────────────────────
+$('seq-mini').innerHTML=Object.entries(SEQ_DEF).map(([k,def])=>`
+  <div class="seq-row" onclick="G.showSeq('${k}')">
+    <div>
+      <div class="seq-label"><strong style="color:${def.color}">${def.label}</strong> <span style="color:var(--text2)">${def.name}</span></div>
+    </div>
+    <div class="has-tip" style="flex:1">
+      <div class="prog-track" style="height:10px;border-radius:6px">
+        <div class="prog-seg" style="width:${pct(seqC[k]||0,Math.max(1,...Object.values(seqC)))}%;background:${def.color};border-radius:6px"></div>
+      </div>
+      <div class="tip">${def.desc}</div>
+    </div>
+    <div class="prog-val" style="font-size:13px">${seqC[k]||0}</div>
+  </div>`).join('');
+
+// ── Render: Health grid ──────────────────────────────
+const compOk=data.filter(r=>r.comp&&r.comp.trim()).length;
+const lblOk=data.filter(r=>r.label&&r.label.trim()).length;
+const hasDue=data.filter(r=>r.due).length;
+const healthItems=[
+  {l:'기한 준수율', v:pct(hasDue-expired.length,hasDue||1), good:90, tip:'기한 있는 이슈 중 기한 내 진행 비율'},
+  {l:'담당자 배정률', v:pct(active.length-unasgn.length,active.length||1), good:85, tip:'활성 이슈 중 담당자가 지정된 비율'},
+  {l:'컴포넌트 입력률', v:pct(compOk,total), good:90, tip:'컴포넌트 필드가 입력된 이슈 비율'},
+  {l:'레이블 입력률', v:pct(lblOk,total), good:90, tip:'레이블이 입력된 이슈 비율'},
+  {l:'에픽 진행률', v:pct(prog,typeC['에픽']||1), good:30, tip:'전체 에픽 중 진행 중 비율'},
+];
+$('health-grid').innerHTML=healthItems.map(d=>{
+  const col=d.v>=d.good?'var(--ok)':d.v>=d.good*.6?'var(--warning)':'var(--danger)';
+  return `<div class="health-item has-tip">
+    <div class="health-name">${d.l}</div>
+    <div class="health-pct" style="color:${col}">${d.v}<span style="font-size:14px">%</span></div>
+    <div class="health-bar"><div class="health-fill" style="width:${d.v}%;background:${col}"></div></div>
+    <div class="tip">${d.tip}<br>목표: ${d.good}% 이상 &nbsp;·&nbsp; 현재: ${d.v}%</div>
+  </div>`;}).join('');
+
+// ── Render: Urgent ───────────────────────────────────
+if(topWarn.length) $('urgent-alert').innerHTML=`<div class="alert danger"><span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><strong>D-7 기한 집중: ${topWarn.join(', ')}</strong> — 이번 주 완료 가능 여부를 팀과 즉시 확인하세요.</div>`;
+
+const mkRow = r => `<div class="ui">
+  <div class="ui-key">${jiraLink(r.key)}</div>
+  <div><div class="ui-t">${r.title.substring(0,52)}${r.title.length>52?'…':''}</div>
+    <div class="ui-m">${stBdg(r.status,true)}<span>${r.owner||'미배정'}</span>
+      ${r.due?`<span style="color:${r.due<today?'var(--danger)':'var(--warning)'};font-weight:600">${fmt(r.due)}</span>`:''}
+    </div></div></div>`;
+
+$('blocked-list').innerHTML=blocked.length?blocked.map(mkRow).join(''):'<div style="padding:16px;color:var(--ok);font-size:12px;text-align:center"><span style="display:inline-flex;align-items:center;gap:6px"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ok)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg>막힘 이슈 없음</span></div>';
+$('d3-list').innerHTML=imm3.length?imm3.slice(0,6).map(mkRow).join(''):'<div style="padding:16px;color:var(--text3);font-size:12px;text-align:center">D-3 이내 기한 없음</div>';
+
+$('d7-list').innerHTML=imm7.length?`<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px">
+  ${imm7.slice(0,16).map(r=>`<div class="d7-card">
+    <div style="min-width:82px">${jiraLink(r.key)}</div>
+    <div style="flex:1"><div style="font-size:12px;font-weight:500;margin-bottom:3px">${r.title.substring(0,36)}${r.title.length>36?'…':''}</div>
+      <div style="font-size:11px;color:var(--text2)">${r.owner||'미배정'} · <span style="color:var(--warning);font-weight:600">${fmt(r.due)}</span></div>
+    </div></div>`).join('')}
+  ${imm7.length>16?`<div style="display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--info);cursor:pointer;border:1px dashed var(--border);border-radius:10px;padding:12px" onclick="G.showImm7()">+ 외 ${imm7.length-16}건 더 보기</div>`:''}
+</div>`:'<div style="padding:16px;color:var(--ok);font-size:12px;text-align:center"><span style="display:inline-flex;align-items:center;gap:6px"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ok)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg>D-7 이내 기한 없음</span></div>';
+
+$('expired-tbl').innerHTML=`<thead><tr><th>키</th><th>요약</th><th>담당자</th><th>기한</th><th>상태</th><th>유형</th></tr></thead>
+  <tbody>${expired.slice(0,50).map(r=>`<tr>
+    <td>${jiraLink(r.key)}</td>
+    <td style="font-size:12px">${r.title.substring(0,50)}${r.title.length>50?'…':''}</td>
+    <td style="color:${!r.owner?'var(--danger)':'var(--text)'};font-weight:${!r.owner?600:400}">${r.owner||'미배정'}</td>
+    <td style="color:var(--danger);font-weight:600;font-size:11px">${fmt(r.due)}</td>
+    <td>${stBdg(r.status,true)}</td><td>${bdg(r.type,'b-gray')}</td></tr>`).join('')}
+  ${expired.length>50?`<tr><td colspan="6" style="text-align:center;color:var(--info);font-size:11px;padding:12px;cursor:pointer" onclick="G.showExpired()">외 ${expired.length-50}건 더 보기 →</td></tr>`:''}</tbody>`;
+
+// ── Render: Seq detail ───────────────────────────────
+$('seq-detail').innerHTML=Object.entries(SEQ_DEF).map(([k,def])=>{
+  const d=seqE[k]||{total:0,prog:0,wait:0,hold:0};
+  return`<div class="epic-seq-row" onclick="G.showSeq('${k}')">
+    <div class="epic-seq-left">
+      <div class="epic-seq-tag">${def.label} <span style="font-weight:400;font-size:11px;color:var(--text2)">${def.name}</span></div>
+      <div class="epic-seq-count">이슈 ${seqC[k]||0}개</div>
+    </div>
+    <div>
+      <div class="has-tip">
+        <div class="prog-track thick" style="margin-bottom:5px">
+          ${d.total===0
+            ?`<div class="prog-seg" style="width:100%;background:var(--border)"></div>`
+            :`<div class="prog-seg" style="width:${pct(d.prog,d.total)}%;background:var(--st-prog)"></div>
+               <div class="prog-seg" style="width:${pct(d.wait,d.total)}%;background:var(--st-wait)"></div>
+               <div class="prog-seg" style="width:${pct(d.hold,d.total)}%;background:var(--st-hold)"></div>`}
+        </div>
+        <div class="tip">${def.desc}</div>
+      </div>
+      <div style="font-size:10px;color:var(--text3)">${d.total===0?'에픽 미정의':`진행 ${d.prog} · 대기 ${d.wait} · 보류 ${d.hold}`}</div>
+    </div>
+    <div class="epic-count" style="color:${d.total===0?'var(--danger)':'var(--text2)'}">
+      ${d.total}<div style="font-size:10px;color:var(--text3);font-family:inherit">에픽</div>
+    </div>
+  </div>`;}).join('');
+
+// ── Render: Critical path ────────────────────────────
+const critEpics=['s3','s4','s5'].flatMap(s=>epics.filter(r=>{const lb=(r.label||'').toLowerCase().split(',').map(x=>x.trim());return lb.includes(s)&&(!r.owner||r.owner.trim()==='')&&!DONE_ST.includes(r.status);}).map(r=>({...r,seq:s.toUpperCase()})));
+$('cp-chain').innerHTML=critEpics.length?critEpics.slice(0,6).map((d,i)=>`
+  <div class="chain-node" style="margin-bottom:6px">
+    <div style="display:flex;flex-direction:column;align-items:center;width:24px;flex-shrink:0">
+      <div class="chain-circle" style="background:var(--danger-bg);border:2px solid var(--danger);color:var(--danger)">${i+1}</div>
+      ${i<Math.min(critEpics.length,6)-1?`<div style="width:2px;flex:1;min-height:10px;background:linear-gradient(var(--danger),var(--warning));opacity:.3;margin:3px auto;border-radius:1px"></div>`:''}
+    </div>
+    <div style="padding-bottom:6px">
+      <div style="font-size:12px;font-weight:600;margin-bottom:3px">${bdg(d.seq,'b-blue')} ${jiraLink(d.key)} &nbsp;${d.title.substring(0,38)}${d.title.length>38?'…':''}</div>
+      <div style="font-size:11px;color:var(--danger)">${d.due&&d.due<today?`기한 경과(${fmt(d.due)})`:d.status} &nbsp;·&nbsp; 미배정</div>
+    </div></div>`).join(''):'<div style="padding:20px;color:var(--ok);font-size:12px;text-align:center"><span style="display:inline-flex;align-items:center;gap:6px"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ok)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg>크리티컬 패스 블로커 없음</span></div>';
+
+// ── Render: Seq unassigned ───────────────────────────
+const guessEntries=Object.entries(seqGuessMap).sort((a,b)=>b[1].length-a[1].length);
+const maxG=Math.max(1,...guessEntries.map(([,v])=>v.length));
+$('seq-un').innerHTML=seqUnasgn.length===0?'<div style="padding:20px;color:var(--ok);font-size:12px;text-align:center"><span style="display:inline-flex;align-items:center;gap:6px"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ok)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg>시퀀스 미배정 이슈 없음</span></div>'
+  :`<div style="background:var(--warning-bg);border:1px solid var(--warning-border);border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:11px;color:var(--warning)">
+      <strong>시퀀스 레이블 없는 이슈 ${seqUnasgn.length}건</strong> — 아래는 타이틀·레이블·컴포넌트 키워드 분석 결과입니다. 클릭하면 이슈 목록을 확인하고 Jira에서 레이블을 추가하세요.
+    </div>
+    ${guessEntries.map(([seq,rows])=>{
+      const def=Object.values(SEQ_DEF).find(d=>d.label===seq);
+      const color=def?def.color:'#888';
+      return`<div class="seq-row" onclick="G.showSeqUn('${seq}')">
+        <div>
+          <span class="seqtag${seq==='미추정'?'':' auto'}" style="${def?`border-color:${color};color:${color};background:${color}18`:''}">${seq}</span>
+          ${def?`<div style="font-size:10px;color:var(--text3);margin-top:2px">${def.name}</div>`:''}
+        </div>
+        <div class="prog-track" style="height:12px;border-radius:6px">
+          <div class="prog-seg" style="width:${pct(rows.length,maxG)}%;background:${seq==='미추정'?'var(--border2)':color};border-radius:6px"></div>
+        </div>
+        <div class="prog-val" style="font-size:13px">${rows.length}</div>
+      </div>`;}).join('')}
+    <div style="margin-top:12px;padding:10px 14px;background:var(--info-bg);border:1px solid var(--info-border);border-radius:8px;font-size:11px;color:var(--info)">
+      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--info)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> 확인 후 Jira에서 해당 이슈에 <strong>s1~s8 레이블</strong>을 추가하면 다음 업로드 시 자동 반영됩니다.
+    </div>`;
+
+// ── Render: Workload ──────────────────────────────────
+$('wl-bars').innerHTML=owners.map(([name,d])=>`
+  <div class="wl-row" onclick="G.showOwner('${name}')">
+    <div style="font-size:12px;font-weight:${d.total>15?700:400};color:${d.total>15?'var(--danger)':name==='미배정'?'var(--warning)':'var(--text)'}">${name}</div>
+    <div style="position:relative">
+      <div class="wl-track">
+        <div class="wl-fill" style="width:${pct(d.total,maxOwner)}%;background:${d.total>15?'var(--danger)':d.total>7?'var(--warning)':'var(--ok)'}"></div>
+      </div>
+      <div class="wl-marker" style="left:${pct(7,maxOwner)}%;background:var(--warning)"></div>
+      <div class="wl-marker" style="left:${pct(15,maxOwner)}%;background:var(--danger)"></div>
+    </div>
+    <div style="font-size:10px;color:var(--text2)">
+      ${d.expired?`<span style="color:var(--danger);font-weight:600">경과 ${d.expired}건</span> `:''}
+      ${d.imm?`<span style="color:var(--warning);font-weight:600">임박 ${d.imm}건</span>`:''}
+    </div>
+    <div style="text-align:right;font-size:14px;font-weight:700;color:${d.total>15?'var(--danger)':d.total>7?'var(--warning)':'var(--text)'}">${d.total}</div>
+  </div>`).join('');
+
+const uaEpic=unasgn.filter(r=>r.type==='에픽').length;
+$('ua-detail').innerHTML=`
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">
+    <div style="text-align:center;background:var(--danger-bg);border:1px solid var(--danger-border);border-radius:10px;padding:14px;cursor:pointer" onclick="G.showUnasgn()">
+      <div style="font-size:26px;font-weight:700;color:var(--danger);font-family:'JetBrains Mono',monospace">${unasgn.length}</div>
+      <div style="font-size:11px;font-weight:600;color:var(--danger);margin-top:4px">전체 미배정</div>
+    </div>
+    <div style="text-align:center;background:var(--warning-bg);border:1px solid var(--warning-border);border-radius:10px;padding:14px;cursor:pointer" onclick="showModal('에픽 미배정',G.active.filter(r=>r.type==='에픽'&&(!r.owner||r.owner.trim()==='')))">
+      <div style="font-size:26px;font-weight:700;color:var(--warning);font-family:'JetBrains Mono',monospace">${uaEpic}</div>
+      <div style="font-size:11px;font-weight:600;color:var(--warning);margin-top:4px">에픽 미배정</div>
+    </div>
+    <div style="text-align:center;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer" onclick="showModal('Task·Story 미배정',G.active.filter(r=>r.type!=='에픽'&&(!r.owner||r.owner.trim()==='')))">
+      <div style="font-size:26px;font-weight:700;color:var(--text2);font-family:'JetBrains Mono',monospace">${unasgn.length-uaEpic}</div>
+      <div style="font-size:11px;font-weight:600;color:var(--text3);margin-top:4px">Task·Story</div>
+    </div>
+  </div>
+  <div style="padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;font-size:11px;color:var(--text2)">
+    미배정 비율: <strong style="color:${pct(unasgn.length,total)>30?'var(--danger)':pct(unasgn.length,total)>15?'var(--warning)':'var(--ok)'};font-size:14px">${pct(unasgn.length,total)}%</strong> &nbsp;(권장 10% 이하)
+  </div>`;
+
+const expByOwner={};
+expired.forEach(r=>{const o=r.owner||'미배정';expByOwner[o]=(expByOwner[o]||0)+1;});
+const expOwners=Object.entries(expByOwner).sort((a,b)=>b[1]-a[1]);
+const maxExp=expOwners.length?expOwners[0][1]:1;
+$('exp-owner').innerHTML=expOwners.length?expOwners.map(([n,c])=>`
+  <div class="prog-wrap" style="cursor:pointer" onclick="showModal('${n} — 기한 경과',G.active.filter(r=>r.due&&r.due<today&&(r.owner||'미배정')==='${n}'))">
+    <div class="prog-label-row">
+      <div class="prog-label" style="font-weight:${c>5?600:400};color:${c>5?'var(--danger)':c>2?'var(--warning)':'var(--text2)'}">${n}</div>
+      <div class="prog-val" style="color:${c>5?'var(--danger)':c>2?'var(--warning)':'var(--text2)'}">${c}건</div>
+    </div>
+    <div class="prog-track">
+      <div class="prog-seg" style="width:${pct(c,maxExp)}%;background:${c>5?'var(--danger)':c>2?'var(--warning)':'var(--st-wait)'}"></div>
+    </div>
+  </div>`).join(''):'<div style="padding:16px;color:var(--ok);font-size:12px;text-align:center"><span style="display:inline-flex;align-items:center;gap:6px"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ok)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg>기한 경과 없음</span></div>';
+
+// ── Render: History ──────────────────────────────────
+let _histFilter='all';
+function filterHist(type){
+  _histFilter=type;
+  document.querySelectorAll('.hf-btn').forEach((b,i)=>{
+    b.classList.toggle('on',['all','added','removed','title','label','comp'][i]===type);
+  });
+  renderHist();
+}
+function renderHist(){
+  const q=($('hist-srch')||{value:''}).value.toLowerCase();
+  let items=CHANGES;
+  if(_histFilter==='added')   items=items.filter(c=>c.type==='added');
+  else if(_histFilter==='removed') items=items.filter(c=>c.type==='removed');
+  else if(_histFilter==='title')   items=items.filter(c=>c.field==='요약');
+  else if(_histFilter==='label')   items=items.filter(c=>c.field==='레이블');
+  else if(_histFilter==='comp')    items=items.filter(c=>c.field==='컴포넌트');
+  if(q) items=items.filter(c=>c.key.toLowerCase().includes(q)||c.title.toLowerCase().includes(q));
+  $('hist-cnt').textContent=`${items.length}건 표시`;
+  const tm={added:{lbl:'신규',cls:'b-added'},removed:{lbl:'제거',cls:'b-removed'},changed:{lbl:'변경',cls:'b-changed'}};
+  $('hist-list').innerHTML=items.slice(0,200).map(c=>{
+    const t=tm[c.type]||{lbl:c.type,cls:'b-gray'};
+    const fieldBadge=c.type==='changed'?`<span class="badge b-gray" style="font-size:10px;padding:1px 6px;margin-left:4px">${c.field}</span>`:'';
+    return`<div class="diff-row">
+      <div>${jiraLink(c.key)}</div>
+      <div>${bdg(t.lbl,t.cls)}${fieldBadge}</div>
+      <div style="font-size:11px;color:var(--text)">${c.title.substring(0,50)}${c.title.length>50?'…':''}</div>
+      <div><span class="diff-before">${c.before.substring(0,56)}${c.before.length>56?'…':''}</span></div>
+      <div><span class="diff-after">${c.after.substring(0,56)}${c.after.length>56?'…':''}</span></div>
+    </div>`;}).join('');
+}
+renderHist();
+
+// ── Tab switch ───────────────────────────────────────
+function sw(id){
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>{b.classList.toggle('on',['overview','urgent','seq','workload','history','status','monthly'][i]===id);});
+  document.querySelectorAll('.panel').forEach(p=>{p.classList.toggle('on',p.id==='p-'+id);});
+  if(id==='status') {};
+}
+
+
+// ── WorkStatus 데이터 ────────────────────────────────────
+const WS_OWNERS = {"최다솔": {"total": 10, "prog_n": 6, "deploy_n": 0, "wait_n": 4, "hold_n": 0, "exp_n": 0, "imm_n": 1, "blk_n": 0, "prog": [{"key": "PG-3777", "title": "[기획][CMS] 유통채널 설정관리 & 카테고리 관리 프로토타입 작성", "status": "진행 중", "due": "2026-08-10"}, {"key": "PG-3767", "title": "[Grow][S2][S8] 파트너센터 상품/채널 연동 관리 구조 개편", "status": "진행 중", "due": "2026-08-31"}, {"key": "PG-3742", "title": "[S4] 상품권 사용/사용취소 흐름 정리", "status": "진행 중", "due": "2026-08-28"}, {"key": "PG-3580", "title": "[S8] 시퀀스 업무 정리 (채널/API/몰/확장)", "status": "진행 중", "due": "2026-08-28"}, {"key": "PG-3576", "title": "[S4] 시퀀스 업무 정리 (사용/사용취소/유효기간)", "status": "진행 중", "due": "2026-08-28"}, {"key": "PG-3572", "title": "[AX] 시퀀스별(S1~S8) 업무 정리", "status": "진행 중", "due": "2026-08-31"}], "deploy": [], "expired": []}, "김명수": {"total": 14, "prog_n": 3, "deploy_n": 0, "wait_n": 8, "hold_n": 0, "exp_n": 1, "imm_n": 1, "blk_n": 0, "prog": [{"key": "PG-3757", "title": "[Grow][S1] 파트너센터 온보딩 전체 구조 개편", "status": "진행 중", "due": "2026-08-25"}, {"key": "PG-3755", "title": "[분석] 파트너스 온보딩 현재 고객 진입 분석", "status": "진행 중", "due": "2026-08-07"}, {"key": "PG-3573", "title": "[S1] 시퀀스 업무 정리 (온보딩/승인)", "status": "진행 중", "due": "2026-08-14"}], "deploy": [], "expired": [{"key": "PG-3755", "title": "[분석] 파트너스 온보딩 현재 고객 진입 분석", "due": "2026-08-07"}]}, "김가영": {"total": 3, "prog_n": 1, "deploy_n": 0, "wait_n": 1, "hold_n": 0, "exp_n": 0, "imm_n": 0, "blk_n": 0, "prog": [{"key": "PG-3751", "title": "디자인 시스템 전반 업데이트 및 적용", "status": "진행 중", "due": "2026-08-31"}], "deploy": [], "expired": []}, "박창용": {"total": 4, "prog_n": 0, "deploy_n": 1, "wait_n": 2, "hold_n": 0, "exp_n": 0, "imm_n": 0, "blk_n": 0, "prog": [], "deploy": [{"key": "PG-3764", "title": "[BE] 불필요한 fastify metric 의존성 제거", "status": "배포대기", "due": "2026-08-05"}], "expired": []}, "이지헌": {"total": 3, "prog_n": 0, "deploy_n": 0, "wait_n": 3, "hold_n": 0, "exp_n": 0, "imm_n": 0, "blk_n": 0, "prog": [], "deploy": [], "expired": []}, "이웅식": {"total": 2, "prog_n": 0, "deploy_n": 0, "wait_n": 2, "hold_n": 0, "exp_n": 0, "imm_n": 0, "blk_n": 0, "prog": [], "deploy": [], "expired": []}, "김희진": {"total": 9, "prog_n": 3, "deploy_n": 6, "wait_n": 0, "hold_n": 0, "exp_n": 0, "imm_n": 1, "blk_n": 0, "prog": [{"key": "PG-3776", "title": "[모노레포] 폰기프트 디자인 시스템 v2.0 colors 적용", "status": "진행 중", "due": "2026-08-10"}, {"key": "PG-3769", "title": "프론트엔드 시스템 학습 (pongift-frontend-system)", "status": "진행 중", "due": "2026-08-31"}, {"key": "PG-2485", "title": "💻 프론트엔드 기술 개선 및 안정화", "status": "진행 중", "due": "2026-08-31"}], "deploy": [{"key": "PG-3375", "title": "CMS 주문관리 -> 상품권 현황", "status": "배포대기", "due": ""}, {"key": "PG-3374", "title": "CMS 주문관리 -> 엑셀다운로드", "status": "배포대기", "due": ""}, {"key": "PG-3373", "title": "CMS 직접발송 -> 포인트 현황 엑셀다운로드", "status": "배포대기", "due": ""}, {"key": "PG-3372", "title": "CMS 직접발송 -> 포인트 충전내역 엑셀다운로드", "status": "배포대기", "due": ""}, {"key": "PG-3371", "title": "CMS 직접발송 -> 발송현황 엑셀다운로드", "status": "배포대기", "due": ""}, {"key": "PG-3370", "title": "CMS 상품목록 엑셀다운로드", "status": "배포대기", "due": ""}], "expired": []}, "장석원": {"total": 1, "prog_n": 1, "deploy_n": 0, "wait_n": 0, "hold_n": 0, "exp_n": 1, "imm_n": 0, "blk_n": 0, "prog": [{"key": "PG-3752", "title": "[FE] 프론트엔드 시스템", "status": "진행 중", "due": "2026-08-07"}], "deploy": [], "expired": [{"key": "PG-3752", "title": "[FE] 프론트엔드 시스템", "due": "2026-08-07"}]}};
+const WS_HEATMAP = {"s1": {"run": {"total": 0, "prog": 0, "issues": []}, "core": {"total": 0, "prog": 0, "issues": []}, "grow": {"total": 1, "prog": 0, "issues": [{"key": "PG-2081", "title": "[S1][Ops] 로그인 후 공지사항 팝업 노출 기능", "status": "대기", "owner": "최다솔"}]}, "expand": {"total": 0, "prog": 0, "issues": []}}, "s2": {"run": {"total": 0, "prog": 0, "issues": []}, "core": {"total": 0, "prog": 0, "issues": []}, "grow": {"total": 5, "prog": 4, "issues": [{"key": "PG-3776", "title": "[모노레포] 폰기프트 디자인 시스템 v2.0 colors 적용", "status": "진행 중", "owner": "김희진"}, {"key": "PG-3769", "title": "프론트엔드 시스템 학습 (pongift-frontend-system)", "status": "진행 중", "owner": "김희진"}, {"key": "PG-3752", "title": "[FE] 프론트엔드 시스템", "status": "진행 중", "owner": "장석원"}, {"key": "PG-2485", "title": "💻 프론트엔드 기술 개선 및 안정화", "status": "진행 중", "owner": "김희진"}, {"key": "PG-2108", "title": "[S2][Ops] 공지사항 노출 기간 설정 기능", "status": "대기", "owner": ""}]}, "expand": {"total": 0, "prog": 0, "issues": []}}, "s3": {"run": {"total": 0, "prog": 0, "issues": []}, "core": {"total": 0, "prog": 0, "issues": []}, "grow": {"total": 0, "prog": 0, "issues": []}, "expand": {"total": 0, "prog": 0, "issues": []}}, "s4": {"run": {"total": 0, "prog": 0, "issues": []}, "core": {"total": 0, "prog": 0, "issues": []}, "grow": {"total": 0, "prog": 0, "issues": []}, "expand": {"total": 0, "prog": 0, "issues": []}}, "s5": {"run": {"total": 0, "prog": 0, "issues": []}, "core": {"total": 0, "prog": 0, "issues": []}, "grow": {"total": 0, "prog": 0, "issues": []}, "expand": {"total": 0, "prog": 0, "issues": []}}, "s6": {"run": {"total": 0, "prog": 0, "issues": []}, "core": {"total": 0, "prog": 0, "issues": []}, "grow": {"total": 0, "prog": 0, "issues": []}, "expand": {"total": 0, "prog": 0, "issues": []}}, "s7": {"run": {"total": 1, "prog": 0, "issues": [{"key": "PG-2670", "title": "[S7][Policy] 운영 민감 이벤트 분류 및 심각도 기준 반영", "status": "대기", "owner": ""}]}, "core": {"total": 0, "prog": 0, "issues": []}, "grow": {"total": 0, "prog": 0, "issues": []}, "expand": {"total": 0, "prog": 0, "issues": []}}, "s8": {"run": {"total": 0, "prog": 0, "issues": []}, "core": {"total": 0, "prog": 0, "issues": []}, "grow": {"total": 0, "prog": 0, "issues": []}, "expand": {"total": 4, "prog": 0, "issues": [{"key": "PG-3066", "title": "[Expand][S8][카페24] 7. 파트너센터/CMS - 운영 관리 화면 및 관리자 처", "status": "대기", "owner": "김명수"}, {"key": "PG-3064", "title": "[Expand][S8][카페24] 5. 취소/환불 - 주문 취소 및 환불 예외 처리 기준 ", "status": "대기", "owner": "김명수"}, {"key": "PG-3061", "title": "[Expand][S8][카페24] 2. 상품 연동 - 상품권 등록 및 판매 상품 매핑 처리", "status": "대기", "owner": ""}, {"key": "PG-3059", "title": "[Expand][S8][카페24] 1. 연동 설정 - 앱 설정 및 기본 연동값 정리", "status": "대기", "owner": ""}]}}};
+const WS_MAX = 5;
+const WS_SEQ_META = {"s1": {"label": "S1", "name": "온보딩/승인", "color": "#3B82F6"}, "s2": {"label": "S2", "name": "상품/채널", "color": "#8B5CF6"}, "s3": {"label": "S3", "name": "주문/발행", "color": "#0EA5E9"}, "s4": {"label": "S4", "name": "사용/인증", "color": "#10B981"}, "s5": {"label": "S5", "name": "환불/취소", "color": "#F59E0B"}, "s6": {"label": "S6", "name": "정산/과금", "color": "#EF4444"}, "s7": {"label": "S7", "name": "운영통제", "color": "#6366F1"}, "s8": {"label": "S8", "name": "채널/API", "color": "#EC4899"}};
+const WS_PF_META  = {"run": {"label": "Run", "color": "#DC2626", "bg": "#FEF2F2", "desc": "시스템 안정화"}, "core": {"label": "Core", "color": "#1D4ED8", "bg": "#EFF6FF", "desc": "핵심 비즈니스"}, "grow": {"label": "Grow", "color": "#15803D", "bg": "#F0FDF4", "desc": "운영 레버리지"}, "expand": {"label": "Expand", "color": "#7C3AED", "bg": "#F5F3FF", "desc": "플랫폼 확장"}};
+const PLAN_TEAM   = ["\ucd5c\ub2e4\uc194", "\uae40\uba85\uc218", "\uc774\uac15\ubbf8"];
+const DEV_TEAM    = ["\ubc15\ucc3d\uc6a9", "\uc774\uc9c0\ud5cc", "\uae40\ud76c\uc9c4", "\uc7a5\uc11d\uc6d0"];
+const JIRA_BASE2  = 'https://platfos.atlassian.net/browse/';
+const WS_DATE = '2026-08-10';
+const WS_WEEK = '8월 2주차';
+
+function renderWorkStatus() {
+  // KPI 수치
+  const allMembers = [...PLAN_TEAM, ...DEV_TEAM];
+  let totalProg=0, totalExp=0, totalImm=0;
+  allMembers.forEach(n => {
+    const d = WS_OWNERS[n]; if(!d) return;
+    totalProg += d.prog_n; totalExp += d.exp_n; totalImm += d.imm_n;
+  });
+  const wsProg = document.getElementById('ws-prog-num');
+  const wsExp  = document.getElementById('ws-exp-num');
+  const wsImm  = document.getElementById('ws-imm-num');
+  if(wsProg) wsProg.textContent = totalProg;
+  if(wsExp)  wsExp.textContent  = totalExp;
+  if(wsImm)  wsImm.textContent  = totalImm;
+
+  // ── 히트맵 렌더링 ───────────────────────────────────
+  renderHeatmap();
+
+  // ── 담당자 카드 렌더링 ──────────────────────────────
+  const planEl = document.getElementById('ws-plan-cards');
+  const devEl  = document.getElementById('ws-dev-cards');
+  if(planEl) planEl.innerHTML = PLAN_TEAM.map(n => memberCard(n, '#7C3AED', '#F5F3FF')).join('');
+  if(devEl)  devEl.innerHTML  = DEV_TEAM.map(n  => memberCard(n, '#1D4ED8', '#EFF6FF')).join('');
+}
+
+function renderHeatmap() {
+  const wrap = document.getElementById('heatmap-wrap');
+  if(!wrap) return;
+
+  const seqKeys = ['s1','s2','s3','s4','s5','s6','s7','s8'];
+  const pfKeys  = ['run','core','grow','expand'];
+
+  const cellW = 90, cellH = 64, labelW = 80, headerH = 44;
+  const W = labelW + seqKeys.length * cellW;
+  const H = headerH + pfKeys.length * cellH;
+
+  let svg = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${W}px;font-family:'Noto Sans KR',sans-serif">`;
+
+  // 배경
+  svg += `<rect width="${W}" height="${H}" fill="#F8FAFC" rx="8"/>`;
+
+  // 시퀀스 헤더 (X축)
+  seqKeys.forEach((s, si) => {
+    const meta = WS_SEQ_META[s];
+    const x = labelW + si * cellW + cellW/2;
+    svg += `<rect x="${labelW + si*cellW}" y="0" width="${cellW}" height="${headerH}" fill="${meta.color}18" rx="0"/>`;
+    svg += `<text x="${x}" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="${meta.color}">${meta.label}</text>`;
+    svg += `<text x="${x}" y="30" text-anchor="middle" font-size="9" fill="#6B7280">${meta.name}</text>`;
+  });
+
+  // 포트폴리오 라벨 (Y축) + 셀
+  pfKeys.forEach((p, pi) => {
+    const pmeta = WS_PF_META[p];
+    const y = headerH + pi * cellH;
+
+    // 포트폴리오 라벨
+    svg += `<rect x="0" y="${y}" width="${labelW}" height="${cellH}" fill="${pmeta.bg}" rx="0"/>`;
+    svg += `<text x="10" y="${y + cellH/2 - 6}" font-size="11" font-weight="700" fill="${pmeta.color}">${pmeta.label}</text>`;
+    svg += `<text x="10" y="${y + cellH/2 + 7}" font-size="9" fill="#9CA3AF">${pmeta.desc}</text>`;
+
+    // 셀
+    seqKeys.forEach((s, si) => {
+      const cx = labelW + si * cellW;
+      const cell = WS_HEATMAP[s][p];
+      const n = cell.total;
+      const prog = cell.prog;
+      const pct = WS_MAX > 0 ? n / WS_MAX : 0;
+      const opacity = n === 0 ? 0.04 : 0.1 + pct * 0.9;
+      const progPct = n > 0 ? prog/n : 0;
+
+      const issues = cell.issues || [];
+      const issueData = encodeURIComponent(JSON.stringify({n, prog, s, p, issues}));
+
+      svg += `<rect x="${cx}" y="${y}" width="${cellW}" height="${cellH}"
+        fill="${pmeta.color}" opacity="${opacity.toFixed(2)}"
+        rx="0" style="cursor:${n>0?'pointer':'default'}"
+        onclick="${n>0?`hmClick('${s}','${p}')`:''}"
+        onmouseover="${n>0?`this.style.strokeWidth='2';this.style.stroke='${pmeta.color}'`:''}"
+        onmouseout="this.style.strokeWidth='0'"/>`;
+
+      if(n > 0) {
+        // 숫자
+        svg += `<text x="${cx + cellW/2}" y="${y + cellH/2 - 4}" text-anchor="middle"
+          font-size="18" font-weight="800" fill="${pmeta.color}"
+          style="pointer-events:none">${n}</text>`;
+        // 진행 중 표시
+        if(prog > 0) {
+          svg += `<text x="${cx + cellW/2}" y="${y + cellH/2 + 12}" text-anchor="middle"
+            font-size="10" fill="#15803D" font-weight="600"
+            style="pointer-events:none">▶ ${prog}건</text>`;
+        }
+        // 미니 진행바
+        const barW = cellW - 20;
+        const filledW = Math.round(progPct * barW);
+        svg += `<rect x="${cx+10}" y="${y+cellH-10}" width="${barW}" height="3" fill="#E2E8F0" rx="2" style="pointer-events:none"/>`;
+        if(filledW>0) svg += `<rect x="${cx+10}" y="${y+cellH-10}" width="${filledW}" height="3" fill="#15803D" rx="2" style="pointer-events:none"/>`;
+      } else {
+        svg += `<text x="${cx + cellW/2}" y="${y + cellH/2 + 5}" text-anchor="middle"
+          font-size="11" fill="#D1D5DB" style="pointer-events:none">—</text>`;
+      }
+    });
+  });
+
+  // 그리드 라인
+  seqKeys.forEach((s, si) => {
+    const x = labelW + si * cellW;
+    svg += `<line x1="${x}" y1="0" x2="${x}" y2="${H}" stroke="#E2E8F0" stroke-width="1"/>`;
+  });
+  pfKeys.forEach((p, pi) => {
+    const y = headerH + pi * cellH;
+    svg += `<line x1="0" y1="${y}" x2="${W}" y2="${y}" stroke="#E2E8F0" stroke-width="1"/>`;
+  });
+  svg += `<rect x="0" y="0" width="${W}" height="${H}" fill="none" stroke="#E2E8F0" stroke-width="1" rx="8"/>`;
+
+  svg += `</svg>`;
+  wrap.innerHTML = svg;
+}
+
+function hmClick(seq, pf) {
+  const cell = WS_HEATMAP[seq]?.[pf];
+  if(!cell || !cell.issues || !cell.issues.length) return;
+  const sm = WS_SEQ_META[seq]; const pm = WS_PF_META[pf];
+  showModal(`${sm.label} ${sm.name} × ${pm.label} (${pm.desc}) — ${cell.total}건`, cell.issues.map(r => ({...r, due: r.due || null})));
+}
+
+function memberCard(name, color, bgColor) {
+  const d = WS_OWNERS[name];
+  if(!d) return '';
+  const pct = d.total > 0 ? Math.round(d.prog_n / d.total * 100) : 0;
+
+  const alerts = [
+    d.blk_n > 0 ? `<div style="margin-bottom:8px;padding:6px 10px;background:#FEF2F2;border:1px solid #FECACA;border-radius:6px;font-size:11px;color:#DC2626;font-weight:600">⚠ 막힘 ${d.blk_n}건</div>` : '',
+    d.exp_n > 0 ? `<div style="margin-bottom:8px;padding:6px 10px;background:#FFFBEB;border:1px solid #FDE68A;border-radius:6px;font-size:11px;color:#D97706;font-weight:600">기한 경과 ${d.exp_n}건</div>` : '',
+  ].join('');
+
+  // 그룹별 진행 중 이슈 렌더링
+  const progHtml = d.prog && d.prog.length > 0
+    ? `<div style="font-size:10px;font-weight:700;color:${color};letter-spacing:.4px;margin-bottom:7px;text-transform:uppercase">진행 중</div>`
+      + d.prog.slice(0,5).map(r => `
+        <div style="display:flex;gap:7px;align-items:center;padding:6px 8px;border-radius:7px;background:${bgColor};border:1px solid ${color}30;margin-bottom:5px">
+          <a href="${JIRA_BASE2}${r.key}" target="_blank" style="font-family:'JetBrains Mono',monospace;font-size:10px;color:${color};text-decoration:none;background:#fff;border:1px solid ${color}40;padding:1px 5px;border-radius:4px;white-space:nowrap;flex-shrink:0">${r.key}</a>
+          <span style="font-size:11px;color:#374151;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">${r.title}</span>
+          ${r.due ? `<span style="font-size:10px;color:${r.due < WS_DATE ? '#DC2626' : r.due <= '2026-04-17' ? '#D97706' : '#9CA3AF'};font-weight:500;white-space:nowrap">${r.due}</span>` : ''}
+        </div>`).join('')
+      + (d.prog.length > 5 ? `<div style="font-size:11px;color:#9CA3AF;padding:2px 8px">외 ${d.prog.length-5}건</div>` : '')
+    : `<div style="padding:16px;text-align:center;color:#D1D5DB;font-size:12px">진행 중 이슈 없음</div>`;
+
+  return `<div style="background:var(--card);border-radius:12px;border:1px solid var(--border);overflow:hidden;box-shadow:var(--shadow-sm)">
+    <div style="padding:14px 16px 10px;border-bottom:1px solid var(--border)">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <div style="width:36px;height:36px;border-radius:10px;background:${bgColor};border:1px solid ${color}30;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:${color}">${name[0]}</div>
+        <div style="flex:1">
+          <div style="font-size:14px;font-weight:700;color:var(--text)">${name}</div>
+          <div style="font-size:10px;color:var(--text3)">담당 이슈 ${d.total}건</div>
+        </div>
+        <div onclick="showModal('${name} 전체 이슈 목록', active.filter(r=>r.owner==='${name}'))" style="font-size:11px;color:${color};cursor:pointer;padding:4px 8px;border-radius:6px;border:1px solid ${color}30" onmouseover="this.style.background='${bgColor}'" onmouseout="this.style.background=''">전체보기</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:10px">
+        ${[
+          ['진행중', d.prog_n, color],
+          ['대기',   d.wait_n, 'var(--text3)'],
+          ['기한경과', d.exp_n, d.exp_n > 0 ? 'var(--danger)' : 'var(--text3)'],
+          ['D-7',   d.imm_n, d.imm_n > 0 ? 'var(--warning)' : 'var(--text3)'],
+        ].map(([l,v,c]) => `<div style="text-align:center;padding:6px 2px;background:var(--bg);border-radius:7px"><div style="font-size:17px;font-weight:800;color:${c};font-family:'JetBrains Mono',monospace">${v}</div><div style="font-size:9px;color:var(--text3);margin-top:2px">${l}</div></div>`).join('')}
+      </div>
+      <div style="font-size:10px;color:var(--text3);margin-bottom:4px;display:flex;justify-content:space-between"><span>진행률</span><span style="color:${color};font-weight:700">${pct}%</span></div>
+      <div style="height:5px;background:var(--border);border-radius:99px;overflow:hidden"><div style="height:100%;width:${pct}%;background:${color};border-radius:99px"></div></div>
+    </div>
+    <div style="padding:12px 14px">${alerts}${progHtml}</div>
+  </div>`;
+}
+
+// 탭 전환 시 workstatus 초기화
+const _origSw = typeof sw === 'function' ? sw : null;
+
+// 기본 탭: 담당자 현황
+
+</script>
+</body>
+</html>
