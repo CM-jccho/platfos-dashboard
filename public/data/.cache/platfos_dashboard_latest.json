@@ -1,6 +1,45 @@
 {
-  "generated_at": "2026-09-07T10:17:53",
+  "generated_at": "2026-09-07T13:29:47",
   "issues": [
+    {
+      "type": "작업",
+      "key": "PG-3979",
+      "title": "Pongift 3.0 네트워크 배포환경 준비",
+      "status": "진행 중",
+      "comp": "infra-security",
+      "label": "Tier1,dispf-C-hold,grp-Run,run,s7,triage-2026Q3,triage-C,개발확인필요",
+      "owner": "이웅식",
+      "due": "2026-09-11",
+      "priority": "Medium",
+      "start": "2026-09-07",
+      "parent": "PG-1085"
+    },
+    {
+      "type": "작업",
+      "key": "PG-3978",
+      "title": "Pongift 1.0 웰컴저축은행 1.0 소스 코드 환경 변수 교체",
+      "status": "진행 중",
+      "comp": "infra-security",
+      "label": "Tier1,dispf-C-hold,grp-Run,run,s7,triage-2026Q3,triage-C,개발확인필요",
+      "owner": "이지헌",
+      "due": "2026-09-07",
+      "priority": "Medium",
+      "start": "2026-09-07",
+      "parent": "PG-1085"
+    },
+    {
+      "type": "작업",
+      "key": "PG-3977",
+      "title": "Pongift 1.0 웰컴저축은행 DB이관데이터 계획/준비",
+      "status": "진행 중",
+      "comp": "infra-security",
+      "label": "Tier1,dispf-C-hold,grp-Run,run,s7,triage-2026Q3,triage-C,개발확인필요",
+      "owner": "박창용",
+      "due": "2026-09-08",
+      "priority": "Medium",
+      "start": "2026-09-07",
+      "parent": "PG-1085"
+    },
     {
       "type": "하위 작업",
       "key": "PG-3976",
@@ -13,19 +52,6 @@
       "priority": "Medium",
       "start": "2026-09-04",
       "parent": "PG-3580"
-    },
-    {
-      "type": "작업",
-      "key": "PG-3975",
-      "title": "Pongift 1.0 AWS 인프라 리소스 다운사이징 검토",
-      "status": "진행 중",
-      "comp": "infra-security",
-      "label": "Tier1,dispf-C-hold,grp-Run,run,s7,triage-2026Q3,triage-C,개발확인필요",
-      "owner": "이지헌",
-      "due": "2026-09-04",
-      "priority": "Medium",
-      "start": "2026-09-04",
-      "parent": "PG-1085"
     },
     {
       "type": "하위 작업",
@@ -2830,7 +2856,7 @@
       "comp": "infra-security",
       "label": "Tier1,dispf-C-hold,grp-Run,run,s7,triage-2026Q3,triage-C,개발확인필요",
       "owner": "박창용",
-      "due": "2026-03-03",
+      "due": "2026-09-18",
       "priority": "Medium",
       "start": "2026-02-02",
       "parent": ""
