@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-08T10:23:40",
+  "generated_at": "2026-09-08T13:27:52",
   "issues": [
     {
       "type": "작업",
@@ -43,7 +43,7 @@
     {
       "type": "작업",
       "key": "PG-3978",
-      "title": "Pongift 1.0 웰컴저축은행 1.0 소스 코드 환경 변수 교체",
+      "title": "Pongift 1.0 웰컴저축은행 환경 변수 교체 및 배포",
       "status": "진행 중",
       "comp": "infra-security",
       "label": "Tier1,dispf-C-hold,grp-Run,run,s7,triage-2026Q3,triage-C,개발확인필요",
