@@ -679,6 +679,19 @@ def replace_status_panel_metadata(
         html,
         count=1,
     )
+    # 월별업무 패널 헤더(템플릿 06-04 정적값 "6월 ..." → 현재 월로 갱신)
+    html = re.sub(
+        r"\d+월 월별 주요업무",
+        f"{target_date.month}월 월별 주요업무",
+        html,
+        count=1,
+    )
+    html = re.sub(
+        r"\d+월 기한 이슈 기준",
+        f"{target_date.month}월 기한 이슈 기준",
+        html,
+        count=1,
+    )
     html = re.sub(
         r"내일\(\d+/\d+\)",
         f"오늘({target_date.month}/{target_date.day})",
