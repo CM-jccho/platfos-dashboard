@@ -1,6 +1,19 @@
 {
-  "generated_at": "2026-09-09T11:59:05",
+  "generated_at": "2026-09-09T13:19:31",
   "issues": [
+    {
+      "type": "하위 작업",
+      "key": "PG-4000",
+      "title": "[서비스/사용처] 사용처사용순위, 사용처30일추이 - 집계 산출식 오류수정",
+      "status": "대기",
+      "comp": "",
+      "label": "",
+      "owner": "박창용",
+      "due": "",
+      "priority": "Medium",
+      "start": "",
+      "parent": "PG-3716"
+    },
     {
       "type": "하위 작업",
       "key": "PG-3999",
@@ -289,19 +302,6 @@
     },
     {
       "type": "스토리",
-      "key": "PG-3823",
-      "title": "[아웃바운드] 체험시설 모바일상품권 제안 채널 개척",
-      "status": "대기",
-      "comp": "",
-      "label": "DX,영업",
-      "owner": "",
-      "due": "2026-08-29",
-      "priority": "Medium",
-      "start": "",
-      "parent": ""
-    },
-    {
-      "type": "스토리",
       "key": "PG-3822",
       "title": "[이지백] 건강검진상품권 팔로우업 및 의료법 리스크 점검",
       "status": "진행 중",
@@ -335,19 +335,6 @@
       "label": "DX,영업",
       "owner": "서석범",
       "due": "",
-      "priority": "Medium",
-      "start": "",
-      "parent": ""
-    },
-    {
-      "type": "스토리",
-      "key": "PG-3818",
-      "title": "콜드메일(마케팅메일) 운영 체계화",
-      "status": "대기",
-      "comp": "",
-      "label": "DX,영업",
-      "owner": "",
-      "due": "2026-08-29",
       "priority": "Medium",
       "start": "",
       "parent": ""
@@ -626,19 +613,6 @@
       "parent": ""
     },
     {
-      "type": "하위 작업",
-      "key": "PG-3392",
-      "title": "옥션 로직 수정",
-      "status": "비활성화",
-      "comp": "",
-      "label": "grp-Core,tech-debt,core",
-      "owner": "",
-      "due": "",
-      "priority": "Medium",
-      "start": "",
-      "parent": "PG-3329"
-    },
-    {
       "type": "작업",
       "key": "PG-3375",
       "title": "CMS 주문관리 -> 상품권 현황",
@@ -728,19 +702,6 @@
       "priority": "Medium",
       "start": "2026-06-01",
       "parent": ""
-    },
-    {
-      "type": "하위 작업",
-      "key": "PG-3321",
-      "title": "[??] 몰 POPUP 오류",
-      "status": "대기",
-      "comp": "",
-      "label": "dispf-C-check,grp-Etc,triage-2026Q3,triage-C,core",
-      "owner": "",
-      "due": "",
-      "priority": "Medium",
-      "start": "",
-      "parent": "PG-3317"
     },
     {
       "type": "하위 작업",
@@ -977,19 +938,6 @@
       "parent": "PG-3058"
     },
     {
-      "type": "에픽",
-      "key": "PG-3058",
-      "title": "[Expand][S8] 카페24 외부 연동 - 심사 후 후속작업",
-      "status": "대기",
-      "comp": "",
-      "label": "dispf-B-gate,expand,grp-Expand,s8,triage-2026Q3,triage-B",
-      "owner": "김명수",
-      "due": "",
-      "priority": "Medium",
-      "start": "",
-      "parent": ""
-    },
-    {
       "type": "하위 작업",
       "key": "PG-2892",
       "title": "[BE] 상품권 폐기 API 멱등성 보장 (중복 웹훅 수신 방지)",
@@ -1001,19 +949,6 @@
       "priority": "Medium",
       "start": "",
       "parent": "PG-2862"
-    },
-    {
-      "type": "스토리",
-      "key": "PG-2716",
-      "title": "[S3][FE] 결제 완료 화면",
-      "status": "대기",
-      "comp": "",
-      "label": "dispf-C-check,grp-Etc,s3,triage-2026Q3,triage-C,시스템스쿼드",
-      "owner": "",
-      "due": "",
-      "priority": "Medium",
-      "start": "",
-      "parent": ""
     },
     {
       "type": "스토리",
