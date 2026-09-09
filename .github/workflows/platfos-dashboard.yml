@@ -5,11 +5,13 @@ env:
 
 on:
   schedule:
-    # 08:40 KST, Monday-Friday. GitHub cron uses UTC.
-    - cron: "40 23 * * 0-4"
+    # 06:40 KST, Monday-Friday. GitHub cron uses UTC.
+    # 2026-09-09: 원래 08:40/08:55/09:10 KST였으나, 9/7-9/8 이틀 연속 실제 실행이
+    # 10:20~13:30 KST로 1.5~5시간 지연되는 게 관찰되어 2시간 앞당김(GitHub 스케줄 큐 지연 보정).
+    - cron: "40 21 * * 0-4"
     # Backup schedules: GitHub scheduled events can be delayed or dropped.
-    - cron: "55 23 * * 0-4"
-    - cron: "10 0 * * 1-5"
+    - cron: "55 21 * * 0-4"
+    - cron: "10 22 * * 0-4"
   workflow_dispatch:
     inputs:
       target_date:
