@@ -1,18 +1,44 @@
 {
-  "generated_at": "2026-09-08T13:27:52",
+  "generated_at": "2026-09-09T09:04:38",
   "issues": [
     {
       "type": "작업",
-      "key": "PG-3982",
-      "title": "[FE] 수기발송 메뉴얼 기능 추가",
-      "status": "진행 중",
-      "comp": "",
-      "label": "s3",
-      "owner": "장석원",
-      "due": "2026-09-08",
+      "key": "PG-3986",
+      "title": "Pongift 1.0 상품권사업자(콘사) 발행/발송 환경 재정비",
+      "status": "대기",
+      "comp": "infra-security",
+      "label": "Tier1,dispf-C-hold,grp-Run,run,s7,triage-2026Q3,triage-C,개발확인필요",
+      "owner": "",
+      "due": "",
+      "priority": "Medium",
+      "start": "",
+      "parent": "PG-1085"
+    },
+    {
+      "type": "작업",
+      "key": "PG-3985",
+      "title": "Pongift 1.0 웰컴저축은행 이관 후 개발QA",
+      "status": "대기",
+      "comp": "infra-security",
+      "label": "Tier1,dispf-C-hold,grp-Run,run,s7,triage-2026Q3,triage-C,개발확인필요",
+      "owner": "박창용",
+      "due": "2026-09-10",
       "priority": "Medium",
       "start": "2026-09-08",
-      "parent": "PG-3805"
+      "parent": "PG-1085"
+    },
+    {
+      "type": "하위 작업",
+      "key": "PG-3984",
+      "title": "[s1] 사용자 초대 및 관리 작업",
+      "status": "진행 중",
+      "comp": "",
+      "label": "s1",
+      "owner": "김명수",
+      "due": "2026-09-09",
+      "priority": "Medium",
+      "start": "2026-09-08",
+      "parent": "PG-3573"
     },
     {
       "type": "작업",
@@ -41,32 +67,6 @@
       "parent": "PG-1085"
     },
     {
-      "type": "작업",
-      "key": "PG-3978",
-      "title": "Pongift 1.0 웰컴저축은행 환경 변수 교체 및 배포",
-      "status": "진행 중",
-      "comp": "infra-security",
-      "label": "Tier1,dispf-C-hold,grp-Run,run,s7,triage-2026Q3,triage-C,개발확인필요",
-      "owner": "이지헌",
-      "due": "2026-09-07",
-      "priority": "Medium",
-      "start": "2026-09-07",
-      "parent": "PG-1085"
-    },
-    {
-      "type": "작업",
-      "key": "PG-3977",
-      "title": "Pongift 1.0 웰컴저축은행 DB이관데이터 계획/준비",
-      "status": "진행 중",
-      "comp": "infra-security",
-      "label": "Tier1,dispf-C-hold,grp-Run,run,s7,triage-2026Q3,triage-C,개발확인필요",
-      "owner": "박창용",
-      "due": "2026-09-08",
-      "priority": "Medium",
-      "start": "2026-09-07",
-      "parent": "PG-1085"
-    },
-    {
       "type": "하위 작업",
       "key": "PG-3976",
       "title": "[S3] 채널/몰 정책 & flow 매핑자료 최종본 작성",
@@ -78,19 +78,6 @@
       "priority": "Medium",
       "start": "2026-09-04",
       "parent": "PG-3580"
-    },
-    {
-      "type": "하위 작업",
-      "key": "PG-3974",
-      "title": "[s1] 계정 보안 정책서 작업",
-      "status": "진행 중",
-      "comp": "",
-      "label": "s1",
-      "owner": "김명수",
-      "due": "2026-09-08",
-      "priority": "Medium",
-      "start": "2026-09-04",
-      "parent": "PG-3573"
     },
     {
       "type": "에픽",
