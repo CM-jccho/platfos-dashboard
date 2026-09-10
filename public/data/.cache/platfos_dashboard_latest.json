@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-10T08:29:20",
+  "generated_at": "2026-09-10T09:12:47",
   "issues": [
     {
       "type": "작업",
@@ -236,23 +236,10 @@
       "parent": "PG-3949"
     },
     {
-      "type": "작업",
-      "key": "PG-3994",
-      "title": "[BE] CMS 공지사항/팝업관리 API",
-      "status": "진행 중",
-      "comp": "",
-      "label": "grp-Grow,s7,grow",
-      "owner": "정광희",
-      "due": "2026-09-09",
-      "priority": "Medium",
-      "start": "2026-09-09",
-      "parent": "PG-3949"
-    },
-    {
       "type": "하위 작업",
       "key": "PG-3993",
       "title": "[서비스][B] 사용전환율 목록 순서 변경",
-      "status": "진행 중",
+      "status": "비활성화",
       "comp": "",
       "label": "",
       "owner": "이지헌",
@@ -269,7 +256,7 @@
       "comp": "",
       "label": "",
       "owner": "장석원",
-      "due": "2026-09-09",
+      "due": "2026-09-10",
       "priority": "Medium",
       "start": "2026-09-09",
       "parent": "PG-3716"
