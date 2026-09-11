@@ -1,6 +1,58 @@
 {
-  "generated_at": "2026-09-11T08:22:29",
+  "generated_at": "2026-09-11T09:08:19",
   "issues": [
+    {
+      "type": "작업",
+      "key": "PG-4024",
+      "title": "[Core] CMS·파트너센터 시스템 UI 개선 및 이관",
+      "status": "대기",
+      "comp": "",
+      "label": "core",
+      "owner": "",
+      "due": "",
+      "priority": "Medium",
+      "start": "",
+      "parent": ""
+    },
+    {
+      "type": "작업",
+      "key": "PG-4023",
+      "title": "[Core] CMS·파트너센터 시스템 UI 이관 및 개선",
+      "status": "대기",
+      "comp": "",
+      "label": "core",
+      "owner": "",
+      "due": "",
+      "priority": "Medium",
+      "start": "",
+      "parent": ""
+    },
+    {
+      "type": "작업",
+      "key": "PG-4022",
+      "title": "[Core] CMS·파트너센터 시스템 UI 개선 ",
+      "status": "대기",
+      "comp": "",
+      "label": "core",
+      "owner": "",
+      "due": "",
+      "priority": "Medium",
+      "start": "",
+      "parent": ""
+    },
+    {
+      "type": "작업",
+      "key": "PG-4021",
+      "title": "[Core] ",
+      "status": "대기",
+      "comp": "",
+      "label": "core",
+      "owner": "",
+      "due": "",
+      "priority": "Medium",
+      "start": "",
+      "parent": ""
+    },
     {
       "type": "하위 작업",
       "key": "PG-4020",
@@ -312,19 +364,6 @@
       "priority": "Medium",
       "start": "2026-09-09",
       "parent": "PG-3716"
-    },
-    {
-      "type": "작업",
-      "key": "PG-3987",
-      "title": "[통합] 전체 시퀀스 html wiki 문서 작성",
-      "status": "진행 중",
-      "comp": "",
-      "label": "grp-Grow",
-      "owner": "최다솔",
-      "due": "2026-09-11",
-      "priority": "Medium",
-      "start": "2026-09-07",
-      "parent": "PG-3572"
     },
     {
       "type": "작업",
