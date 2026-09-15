@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-15T08:58:20",
+  "generated_at": "2026-09-15T09:36:40",
   "issues": [
     {
       "type": "하위 작업",
@@ -390,19 +390,6 @@
       "priority": "Highest",
       "start": "2026-09-10",
       "parent": ""
-    },
-    {
-      "type": "작업",
-      "key": "PG-4001",
-      "title": "[운영피드백정리] 수기발송 매뉴얼 및 개발사항 정리표 ",
-      "status": "진행 중",
-      "comp": "",
-      "label": "s3",
-      "owner": "김명수",
-      "due": "",
-      "priority": "Medium",
-      "start": "2026-09-09",
-      "parent": "PG-3805"
     },
     {
       "type": "하위 작업",
