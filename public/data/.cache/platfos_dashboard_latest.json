@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-17T08:48:02",
+  "generated_at": "2026-09-17T09:29:07",
   "issues": [
     {
       "type": "작업",
@@ -80,19 +80,6 @@
       "parent": "PG-4026"
     },
     {
-      "type": "작업",
-      "key": "PG-4090",
-      "title": "[파트너센터] 회원가입·사용처 점검 결함 FE 단독 반영",
-      "status": "대기",
-      "comp": "",
-      "label": "core",
-      "owner": "김희진",
-      "due": "",
-      "priority": "Medium",
-      "start": "",
-      "parent": "PG-4026"
-    },
-    {
       "type": "하위 작업",
       "key": "PG-4089",
       "title": "[파트너센터] 회원가입 > 사업자 정보 등록 오류사항 정리본",
@@ -104,19 +91,6 @@
       "priority": "Medium",
       "start": "",
       "parent": "PG-4004"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4088",
-      "title": "[업데이트 점검] CMS > 외부발행사 관리 > 필요 컬럼 정리",
-      "status": "진행 중",
-      "comp": "",
-      "label": "qa,grow",
-      "owner": "최다솔",
-      "due": "2026-09-18",
-      "priority": "Medium",
-      "start": "2026-09-16",
-      "parent": "PG-4002"
     },
     {
       "type": "작업",
@@ -231,45 +205,6 @@
       "label": "core",
       "owner": "장석원",
       "due": "",
-      "priority": "Medium",
-      "start": "2026-09-16",
-      "parent": "PG-4026"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4078",
-      "title": "\t[CMS] 사이트 관리 > 약관 관리 > 검색·조회기간·약관구분이 현재 페이지에서만 걸림",
-      "status": "진행 중",
-      "comp": "",
-      "label": "core",
-      "owner": "장석원",
-      "due": "",
-      "priority": "Medium",
-      "start": "2026-09-16",
-      "parent": "PG-4026"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4077",
-      "title": "[CMS] 파트너 관리 > 목록 조회 실패 시 조회 폼까지 사라져 검색어를 지울 수 없음",
-      "status": "진행 중",
-      "comp": "",
-      "label": "core",
-      "owner": "장석원",
-      "due": "2026-09-17",
-      "priority": "Medium",
-      "start": "2026-09-16",
-      "parent": "PG-4026"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4076",
-      "title": "[CMS] 파트너 관리 > 서비스 상세 > 서비스 로고 이미지 수정 오류",
-      "status": "진행 중",
-      "comp": "",
-      "label": "core",
-      "owner": "장석원",
-      "due": "2026-09-17",
       "priority": "Medium",
       "start": "2026-09-16",
       "parent": "PG-4026"
@@ -489,7 +424,7 @@
       "status": "대기",
       "comp": "",
       "label": "grow",
-      "owner": "",
+      "owner": "정광희",
       "due": "",
       "priority": "Medium",
       "start": "",
@@ -659,7 +594,7 @@
       "comp": "",
       "label": "qa,grow",
       "owner": "최다솔",
-      "due": "2026-09-18",
+      "due": "2026-09-30",
       "priority": "Highest",
       "start": "2026-09-10",
       "parent": ""
