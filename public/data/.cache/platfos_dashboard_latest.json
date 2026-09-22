@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-09-22T09:24:18",
+  "generated_at": "2026-09-23T08:47:12",
   "issues": [
     {
       "type": "작업",
-      "key": "PG-4122",
-      "title": "[파트너센터] 가입 정보 입력 > 사업자 정보 등록 > 영업 신고증 필수값 해제",
+      "key": "PG-4134",
+      "title": "[파트너센터] 사업자 정보 등록 > 조회 응답 값에 제출한 서류 downloadUrl(presigned URL) 추가",
       "status": "진행 중",
       "comp": "",
       "label": "core",
@@ -16,9 +16,35 @@
     },
     {
       "type": "작업",
-      "key": "PG-4121",
-      "title": "[CMS·파트너센터] 사업자/서비스/사용처 정보 등록 > 전화번호 유효성 검사 수정",
+      "key": "PG-4133",
+      "title": "[CMS] 파트너센터 대비 CMS 로직 일관화",
       "status": "진행 중",
+      "comp": "",
+      "label": "개발팀내부QA,core",
+      "owner": "장석원",
+      "due": "2026-10-01",
+      "priority": "Medium",
+      "start": "2026-09-22",
+      "parent": "PG-4026"
+    },
+    {
+      "type": "작업",
+      "key": "PG-4132",
+      "title": "[파트너센터] 9/22 QA 반영 — 사용자 관리·죽은 라우트·등록 모달 검증·전화번호 입력 정비 및 PTN 시나리오 재검증",
+      "status": "진행 중",
+      "comp": "",
+      "label": "core",
+      "owner": "김희진",
+      "due": "2026-09-23",
+      "priority": "Medium",
+      "start": "2026-09-22",
+      "parent": "PG-4026"
+    },
+    {
+      "type": "작업",
+      "key": "PG-4131",
+      "title": "[파트너센터] 가입 정보 입력 > STEP2 저장 완료 후(SERVICE_SAVED 진입 후) STEP1 수정 불가 오류",
+      "status": "배포대기",
       "comp": "",
       "label": "core",
       "owner": "이지헌",
@@ -29,16 +55,55 @@
     },
     {
       "type": "하위 작업",
-      "key": "PG-4120",
-      "title": "사용처 폐점 기능 - 다중 탭 취약점",
+      "key": "PG-4130",
+      "title": "모바일 화면 껐다가 다시 켤 때 세션 끊김 현상",
       "status": "진행 중",
       "comp": "",
-      "label": "개발팀내부QA,core",
+      "label": "s7,run",
       "owner": "박창용",
-      "due": "2026-09-22",
+      "due": "",
       "priority": "Medium",
-      "start": "2026-09-21",
-      "parent": "PG-4119"
+      "start": "2026-09-22",
+      "parent": "PG-4051"
+    },
+    {
+      "type": "하위 작업",
+      "key": "PG-4129",
+      "title": "Android SDK 상/하단 네이티브 상태바 및 네이티브 네비게이션 영역 겹침 현상",
+      "status": "진행 중",
+      "comp": "",
+      "label": "s7,run",
+      "owner": "박창용",
+      "due": "",
+      "priority": "Medium",
+      "start": "2026-09-22",
+      "parent": "PG-4051"
+    },
+    {
+      "type": "작업",
+      "key": "PG-4128",
+      "title": "Pongift 웰컴저축은행 이관 후 운영환경 오픈",
+      "status": "대기",
+      "comp": "infra-security",
+      "label": "Tier1,dispf-C-hold,grp-Run,run,s7,triage-2026Q3,triage-C,개발확인필요",
+      "owner": "박창용",
+      "due": "",
+      "priority": "Medium",
+      "start": "",
+      "parent": "PG-1085"
+    },
+    {
+      "type": "스토리",
+      "key": "PG-4124",
+      "title": "[CMS] 직접발송 관리 > 포인트 지급 > 지급 가능 금액 수정 요청",
+      "status": "진행 중",
+      "comp": "",
+      "label": "grp-OpsIssue",
+      "owner": "장석원",
+      "due": "2026-09-23",
+      "priority": "Low",
+      "start": "2026-09-22",
+      "parent": "PG-1481"
     },
     {
       "type": "작업",
@@ -67,29 +132,16 @@
       "parent": "PG-4026"
     },
     {
-      "type": "작업",
-      "key": "PG-4117",
-      "title": "[파트너센터] QA_code:: USR의 BE 디버깅",
-      "status": "진행 중",
-      "comp": "",
-      "label": "core",
-      "owner": "이웅식",
-      "due": "2026-09-30",
-      "priority": "Medium",
-      "start": "2026-09-21",
-      "parent": "PG-4026"
-    },
-    {
       "type": "하위 작업",
       "key": "PG-4114",
       "title": "[기획] s1/4/6 업데이트 버전 기준 기능리스트 작성",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "",
       "label": "",
       "owner": "김명수",
       "due": "2026-09-30",
       "priority": "Medium",
-      "start": "2026-09-21",
+      "start": "2026-09-22",
       "parent": "PG-4111"
     },
     {
@@ -121,7 +173,7 @@
     {
       "type": "하위 작업",
       "key": "PG-4110",
-      "title": "[partners] AUTH-20",
+      "title": "[partners] AUTH-27",
       "status": "진행 중",
       "comp": "",
       "label": "core",
@@ -129,6 +181,19 @@
       "due": "",
       "priority": "Medium",
       "start": "",
+      "parent": "PG-4100"
+    },
+    {
+      "type": "하위 작업",
+      "key": "PG-4109",
+      "title": "[partners] AUTH-16, 17, 20, 21",
+      "status": "진행 중",
+      "comp": "",
+      "label": "core",
+      "owner": "이웅식",
+      "due": "2026-09-21",
+      "priority": "Medium",
+      "start": "2026-09-18",
       "parent": "PG-4100"
     },
     {
@@ -169,19 +234,6 @@
       "priority": "Medium",
       "start": "",
       "parent": "PG-4026"
-    },
-    {
-      "type": "하위 작업",
-      "key": "PG-4102",
-      "title": "[partners] AUTH-16, 17",
-      "status": "진행 중",
-      "comp": "",
-      "label": "core",
-      "owner": "이웅식",
-      "due": "2026-09-18",
-      "priority": "Medium",
-      "start": "2026-09-18",
-      "parent": "PG-4100"
     },
     {
       "type": "작업",
@@ -272,32 +324,6 @@
       "due": "2026-09-18",
       "priority": "Medium",
       "start": "2026-09-18",
-      "parent": "PG-4026"
-    },
-    {
-      "type": "하위 작업",
-      "key": "PG-4089",
-      "title": "[파트너센터] 회원가입 > 사업자 정보 등록 오류사항 정리본",
-      "status": "진행 중",
-      "comp": "",
-      "label": "grow",
-      "owner": "김희진",
-      "due": "",
-      "priority": "Medium",
-      "start": "",
-      "parent": "PG-4004"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4087",
-      "title": "[파트너센터] 직접발송 관리 > 포인트 충전 내역 > 포인트 충전 > 계좌이체 충전",
-      "status": "대기",
-      "comp": "",
-      "label": "core",
-      "owner": "이지헌",
-      "due": "",
-      "priority": "Medium",
-      "start": "",
       "parent": "PG-4026"
     },
     {
@@ -561,19 +587,6 @@
       "parent": ""
     },
     {
-      "type": "하위 작업",
-      "key": "PG-3999",
-      "title": "[s6] 직접발송/포인트 정책 기준서",
-      "status": "진행 중",
-      "comp": "",
-      "label": "s6",
-      "owner": "김명수",
-      "due": "2026-09-22",
-      "priority": "Medium",
-      "start": "2026-09-21",
-      "parent": "PG-3578"
-    },
-    {
       "type": "작업",
       "key": "PG-3997",
       "title": "[QA][기획] CMS&파트너센터 상품/유통채널 개발서버 테스트",
@@ -750,9 +763,9 @@
       "comp": "",
       "label": "grp-OpsIssue",
       "owner": "최다솔",
-      "due": "",
+      "due": "2026-10-31",
       "priority": "Medium",
-      "start": "",
+      "start": "2026-08-01",
       "parent": "PG-3715"
     },
     {
@@ -767,19 +780,6 @@
       "priority": "Medium",
       "start": "",
       "parent": ""
-    },
-    {
-      "type": "작업",
-      "key": "PG-3578",
-      "title": "[S6] 시퀀스 업무 정리 (정산/포인트)",
-      "status": "진행 중",
-      "comp": "",
-      "label": "grp-Grow,s6",
-      "owner": "김명수",
-      "due": "2026-09-22",
-      "priority": "Medium",
-      "start": "2026-09-15",
-      "parent": "PG-3572"
     },
     {
       "type": "에픽",
