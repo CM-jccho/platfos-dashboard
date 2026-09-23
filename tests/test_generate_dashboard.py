@@ -86,6 +86,51 @@ class DashboardGeneratorTest(unittest.TestCase):
         self.assertEqual(store["박창용"]["signal"], "yellow")
         self.assertEqual(store["박창용"]["overdue"][0]["key"], "PG-3")
 
+    def test_build_seq_store_buckets_deploy_and_unmapped_statuses(self):
+        issues = [
+            {"key": "PG-1", "title": "온보딩 가입 심사", "status": "진행 중", "owner": "최다솔", "due": "", "start": "", "label": "", "comp": ""},
+            {"key": "PG-2", "title": "온보딩 승인 대기 이슈", "status": "협의대기", "owner": "", "due": "", "start": "", "label": "", "comp": ""},
+            {"key": "PG-3", "title": "온보딩 회원 배포 이슈", "status": "배포대기", "owner": "", "due": "", "start": "", "label": "", "comp": ""},
+        ]
+
+        store = gd.build_seq_store(issues, date(2026, 9, 23))
+        s1 = store["s1"]
+
+        self.assertEqual(s1["total"], 3)
+        self.assertEqual(len(s1["prog"]), 1)
+        self.assertEqual(len(s1["deploy"]), 1)
+        self.assertEqual(len(s1["etc"]), 1)
+        self.assertEqual(s1["etc"][0]["key"], "PG-2")
+        # 어떤 상태든 버킷 어디엔가는 반드시 잡혀서 total과 누락 없이 대응돼야 한다
+        self.assertEqual(len(s1["prog"]) + len(s1["wait"]) + len(s1["hold"]) + len(s1["blk"]) + len(s1["deploy"]) + len(s1["etc"]), s1["total"])
+
+    def test_build_seq_cards_html_surfaces_all_statuses_not_just_wait(self):
+        issues = [
+            {"key": "PG-1", "title": "온보딩 가입 심사", "status": "진행 중", "owner": "최다솔", "due": "", "start": "", "label": "", "comp": ""},
+            {"key": "PG-2", "title": "온보딩 승인 대기 이슈", "status": "협의대기", "owner": "", "due": "", "start": "", "label": "", "comp": ""},
+            {"key": "PG-3", "title": "온보딩 회원 배포 이슈", "status": "배포대기", "owner": "", "due": "", "start": "", "label": "", "comp": ""},
+        ]
+        store = gd.build_seq_store(issues, date(2026, 9, 23))
+
+        html = gd.build_seq_cards_html(store)
+        s1_idx = html.find("openPlatSeqModal('s1')")
+        s2_idx = html.find("openPlatSeqModal('s2')")
+        s1_card = html[s1_idx:s2_idx]
+
+        # 카드 표면에 total(전체)뿐 아니라 진행중/배포대기/기타가 모두 노출돼야 한다
+        # (이전 버그: 상품채널 외 카드는 '대기'만 보이고 나머지 상태는 어디에도 안 잡힘)
+        self.assertIn("전체 3", s1_card)
+        self.assertIn("진행중 1", s1_card)
+        self.assertIn("배포대기 1", s1_card)
+        self.assertIn("기타 1", s1_card)
+
+        # 이슈가 하나도 없는 시퀀스는 대기 배지 없이 전체 0만 보여야 한다
+        empty_store = gd.build_seq_store([], date(2026, 9, 23))
+        empty_html = gd.build_seq_cards_html(empty_store)
+        s5_idx = empty_html.find("openPlatSeqModal('s5')")
+        s6_idx = empty_html.find("openPlatSeqModal('s6')")
+        self.assertIn("전체 0", empty_html[s5_idx:s6_idx])
+
     def test_render_html_replaces_known_constants_and_header(self):
         template = """
 <title>Platfos 프로젝트 현황 — 2026-06-04 (최종)</title>

@@ -553,8 +553,80 @@ def build_seq_store(issues: List[Mapping[str, Any]], target_date: date) -> Dict[
             "prog": [modal_issue(i, target_date) for i in rows if i.get("status") in PROGRESS_STATUSES],
             "wait": [modal_issue(i, target_date) for i in rows if i.get("status") == "대기"],
             "hold": [modal_issue(i, target_date) for i in rows if i.get("status") == "보류"],
+            "deploy": [modal_issue(i, target_date) for i in rows if i.get("status") in DEPLOY_STATUSES],
+            "etc": [
+                modal_issue(i, target_date)
+                for i in rows
+                if i.get("status") not in ({"막힘", "대기", "보류"} | PROGRESS_STATUSES | DEPLOY_STATUSES)
+            ],
         }
     return store
+
+
+_SEQ_CHIP_STYLE = {
+    "blk": ("막힘", "#DC2626", "#FEF2F2", "#FECACA"),
+    "today": ("오늘기한", "#DC2626", "#FEF2F2", "#FECACA"),
+    "exp": ("기한경과", "#C2410C", "#FFF7ED", "#FED7AA"),
+    "d7": ("D-7", "#D97706", "#FFFBEB", "#FDE68A"),
+}
+
+
+def build_seq_cards_html(store: Dict[str, Any]) -> str:
+    """실행 상황판 하단 시퀀스 카드(S1~S8, 원본 06-04 템플릿에 8개 하드코딩)를
+    SEQ_STORE 기반 동적 카드로 교체 — 카드 표면 수치가 클릭 시 모달과 항상 일치하도록 함."""
+
+    def badge(value: int, label: str, color: str, bold: bool = False) -> str:
+        weight = "font-weight:600;" if bold else ""
+        return f'<span style="font-size:9px;color:{color};{weight}">{label} {value}</span>'
+
+    def card(key: str) -> str:
+        d = store.get(key)
+        if not d:
+            return ""
+        total = d["total"]
+        prog_n = len(d["prog"])
+        pct = (prog_n / total * 100) if total else 0.0
+        chips = "".join(
+            f'<span style="font-size:9px;padding:1px 6px;border-radius:99px;background:{bg};color:{color};'
+            f'border:1px solid {border};font-weight:700">{label} {len(d[bucket])}</span>'
+            for bucket, (label, color, bg, border) in _SEQ_CHIP_STYLE.items()
+            if d[bucket]
+        )
+        chip_row = (
+            f'<div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:4px">{chips}</div>' if chips else ""
+        )
+        bars = (
+            f'<div style="width:{pct:.1f}%;background:#3B82F6"></div>'
+            f'<div style="width:{(100 - pct):.1f}%;background:#CBD5E1"></div>'
+        )
+        badges = "".join(
+            [
+                badge(len(d["prog"]), "진행중", "#3B82F6", bold=True) if d["prog"] else "",
+                badge(len(d["wait"]), "대기", "#6B7280") if d["wait"] else "",
+                badge(len(d["deploy"]), "배포대기", "#0891B2", bold=True) if d["deploy"] else "",
+                badge(len(d["etc"]), "기타", "#7C3AED") if d["etc"] else "",
+            ]
+        )
+        return (
+            f'<div onclick="openPlatSeqModal(\'{key}\')" style="background:#FFFFFF;border:1px solid #E2E8F0;'
+            'border-radius:10px;padding:12px 14px;cursor:pointer;transition:box-shadow .15s,transform .1s" '
+            'onmouseover="this.style.boxShadow=\'0 4px 14px rgba(0,0,0,.10)\';this.style.transform=\'translateY(-1px)\'" '
+            'onmouseout="this.style.boxShadow=\'\';this.style.transform=\'\'">'
+            '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">'
+            '<div style="display:flex;align-items:center;gap:7px">'
+            f'<span style="font-size:11px;font-weight:800;color:#374151;font-family:\'JetBrains Mono\',monospace">'
+            f'{key.upper()}</span>'
+            f'<span style="font-size:11px;font-weight:600;color:#111827">{d["name"]}</span></div>'
+            '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" '
+            'stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>'
+            f'{chip_row}'
+            '<div style="height:10px;background:#F1F5F9;border-radius:99px;overflow:hidden;display:flex;'
+            f'margin:8px 0 6px">{bars}</div>'
+            f'<div style="display:flex;gap:6px;flex-wrap:wrap">{badges}'
+            f'<span style="font-size:9px;color:#CBD5E1;margin-left:auto">전체 {total}</span></div></div>'
+        )
+
+    return "".join(card(key) for key in SEQ)
 
 
 def build_ws_owners(issues: List[Mapping[str, Any]], target_date: date) -> Dict[str, Any]:
@@ -834,7 +906,20 @@ def render_html(template: str, target_date: date, issues: List[Dict[str, Any]], 
     )
     if n_cards != 1:
         raise ValueError("실행 상황판 카드 그리드 영역을 찾지 못함")
-    html = replace_js_const(html, "SEQ_STORE", build_seq_store(issues, target_date))
+    seq_store = build_seq_store(issues, target_date)
+    html = replace_js_const(html, "SEQ_STORE", seq_store)
+    # 시퀀스별 진행 현황 정적 카드 그리드(S1~S8, 06-04 템플릿에 하드코딩)를
+    # SEQ_STORE 기반 동적 카드로 교체 (카드 표면 수치 ↔ 클릭 모달 값 불일치 버그 수정)
+    seq_cards_html = build_seq_cards_html(seq_store)
+    html, n_seq_cards = re.subn(
+        r"(display:grid;grid-template-columns:1fr 1fr;gap:8px\">).*?(<div style=\"background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:16px 18px\">\s*<div style=\"font-size:10px;font-weight:700;color:#D97706;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px\">의사결정)",
+        lambda m: m.group(1) + seq_cards_html + m.group(2),
+        html,
+        count=1,
+        flags=re.S,
+    )
+    if n_seq_cards != 1:
+        raise ValueError("시퀀스별 진행 현황 카드 그리드 영역을 찾지 못함")
     html = replace_js_const(html, "RAW_DATA", issues)
     html = replace_js_const(html, "CHANGES", changes)
     html = replace_js_const(html, "WS_OWNERS", build_ws_owners(issues, target_date))
