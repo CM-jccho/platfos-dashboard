@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-09-23T08:47:12",
+  "generated_at": "2026-09-23T09:29:27",
   "issues": [
     {
       "type": "작업",
       "key": "PG-4134",
-      "title": "[파트너센터] 사업자 정보 등록 > 조회 응답 값에 제출한 서류 downloadUrl(presigned URL) 추가",
+      "title": "[파트너센터] 사업자 정보 등록 > 상세 조회 응답 값에 첨부 서류 downloadUrl(presigned URL) 추가",
       "status": "진행 중",
       "comp": "",
       "label": "core",
@@ -186,12 +186,12 @@
     {
       "type": "하위 작업",
       "key": "PG-4109",
-      "title": "[partners] AUTH-16, 17, 20, 21",
+      "title": "[partners] AUTH-16, 17, 20, 21(탈퇴 후 재가입 시나리오)",
       "status": "진행 중",
       "comp": "",
       "label": "core",
       "owner": "이웅식",
-      "due": "2026-09-21",
+      "due": "2026-09-23",
       "priority": "Medium",
       "start": "2026-09-18",
       "parent": "PG-4100"
