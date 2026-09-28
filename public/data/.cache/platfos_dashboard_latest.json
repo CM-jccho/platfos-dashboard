@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-28T09:27:49",
+  "generated_at": "2026-09-28T09:43:02",
   "issues": [
     {
       "type": "작업",
@@ -184,19 +184,6 @@
       "parent": "PG-3572"
     },
     {
-      "type": "하위 작업",
-      "key": "PG-4109",
-      "title": "[partners] AUTH-16, 17, 20, 21(탈퇴 후 재가입 시나리오)",
-      "status": "진행 중",
-      "comp": "",
-      "label": "core",
-      "owner": "이웅식",
-      "due": "2026-09-23",
-      "priority": "Medium",
-      "start": "2026-09-18",
-      "parent": "PG-4100"
-    },
-    {
       "type": "작업",
       "key": "PG-4108",
       "title": "[파트너센터] 가입 정보 입력 > 사용처 정보 등록 >  온라인 유형인 경우 통신판매업 신고증 필수",
@@ -220,19 +207,6 @@
       "due": "",
       "priority": "Medium",
       "start": "",
-      "parent": "PG-4026"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4100",
-      "title": "[파트너센터] QA_code:: AUTH의 BE 디버깅",
-      "status": "진행 중",
-      "comp": "",
-      "label": "core",
-      "owner": "이웅식",
-      "due": "2026-09-30",
-      "priority": "Medium",
-      "start": "2026-09-17",
       "parent": "PG-4026"
     },
     {
