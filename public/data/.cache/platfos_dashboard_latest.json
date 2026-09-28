@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-24T08:55:41",
+  "generated_at": "2026-09-28T09:27:49",
   "issues": [
     {
       "type": "작업",
@@ -107,6 +107,19 @@
     },
     {
       "type": "작업",
+      "key": "PG-4127",
+      "title": "[CMS·파트너센터] 사업자 정보 등록 > 사업자등록번호 국세청 상태조회 API 연동",
+      "status": "진행 중",
+      "comp": "",
+      "label": "core",
+      "owner": "이지헌",
+      "due": "",
+      "priority": "Medium",
+      "start": "",
+      "parent": "PG-4026"
+    },
+    {
+      "type": "작업",
       "key": "PG-4119",
       "title": "[파트너센터] QA_code:: PTN의 BE 디버깅",
       "status": "진행 중",
@@ -169,19 +182,6 @@
       "priority": "Medium",
       "start": "2026-09-21",
       "parent": "PG-3572"
-    },
-    {
-      "type": "하위 작업",
-      "key": "PG-4110",
-      "title": "[partners] AUTH-27",
-      "status": "진행 중",
-      "comp": "",
-      "label": "core",
-      "owner": "이웅식",
-      "due": "",
-      "priority": "Medium",
-      "start": "",
-      "parent": "PG-4100"
     },
     {
       "type": "하위 작업",
