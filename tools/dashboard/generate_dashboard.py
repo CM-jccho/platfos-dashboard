@@ -913,7 +913,10 @@ def render_html(template: str, target_date: date, issues: List[Dict[str, Any]], 
     seq_cards_html = build_seq_cards_html(seq_store)
     html, n_seq_cards = re.subn(
         r"(display:grid;grid-template-columns:1fr 1fr;gap:8px(?:;align-items:start)?\">).*?(<div style=\"background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:16px 18px\">\s*<div style=\"font-size:10px;font-weight:700;color:#D97706;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px\">의사결정)",
-        lambda m: m.group(1) + seq_cards_html + m.group(2),
+        # 캡처 구간이 "1fr 1fr 카드 그리드"뿐 아니라 그 그리드를 감싸는 좌측 패널(div)까지 통째로
+        # 삼켜버리므로, 두 div를 다시 닫아줘야 의사결정 패널이 3fr/2fr 그리드의 형제(우측 열)로
+        # 남는다 — 안 닫으면 의사결정이 좌측 패널 안으로 끌려들어가 카드 아래에 표시됨.
+        lambda m: m.group(1) + seq_cards_html + "</div></div>" + m.group(2),
         html,
         count=1,
         flags=re.S,
