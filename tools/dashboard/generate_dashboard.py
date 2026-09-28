@@ -912,7 +912,7 @@ def render_html(template: str, target_date: date, issues: List[Dict[str, Any]], 
     # SEQ_STORE 기반 동적 카드로 교체 (카드 표면 수치 ↔ 클릭 모달 값 불일치 버그 수정)
     seq_cards_html = build_seq_cards_html(seq_store)
     html, n_seq_cards = re.subn(
-        r"(display:grid;grid-template-columns:1fr 1fr;gap:8px\">).*?(<div style=\"background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:16px 18px\">\s*<div style=\"font-size:10px;font-weight:700;color:#D97706;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px\">의사결정)",
+        r"(display:grid;grid-template-columns:1fr 1fr;gap:8px(?:;align-items:start)?\">).*?(<div style=\"background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:16px 18px\">\s*<div style=\"font-size:10px;font-weight:700;color:#D97706;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px\">의사결정)",
         lambda m: m.group(1) + seq_cards_html + m.group(2),
         html,
         count=1,
