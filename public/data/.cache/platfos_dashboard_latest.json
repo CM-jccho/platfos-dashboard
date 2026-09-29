@@ -1,6 +1,32 @@
 {
-  "generated_at": "2026-09-29T09:26:20",
+  "generated_at": "2026-09-29T10:54:41",
   "issues": [
+    {
+      "type": "하위 작업",
+      "key": "PG-4145",
+      "title": "[CMS/파트너센터] 초대관리 디자인",
+      "status": "대기",
+      "comp": "",
+      "label": "grow",
+      "owner": "김가영",
+      "due": "2026-09-30",
+      "priority": "Medium",
+      "start": "2026-09-29",
+      "parent": "PG-4010"
+    },
+    {
+      "type": "하위 작업",
+      "key": "PG-4144",
+      "title": "[CMS/파트너센터] 초대관리 기획",
+      "status": "진행 중",
+      "comp": "",
+      "label": "grow",
+      "owner": "김명수",
+      "due": "2026-09-30",
+      "priority": "Medium",
+      "start": "2026-09-29",
+      "parent": "PG-4010"
+    },
     {
       "type": "하위 작업",
       "key": "PG-4142",
