@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-01T09:48:15",
+  "generated_at": "2026-10-01T09:55:11",
   "issues": [
     {
       "type": "작업",
@@ -42,19 +42,6 @@
     },
     {
       "type": "작업",
-      "key": "PG-4156",
-      "title": "[CMS] 회원 관리 > 파트너센터 회원 상세 > 상태 이력 조회 시 탈퇴 신청·반려 내역이 없음",
-      "status": "진행 중",
-      "comp": "",
-      "label": "core",
-      "owner": "이지헌",
-      "due": "",
-      "priority": "Medium",
-      "start": "",
-      "parent": "PG-4026"
-    },
-    {
-      "type": "작업",
       "key": "PG-4155",
       "title": "[공통] 디자인시스템 v2 적용 점검",
       "status": "진행 중",
@@ -70,19 +57,6 @@
       "type": "작업",
       "key": "PG-4154",
       "title": "[파트너센터] 본인 탈퇴 요청을 조회할 엔드포인트가 없음",
-      "status": "진행 중",
-      "comp": "",
-      "label": "core",
-      "owner": "이지헌",
-      "due": "",
-      "priority": "Medium",
-      "start": "",
-      "parent": "PG-4026"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4153",
-      "title": "[파트너센터] 탈퇴 신청 후 갱신 토큰을 폐기하여 세션이 끊김",
       "status": "진행 중",
       "comp": "",
       "label": "core",
