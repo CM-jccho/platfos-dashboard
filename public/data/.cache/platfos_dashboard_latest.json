@@ -1,6 +1,45 @@
 {
-  "generated_at": "2026-10-02T10:40:23",
+  "generated_at": "2026-10-05T09:08:11",
   "issues": [
+    {
+      "type": "하위 작업",
+      "key": "PG-4182",
+      "title": "[DES][CMS] 주문조회/주문상세 모달 디자인 수정",
+      "status": "대기",
+      "comp": "",
+      "label": "s2,grow",
+      "owner": "김가영",
+      "due": "",
+      "priority": "Medium",
+      "start": "",
+      "parent": "PG-4173"
+    },
+    {
+      "type": "하위 작업",
+      "key": "PG-4181",
+      "title": "[DES][CMS] 상품권현황 모달 디자인 수정",
+      "status": "진행 중",
+      "comp": "",
+      "label": "s2,grow",
+      "owner": "김가영",
+      "due": "",
+      "priority": "Medium",
+      "start": "",
+      "parent": "PG-4173"
+    },
+    {
+      "type": "작업",
+      "key": "PG-4178",
+      "title": "[CMS] 기존 항목 전체 QA",
+      "status": "진행 중",
+      "comp": "",
+      "label": "개발팀내부QA,core",
+      "owner": "장석원",
+      "due": "2026-10-05",
+      "priority": "Medium",
+      "start": "2026-10-02",
+      "parent": "PG-4026"
+    },
     {
       "type": "하위 작업",
       "key": "PG-4177",
@@ -13,19 +52,6 @@
       "priority": "Medium",
       "start": "2026-10-02",
       "parent": "PG-4111"
-    },
-    {
-      "type": "하위 작업",
-      "key": "PG-4176",
-      "title": "[DES][PAR] 상품권 사용/사용취소 디자인 수정",
-      "status": "진행 중",
-      "comp": "",
-      "label": "s2,grow",
-      "owner": "김가영",
-      "due": "2026-10-02",
-      "priority": "Medium",
-      "start": "2026-10-01",
-      "parent": "PG-4173"
     },
     {
       "type": "에픽",
@@ -48,7 +74,7 @@
       "comp": "",
       "label": "s2,grow",
       "owner": "김가영",
-      "due": "",
+      "due": "2026-10-06",
       "priority": "Medium",
       "start": "2026-10-01",
       "parent": "PG-4171"
@@ -107,45 +133,6 @@
     },
     {
       "type": "작업",
-      "key": "PG-4168",
-      "title": "[QA] 회원관리 > 가입대기회원관리 테스트",
-      "status": "대기",
-      "comp": "",
-      "label": "s1",
-      "owner": "김명수",
-      "due": "2026-10-02",
-      "priority": "Medium",
-      "start": "2026-10-02",
-      "parent": "PG-4160"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4166",
-      "title": "[CMS/파트너센터[FE] 초대 생성·재발송  업데이트된 사항 반영 ",
-      "status": "진행 중",
-      "comp": "",
-      "label": "s1",
-      "owner": "김희진",
-      "due": "2026-10-02",
-      "priority": "Medium",
-      "start": "2026-10-01",
-      "parent": "PG-4152"
-    },
-    {
-      "type": "하위 작업",
-      "key": "PG-4164",
-      "title": "아이데이션 기반으로 프로젝트 문서파일 대조 ",
-      "status": "진행 중",
-      "comp": "",
-      "label": "grow",
-      "owner": "김가영",
-      "due": "",
-      "priority": "Medium",
-      "start": "2026-10-01",
-      "parent": "PG-4159"
-    },
-    {
-      "type": "작업",
       "key": "PG-4162",
       "title": "[FE] ID 찾기 간편화",
       "status": "배포대기",
@@ -171,19 +158,6 @@
       "parent": "PG-3757"
     },
     {
-      "type": "에픽",
-      "key": "PG-4160",
-      "title": "[S1] [CMS] 회원관리 > 파트너센터 가입대기회원관리 기능 ",
-      "status": "진행 중",
-      "comp": "",
-      "label": "s1",
-      "owner": "김명수",
-      "due": "2026-10-02",
-      "priority": "Medium",
-      "start": "2026-09-22",
-      "parent": ""
-    },
-    {
       "type": "작업",
       "key": "PG-4159",
       "title": "아이데이션",
@@ -191,7 +165,7 @@
       "comp": "",
       "label": "grow",
       "owner": "김가영",
-      "due": "",
+      "due": "2026-10-06",
       "priority": "Medium",
       "start": "2026-09-30",
       "parent": "PG-4158"
@@ -210,36 +184,10 @@
       "parent": ""
     },
     {
-      "type": "작업",
-      "key": "PG-4157",
-      "title": "[CMS/파트너센터] 초대 생성·재발송 정책 구현",
-      "status": "진행 중",
-      "comp": "",
-      "label": "s1",
-      "owner": "이지헌",
-      "due": "2026-10-02",
-      "priority": "Medium",
-      "start": "2026-10-01",
-      "parent": "PG-4152"
-    },
-    {
-      "type": "에픽",
-      "key": "PG-4152",
-      "title": "[S1] CMS/파트너센터 사용자 관리> 초대 기능 개선",
-      "status": "진행 중",
-      "comp": "",
-      "label": "s1",
-      "owner": "김명수",
-      "due": "2026-10-02",
-      "priority": "Medium",
-      "start": "2026-09-29",
-      "parent": ""
-    },
-    {
       "type": "하위 작업",
       "key": "PG-4149",
       "title": "서비스 수수료율 조작 취약점",
-      "status": "진행 중",
+      "status": "비활성화",
       "comp": "",
       "label": "core",
       "owner": "박창용",
@@ -273,19 +221,6 @@
       "priority": "Medium",
       "start": "2026-09-29",
       "parent": "PG-4152"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4132",
-      "title": "[파트너센터] 9/22 QA 반영 — 사용자 관리·죽은 라우트·등록 모달 검증·전화번호 입력 정비 및 PTN 시나리오 재검증",
-      "status": "진행 중",
-      "comp": "",
-      "label": "core",
-      "owner": "김희진",
-      "due": "2026-10-02",
-      "priority": "Medium",
-      "start": "2026-09-22",
-      "parent": "PG-4026"
     },
     {
       "type": "하위 작업",
@@ -325,32 +260,6 @@
       "priority": "Medium",
       "start": "",
       "parent": "PG-1085"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4119",
-      "title": "[파트너센터] QA_code:: PTN의 BE 디버깅",
-      "status": "진행 중",
-      "comp": "",
-      "label": "core",
-      "owner": "박창용",
-      "due": "2026-09-30",
-      "priority": "Medium",
-      "start": "2026-09-21",
-      "parent": "PG-4026"
-    },
-    {
-      "type": "하위 작업",
-      "key": "PG-4114",
-      "title": "[기획] s1/4/6 업데이트 버전 기준 기능리스트 작성",
-      "status": "진행 중",
-      "comp": "",
-      "label": "",
-      "owner": "김명수",
-      "due": "2026-10-02",
-      "priority": "Medium",
-      "start": "2026-09-22",
-      "parent": "PG-4111"
     },
     {
       "type": "작업",
