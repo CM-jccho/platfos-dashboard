@@ -1,6 +1,45 @@
 {
-  "generated_at": "2026-10-06T11:17:04",
+  "generated_at": "2026-10-07T10:00:09",
   "issues": [
+    {
+      "type": "작업",
+      "key": "PG-4189",
+      "title": "[CMS] 상품관리 및 기타 QA",
+      "status": "진행 중",
+      "comp": "",
+      "label": "core",
+      "owner": "장석원",
+      "due": "2026-10-08",
+      "priority": "Medium",
+      "start": "2026-10-06",
+      "parent": "PG-4026"
+    },
+    {
+      "type": "하위 작업",
+      "key": "PG-4188",
+      "title": "[DES][PAR] 수기발송 디자인 수정",
+      "status": "진행 중",
+      "comp": "",
+      "label": "s2,grow",
+      "owner": "김가영",
+      "due": "",
+      "priority": "Medium",
+      "start": "",
+      "parent": "PG-4173"
+    },
+    {
+      "type": "작업",
+      "key": "PG-4186",
+      "title": "[CMS·파트너센터] 상품관리 QA",
+      "status": "진행 중",
+      "comp": "",
+      "label": "core",
+      "owner": "김희진",
+      "due": "2026-10-08",
+      "priority": "Medium",
+      "start": "2026-10-06",
+      "parent": "PG-4026"
+    },
     {
       "type": "작업",
       "key": "PG-4184",
@@ -16,35 +55,9 @@
     },
     {
       "type": "작업",
-      "key": "PG-4183",
-      "title": "[CMS] 파트너 관리 > 사업자 승인 관리 > 승인요청일 조회 필터",
-      "status": "진행 중",
-      "comp": "",
-      "label": "s1,core",
-      "owner": "이지헌",
-      "due": "",
-      "priority": "Medium",
-      "start": "",
-      "parent": "PG-4026"
-    },
-    {
-      "type": "하위 작업",
-      "key": "PG-4182",
-      "title": "[DES][CMS] 주문조회/주문상세 모달 디자인 수정",
-      "status": "대기",
-      "comp": "",
-      "label": "s2,grow",
-      "owner": "김가영",
-      "due": "",
-      "priority": "Medium",
-      "start": "",
-      "parent": "PG-4173"
-    },
-    {
-      "type": "작업",
       "key": "PG-4178",
       "title": "[CMS] 기존 항목 전체 QA",
-      "status": "진행 중",
+      "status": "배포대기",
       "comp": "",
       "label": "개발팀내부QA,core",
       "owner": "장석원",
@@ -54,19 +67,6 @@
       "parent": "PG-4026"
     },
     {
-      "type": "하위 작업",
-      "key": "PG-4177",
-      "title": "[기획] 용어집 전체 통합 & 검증 작업 진행",
-      "status": "진행 중",
-      "comp": "",
-      "label": "",
-      "owner": "최다솔",
-      "due": "2026-10-06",
-      "priority": "Medium",
-      "start": "2026-10-02",
-      "parent": "PG-4111"
-    },
-    {
       "type": "에픽",
       "key": "PG-4175",
       "title": "[S1] 파트너센터 개인정보처리방침/이용약관 업데이트 ",
@@ -74,7 +74,7 @@
       "comp": "",
       "label": "s1",
       "owner": "김명수",
-      "due": "2026-10-08",
+      "due": "2026-10-16",
       "priority": "Medium",
       "start": "2026-10-01",
       "parent": ""
@@ -153,19 +153,6 @@
       "label": "s1,grow",
       "owner": "장석원",
       "due": "2026-10-02",
-      "priority": "Medium",
-      "start": "2026-10-01",
-      "parent": "PG-3757"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4161",
-      "title": "[BE] ID 찾기 절차의 간편화(2~3step 통합)",
-      "status": "진행 중",
-      "comp": "",
-      "label": "s1,grow",
-      "owner": "이웅식",
-      "due": "2026-10-01",
       "priority": "Medium",
       "start": "2026-10-01",
       "parent": "PG-3757"
@@ -273,19 +260,6 @@
       "priority": "Medium",
       "start": "",
       "parent": "PG-1085"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4111",
-      "title": "[기획] 기능리스트 작성",
-      "status": "진행 중",
-      "comp": "",
-      "label": "grp-Grow",
-      "owner": "최다솔",
-      "due": "2026-10-06",
-      "priority": "Medium",
-      "start": "2026-09-21",
-      "parent": "PG-3572"
     },
     {
       "type": "작업",
@@ -753,19 +727,6 @@
       "due": "",
       "priority": "Medium",
       "start": "",
-      "parent": ""
-    },
-    {
-      "type": "에픽",
-      "key": "PG-3572",
-      "title": "[DX] 시퀀스별(S1~S8) 업무 정리",
-      "status": "진행 중",
-      "comp": "",
-      "label": "grp-Grow",
-      "owner": "최다솔",
-      "due": "2026-10-06",
-      "priority": "Medium",
-      "start": "2026-07-03",
       "parent": ""
     },
     {
