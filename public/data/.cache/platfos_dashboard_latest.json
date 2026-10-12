@@ -1,10 +1,23 @@
 {
-  "generated_at": "2026-10-09T10:24:11",
+  "generated_at": "2026-10-12T09:42:59",
   "issues": [
     {
       "type": "작업",
+      "key": "PG-4244",
+      "title": "[기획] 잔액관리/횟수형 > 구매/환불정책 수립",
+      "status": "진행 중",
+      "comp": "",
+      "label": "s2,grow",
+      "owner": "최다솔",
+      "due": "2026-10-16",
+      "priority": "Medium",
+      "start": "2026-10-12",
+      "parent": "PG-4171"
+    },
+    {
+      "type": "작업",
       "key": "PG-4243",
-      "title": "[CMS][FE] 외부 상품권 관리 QA",
+      "title": "[CMS][FE] 외부발행사 QA",
       "status": "대기",
       "comp": "",
       "label": "core",
@@ -650,19 +663,6 @@
       "priority": "Medium",
       "start": "2026-10-01",
       "parent": ""
-    },
-    {
-      "type": "작업",
-      "key": "PG-4172",
-      "title": "[기획] 잔액관리/횟수형 상품권 관련 정책 체크리스트 작성 및 검토",
-      "status": "진행 중",
-      "comp": "",
-      "label": "s2,grow",
-      "owner": "최다솔",
-      "due": "2026-10-16",
-      "priority": "Medium",
-      "start": "2026-10-01",
-      "parent": "PG-4171"
     },
     {
       "type": "에픽",
