@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-13T11:46:28",
+  "generated_at": "2026-10-13T12:02:09",
   "issues": [
     {
       "type": "작업",
@@ -30,7 +30,7 @@
     {
       "type": "하위 작업",
       "key": "PG-4252",
-      "title": "[S1] CMS 처리 결과 안내 메일/알림톡 미수신 (가입 승인·탈퇴 반려)",
+      "title": "[S1] CMS 처리 결과 안내 메일 미수신 (가입 승인·탈퇴 반려)",
       "status": "대기",
       "comp": "",
       "label": "qa,s1,grow",
@@ -499,7 +499,7 @@
       "type": "하위 작업",
       "key": "PG-4205",
       "title": "[BE·인프라] 직접발송 > dev worker-gift 가 알림톡 단계를 처리하지 않아 발송이 ISSUED 에 멈춤",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "",
       "label": "core",
       "owner": "이웅식",
