@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-13T11:42:09",
+  "generated_at": "2026-10-13T11:46:28",
   "issues": [
     {
       "type": "작업",
@@ -156,6 +156,19 @@
       "priority": "Medium",
       "start": "2026-10-12",
       "parent": "PG-4026"
+    },
+    {
+      "type": "하위 작업",
+      "key": "PG-4235",
+      "title": "[직접발송] 직접발송 발송 기능 축소 및 수정 요청",
+      "status": "배포대기",
+      "comp": "",
+      "label": "s6,grow",
+      "owner": "이웅식",
+      "due": "2026-10-15",
+      "priority": "Medium",
+      "start": "2026-10-08",
+      "parent": "PG-4006"
     },
     {
       "type": "작업",
