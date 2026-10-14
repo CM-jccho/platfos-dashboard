@@ -1,6 +1,19 @@
 {
-  "generated_at": "2026-10-14T09:44:56",
+  "generated_at": "2026-10-14T10:12:16",
   "issues": [
+    {
+      "type": "작업",
+      "key": "PG-4266",
+      "title": "[BE] 폰기프트몰 API 회원 기반 Rate Limit 적용 (문화상품권류 한정)",
+      "status": "진행 중",
+      "comp": "",
+      "label": "",
+      "owner": "박창용",
+      "due": "2026-10-15",
+      "priority": "Medium",
+      "start": "2026-10-14",
+      "parent": "PG-3888"
+    },
     {
       "type": "작업",
       "key": "PG-4265",
@@ -226,7 +239,7 @@
       "type": "작업",
       "key": "PG-4246",
       "title": "[S3] 북앤라이프 도서문화상품권 발행실패 대응",
-      "status": "진행 중",
+      "status": "배포대기",
       "comp": "",
       "label": "grp-OpsIssue,s3",
       "owner": "박창용",
