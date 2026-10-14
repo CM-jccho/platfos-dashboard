@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-14T09:34:52",
+  "generated_at": "2026-10-14T09:44:56",
   "issues": [
     {
       "type": "작업",
@@ -31,7 +31,7 @@
       "type": "작업",
       "key": "PG-4263",
       "title": "[QA] 매장선물하기 리뉴얼 테스트",
-      "status": "대기",
+      "status": "진행 중",
       "comp": "",
       "label": "qa,grow",
       "owner": "최다솔",
