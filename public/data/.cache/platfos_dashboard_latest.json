@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-15T09:04:03",
+  "generated_at": "2026-10-15T09:11:41",
   "issues": [
     {
       "type": "하위 작업",
@@ -185,19 +185,6 @@
     },
     {
       "type": "하위 작업",
-      "key": "PG-4259",
-      "title": "북앤라이프 발행실패 건의 취소처리",
-      "status": "배포대기",
-      "comp": "",
-      "label": "s3",
-      "owner": "박창용",
-      "due": "2026-10-13",
-      "priority": "Medium",
-      "start": "2026-10-13",
-      "parent": "PG-4246"
-    },
-    {
-      "type": "하위 작업",
       "key": "PG-4258",
       "title": "[QA] 인증번호 SMS·승인 알림톡 미수신 이슈",
       "status": "진행 중",
@@ -325,19 +312,6 @@
       "priority": "Medium",
       "start": "2026-10-12",
       "parent": "PG-4026"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4246",
-      "title": "[S3] 북앤라이프 도서문화상품권 발행실패 대응",
-      "status": "배포대기",
-      "comp": "",
-      "label": "grp-OpsIssue,s3",
-      "owner": "박창용",
-      "due": "2026-10-13",
-      "priority": "Medium",
-      "start": "2026-10-12",
-      "parent": "PG-1481"
     },
     {
       "type": "작업",
