@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-15T09:11:41",
+  "generated_at": "2026-10-15T09:30:41",
   "issues": [
     {
       "type": "하위 작업",
@@ -8,7 +8,7 @@
       "status": "대기",
       "comp": "",
       "label": "",
-      "owner": "",
+      "owner": "박창용",
       "due": "",
       "priority": "Medium",
       "start": "",
