@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-16T08:48:57",
+  "generated_at": "2026-10-16T09:22:20",
   "issues": [
     {
       "type": "하위 작업",
@@ -30,7 +30,7 @@
     {
       "type": "하위 작업",
       "key": "PG-4280",
-      "title": "[QA] [파트너센터/CMS] 차단 처리 (아이디찾기/cms 차단처리 불가)",
+      "title": "[QA] [파트너센터/CMS] [BE] 차단 처리 (아이디찾기/cms 차단처리 불가)",
       "status": "대기",
       "comp": "",
       "label": "s1,grow",
