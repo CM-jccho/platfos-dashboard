@@ -1,26 +1,39 @@
 {
-  "generated_at": "2026-10-16T09:22:20",
+  "generated_at": "2026-10-19T08:36:30",
   "issues": [
     {
-      "type": "하위 작업",
-      "key": "PG-4282",
-      "title": "[PAR][BE] 반려 사유 전체 이력 조회 API 추가 · 업로드 용량 20MB",
+      "type": "작업",
+      "key": "PG-4287",
+      "title": "[CMS·파트너센터] 상품 유통채널 > G마켓 판매중지(SUSPEND)가 VENDOR_BAD_REQUEST 로 STOPPED 되고 이후 배포가 모두 멈춤",
       "status": "대기",
       "comp": "",
-      "label": "qa,s1,grow",
+      "label": "core",
       "owner": "",
       "due": "",
       "priority": "Medium",
       "start": "",
-      "parent": "PG-4010"
+      "parent": "PG-4026"
+    },
+    {
+      "type": "작업",
+      "key": "PG-4283",
+      "title": "4차 디자인",
+      "status": "대기",
+      "comp": "",
+      "label": "",
+      "owner": "김가영",
+      "due": "2026-10-16",
+      "priority": "Medium",
+      "start": "2026-10-15",
+      "parent": "PG-3973"
     },
     {
       "type": "하위 작업",
       "key": "PG-4281",
-      "title": "[PAR][FE] 회원가입 STEP3 사용처 자동입력 모달 추가 · 통장사본 용량 20MB",
+      "title": "[PAR][FE] 회원가입 STEP3 사용처 자동입력 모달 추가",
       "status": "진행 중",
       "comp": "",
-      "label": "qa,s1,grow",
+      "label": "s1,grow",
       "owner": "장석원",
       "due": "2026-10-16",
       "priority": "Medium",
@@ -52,19 +65,6 @@
       "priority": "Medium",
       "start": "",
       "parent": "PG-4010"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4278",
-      "title": "[분석] 영업 보드 시스템 분석 및 방안 정의",
-      "status": "진행 중",
-      "comp": "",
-      "label": "",
-      "owner": "김명수",
-      "due": "2026-10-16",
-      "priority": "Medium",
-      "start": "2026-10-15",
-      "parent": "PG-4277"
     },
     {
       "type": "에픽",
@@ -104,19 +104,6 @@
       "priority": "Medium",
       "start": "",
       "parent": "PG-4026"
-    },
-    {
-      "type": "하위 작업",
-      "key": "PG-4274",
-      "title": "[FE] 폰기프트몰 구매제한 알림 메시지 표시",
-      "status": "진행 중",
-      "comp": "",
-      "label": "",
-      "owner": "장석원",
-      "due": "2026-10-15",
-      "priority": "Medium",
-      "start": "2026-10-15",
-      "parent": "PG-4266"
     },
     {
       "type": "작업",
@@ -182,58 +169,6 @@
       "priority": "High",
       "start": "",
       "parent": "PG-4254"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4266",
-      "title": "[BE] 폰기프트몰 API 회원 기반 Rate Limit 적용 (문화상품권류 한정)",
-      "status": "배포대기",
-      "comp": "",
-      "label": "",
-      "owner": "박창용",
-      "due": "2026-10-15",
-      "priority": "Medium",
-      "start": "2026-10-14",
-      "parent": "PG-3888"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4265",
-      "title": "4차  초안작성",
-      "status": "진행 중",
-      "comp": "",
-      "label": "",
-      "owner": "김가영",
-      "due": "2026-10-16",
-      "priority": "Medium",
-      "start": "2026-10-14",
-      "parent": "PG-3973"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4263",
-      "title": "[QA] 매장선물하기 리뉴얼 테스트",
-      "status": "진행 중",
-      "comp": "",
-      "label": "qa,grow",
-      "owner": "최다솔",
-      "due": "2026-10-16",
-      "priority": "Medium",
-      "start": "2026-10-14",
-      "parent": "PG-4002"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4262",
-      "title": "[약관] 이용약관_파트너센터 ",
-      "status": "진행 중",
-      "comp": "",
-      "label": "s1",
-      "owner": "김명수",
-      "due": "2026-10-16",
-      "priority": "Medium",
-      "start": "2026-10-13",
-      "parent": "PG-4175"
     },
     {
       "type": "하위 작업",
@@ -308,36 +243,10 @@
       "comp": "",
       "label": "s2,grow",
       "owner": "장석원",
-      "due": "2026-10-15",
+      "due": "2026-10-21",
       "priority": "Medium",
       "start": "2026-10-13",
       "parent": "PG-4171"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4251",
-      "title": "[약관] 개인정보처리방침_파트너센터",
-      "status": "진행 중",
-      "comp": "",
-      "label": "s1",
-      "owner": "김명수",
-      "due": "2026-10-16",
-      "priority": "Medium",
-      "start": "2026-10-12",
-      "parent": "PG-4175"
-    },
-    {
-      "type": "하위 작업",
-      "key": "PG-4249",
-      "title": "[FE] UI 위치 변경 및 기능 수정 요청",
-      "status": "배포대기",
-      "comp": "",
-      "label": "core",
-      "owner": "장석원",
-      "due": "2026-10-13",
-      "priority": "Medium",
-      "start": "2026-10-12",
-      "parent": "PG-4238"
     },
     {
       "type": "작업",
@@ -379,32 +288,6 @@
       "parent": "PG-1481"
     },
     {
-      "type": "작업",
-      "key": "PG-4244",
-      "title": "[기획] 잔액관리/횟수형 > 구매/환불정책 수립",
-      "status": "진행 중",
-      "comp": "",
-      "label": "s2,grow",
-      "owner": "최다솔",
-      "due": "2026-10-16",
-      "priority": "Medium",
-      "start": "2026-10-12",
-      "parent": "PG-4171"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4243",
-      "title": "[CMS][FE] 외부발행사 QA",
-      "status": "배포대기",
-      "comp": "",
-      "label": "core",
-      "owner": "장석원",
-      "due": "2026-10-15",
-      "priority": "Medium",
-      "start": "2026-10-12",
-      "parent": "PG-4026"
-    },
-    {
       "type": "하위 작업",
       "key": "PG-4235",
       "title": "[직접발송] 직접발송 발송 기능 축소 및 수정 요청",
@@ -412,60 +295,21 @@
       "comp": "",
       "label": "s6,grow",
       "owner": "이웅식",
-      "due": "2026-10-15",
+      "due": "2026-10-19",
       "priority": "Medium",
       "start": "2026-10-08",
       "parent": "PG-4006"
     },
     {
       "type": "작업",
-      "key": "PG-4234",
-      "title": "[CMS][BE] 일괄 승인·일괄 판매상태 변경 API가 처리 결과 건수 미반환",
-      "status": "대기",
-      "comp": "",
-      "label": "core",
-      "owner": "",
-      "due": "",
-      "priority": "Medium",
-      "start": "",
-      "parent": "PG-4026"
-    },
-    {
-      "type": "버그",
-      "key": "PG-4233",
-      "title": "[CMS][BE] 상품 등록·수정 검증 규칙이 기획 기준과 불일치",
-      "status": "대기",
-      "comp": "",
-      "label": "core",
-      "owner": "",
-      "due": "",
-      "priority": "Medium",
-      "start": "",
-      "parent": "PG-4026"
-    },
-    {
-      "type": "작업",
       "key": "PG-4232",
       "title": "[CMS][BE] 판매상태 변경 API에 처리 사유 파라미터 누락",
-      "status": "대기",
-      "comp": "",
-      "label": "core",
-      "owner": "이지헌",
-      "due": "2026-10-15",
-      "priority": "Medium",
-      "start": "2026-10-15",
-      "parent": "PG-4026"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4229",
-      "title": "[기획 확인][CMS·파트너센터] 상품 유통채널 > 채널로 보내지 않는 설정값(기간 구매한도·ESM 할인/1인 한도·네이버 브랜드)",
       "status": "진행 중",
       "comp": "",
       "label": "core",
       "owner": "이지헌",
       "due": "2026-10-15",
-      "priority": "Low",
+      "priority": "Medium",
       "start": "2026-10-15",
       "parent": "PG-4026"
     },
@@ -492,19 +336,6 @@
       "owner": "이웅식",
       "due": "",
       "priority": "Medium",
-      "start": "",
-      "parent": "PG-4254"
-    },
-    {
-      "type": "하위 작업",
-      "key": "PG-4214",
-      "title": "[BE·dev] 직접발송 > 슬랙 대체 발송에 버튼(상품권 링크)이 빠져 dev 에서 상품권 번호를 확인할 수 없음",
-      "status": "대기",
-      "comp": "",
-      "label": "core",
-      "owner": "이웅식",
-      "due": "",
-      "priority": "Low",
       "start": "",
       "parent": "PG-4254"
     },
@@ -562,19 +393,6 @@
     },
     {
       "type": "하위 작업",
-      "key": "PG-4206",
-      "title": "[파트너센터] 직접발송 > 발송 현황 응답·필터 정리(상품코드 null, 수신자 검색, ISSUED·CANCELED 필터 등)",
-      "status": "진행 중",
-      "comp": "",
-      "label": "core",
-      "owner": "이웅식",
-      "due": "",
-      "priority": "Low",
-      "start": "",
-      "parent": "PG-4254"
-    },
-    {
-      "type": "하위 작업",
       "key": "PG-4205",
       "title": "[BE·인프라] 직접발송 > dev worker-gift 가 알림톡 단계를 처리하지 않아 발송이 ISSUED 에 멈춤",
       "status": "협의대기",
@@ -600,45 +418,6 @@
       "parent": "PG-4026"
     },
     {
-      "type": "작업",
-      "key": "PG-4191",
-      "title": "[CMS] 직접발송 관리 QA",
-      "status": "배포대기",
-      "comp": "",
-      "label": "core",
-      "owner": "장석원",
-      "due": "2026-10-08",
-      "priority": "Medium",
-      "start": "2026-10-07",
-      "parent": "PG-4026"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4189",
-      "title": "[CMS] 상품관리 및 기타 QA",
-      "status": "배포대기",
-      "comp": "",
-      "label": "core",
-      "owner": "장석원",
-      "due": "2026-10-08",
-      "priority": "Medium",
-      "start": "2026-10-06",
-      "parent": "PG-4026"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4178",
-      "title": "[CMS] 기존 항목 전체 QA",
-      "status": "배포대기",
-      "comp": "",
-      "label": "개발팀내부QA,core",
-      "owner": "장석원",
-      "due": "2026-10-05",
-      "priority": "Medium",
-      "start": "2026-10-02",
-      "parent": "PG-4026"
-    },
-    {
       "type": "에픽",
       "key": "PG-4175",
       "title": "[S1] 파트너센터 개인정보처리방침/이용약관 업데이트 ",
@@ -646,7 +425,7 @@
       "comp": "",
       "label": "s1",
       "owner": "김명수",
-      "due": "2026-10-16",
+      "due": "2026-10-30",
       "priority": "Medium",
       "start": "2026-10-01",
       "parent": ""
@@ -676,19 +455,6 @@
       "priority": "Medium",
       "start": "",
       "parent": "PG-4159"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4162",
-      "title": "[FE] ID 찾기 간편화",
-      "status": "배포대기",
-      "comp": "",
-      "label": "s1,grow",
-      "owner": "장석원",
-      "due": "2026-10-02",
-      "priority": "Medium",
-      "start": "2026-10-01",
-      "parent": "PG-3757"
     },
     {
       "type": "에픽",
@@ -805,32 +571,6 @@
       "due": "2026-09-18",
       "priority": "Medium",
       "start": "2026-09-17",
-      "parent": "PG-4026"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4093",
-      "title": "[CMS] 파트너 관리 > 서비스·사용처 등록 > 저장 실패가 화면에 안 보이는 문제 — 폼 검증 추가",
-      "status": "배포대기",
-      "comp": "",
-      "label": "s1,core",
-      "owner": "장석원",
-      "due": "2026-10-06",
-      "priority": "Medium",
-      "start": "2026-09-18",
-      "parent": "PG-4026"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4092",
-      "title": "[CMS] 파트너 관리 > 서비스 목록 · 사용처 목록 · 사업자 상세 > 엑셀 다운로드",
-      "status": "배포대기",
-      "comp": "",
-      "label": "s1,core",
-      "owner": "장석원",
-      "due": "2026-10-06",
-      "priority": "Medium",
-      "start": "2026-09-18",
       "parent": "PG-4026"
     },
     {
