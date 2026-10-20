@@ -1,6 +1,19 @@
 {
-  "generated_at": "2026-10-20T09:49:39",
+  "generated_at": "2026-10-20T10:05:03",
   "issues": [
+    {
+      "type": "하위 작업",
+      "key": "PG-4298",
+      "title": "[FE] 외부발행사 연동 코드를 브랜드 관리에서 처리",
+      "status": "대기",
+      "comp": "",
+      "label": "core",
+      "owner": "",
+      "due": "",
+      "priority": "Medium",
+      "start": "",
+      "parent": "PG-4250"
+    },
     {
       "type": "작업",
       "key": "PG-4297",
