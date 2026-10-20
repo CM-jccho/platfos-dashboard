@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-20T09:37:05",
+  "generated_at": "2026-10-20T09:49:39",
   "issues": [
     {
       "type": "작업",
@@ -26,19 +26,6 @@
       "priority": "Medium",
       "start": "",
       "parent": "PG-4250"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4295",
-      "title": "[CMS·파트너센터] G마켓 상품 연동을 TPL(SOAP)에서 ESM Trading API로 전환하고 inventoryCode를 전달",
-      "status": "진행 중",
-      "comp": "",
-      "label": "core",
-      "owner": "이지헌",
-      "due": "2026-10-19",
-      "priority": "Medium",
-      "start": "2026-10-19",
-      "parent": "PG-4026"
     },
     {
       "type": "작업",
