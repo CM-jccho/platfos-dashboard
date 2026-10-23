@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-23T09:08:07",
+  "generated_at": "2026-10-23T09:15:09",
   "issues": [
     {
       "type": "작업",
@@ -451,7 +451,7 @@
       "comp": "",
       "label": "",
       "owner": "김명수",
-      "due": "2026-10-23",
+      "due": "2026-10-30",
       "priority": "Medium",
       "start": "2026-10-21",
       "parent": ""
