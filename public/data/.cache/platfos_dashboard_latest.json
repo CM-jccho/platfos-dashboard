@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-27T09:45:48",
+  "generated_at": "2026-10-27T10:00:21",
   "issues": [
     {
       "type": "작업",
@@ -1082,19 +1082,6 @@
     },
     {
       "type": "작업",
-      "key": "PG-4334",
-      "title": "[파트너센터][BE] 주문 관리 > 주문 목록 응답에 productId 가 없어 상품코드 링크가 상품 상세로 가지 않음",
-      "status": "진행 중",
-      "comp": "",
-      "label": "core",
-      "owner": "정광희",
-      "due": "2026-10-27",
-      "priority": "Medium",
-      "start": "",
-      "parent": "PG-4026"
-    },
-    {
-      "type": "작업",
       "key": "PG-4333",
       "title": "[FE] CMS BE QA이후 후속 작업",
       "status": "진행 중",
@@ -1536,19 +1523,6 @@
       "parent": "PG-4005"
     },
     {
-      "type": "하위 작업",
-      "key": "PG-4035",
-      "title": "[CMS&파트너센터]  서비스/사용처 상태값 및 사용처 폐점 처리 기준 ",
-      "status": "진행 중",
-      "comp": "",
-      "label": "s1,grow",
-      "owner": "정광희",
-      "due": "2026-10-27",
-      "priority": "Medium",
-      "start": "",
-      "parent": "PG-4004"
-    },
-    {
       "type": "에픽",
       "key": "PG-4026",
       "title": "[Core] CMS·파트너센터·Mall 시스템 이관",
@@ -1560,19 +1534,6 @@
       "priority": "Medium",
       "start": "",
       "parent": ""
-    },
-    {
-      "type": "하위 작업",
-      "key": "PG-4019",
-      "title": "[CMS] 최고관리자 탈퇴 요청 승인/반려 기능 추가 ",
-      "status": "진행 중",
-      "comp": "",
-      "label": "s1,grow",
-      "owner": "정광희",
-      "due": "2026-10-27",
-      "priority": "Medium",
-      "start": "",
-      "parent": "PG-4010"
     },
     {
       "type": "하위 작업",
