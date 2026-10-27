@@ -1,6 +1,19 @@
 {
-  "generated_at": "2026-10-27T10:00:21",
+  "generated_at": "2026-10-27T10:28:00",
   "issues": [
+    {
+      "type": "작업",
+      "key": "PG-4561",
+      "title": "[FE] [CMS] 상품권 사용 취소처리 400err 발생(본문 없음)",
+      "status": "대기",
+      "comp": "",
+      "label": "core",
+      "owner": "",
+      "due": "",
+      "priority": "Medium",
+      "start": "",
+      "parent": "PG-4026"
+    },
     {
       "type": "작업",
       "key": "PG-4560",
