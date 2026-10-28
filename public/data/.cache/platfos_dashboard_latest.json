@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-28T09:42:43",
+  "generated_at": "2026-10-28T10:18:17",
   "issues": [
     {
       "type": "작업",
@@ -1056,19 +1056,6 @@
     },
     {
       "type": "하위 작업",
-      "key": "PG-4346",
-      "title": "[파트너센터][BE] 수기발송 > 이번 달 판매금액 요약이 접수 기준(실패 포함)으로 집계됨 — 정책은 발송 성공 기준",
-      "status": "진행 중",
-      "comp": "",
-      "label": "s6,core",
-      "owner": "이웅식",
-      "due": "2026-10-28",
-      "priority": "Medium",
-      "start": "2026-10-27",
-      "parent": "PG-4254"
-    },
-    {
-      "type": "하위 작업",
       "key": "PG-4341",
       "title": "[파트너센터][BE] 수기발송 > 발송 상세 응답에 재발송 횟수·발송/연장/사용 이력이 없음",
       "status": "진행 중",
@@ -1300,19 +1287,6 @@
       "priority": "Medium",
       "start": "2026-10-14",
       "parent": ""
-    },
-    {
-      "type": "작업",
-      "key": "PG-4254",
-      "title": "[CMS&PARTNERS] [BE] 포인트, 직접발송 QA 대응",
-      "status": "진행 중",
-      "comp": "",
-      "label": "core",
-      "owner": "이웅식",
-      "due": "2026-10-23",
-      "priority": "Medium",
-      "start": "2026-10-14",
-      "parent": "PG-4026"
     },
     {
       "type": "작업",
