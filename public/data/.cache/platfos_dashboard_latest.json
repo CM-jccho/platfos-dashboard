@@ -1,6 +1,32 @@
 {
-  "generated_at": "2026-10-29T10:24:37",
+  "generated_at": "2026-10-29T10:47:25",
   "issues": [
+    {
+      "type": "작업",
+      "key": "PG-4585",
+      "title": "[BE] worker 분리·통합 이후 Jenkins dev 배포 실패 복구 및 배포 브랜치 재정비",
+      "status": "진행 중",
+      "comp": "",
+      "label": "core",
+      "owner": "이지헌",
+      "due": "2026-10-29",
+      "priority": "Medium",
+      "start": "2026-10-29",
+      "parent": "PG-4026"
+    },
+    {
+      "type": "하위 작업",
+      "key": "PG-4584",
+      "title": "[QA] CMS > 상품 승인 관리 > 수정 승인 시 \"상품 승인 중 데이터 충돌이 발생했습니다.\" 오류 (판매상태 변경 직후 채널 추가 요청 건)",
+      "status": "대기",
+      "comp": "",
+      "label": "grow",
+      "owner": "",
+      "due": "",
+      "priority": "Medium",
+      "start": "",
+      "parent": "PG-4491"
+    },
     {
       "type": "작업",
       "key": "PG-4583",
@@ -1079,19 +1105,6 @@
       "priority": "Medium",
       "start": "",
       "parent": ""
-    },
-    {
-      "type": "하위 작업",
-      "key": "PG-4341",
-      "title": "[파트너센터][BE] 수기발송 > 발송 상세 응답에 재발송 횟수·발송/연장/사용 이력이 없음",
-      "status": "진행 중",
-      "comp": "",
-      "label": "s6,core",
-      "owner": "이웅식",
-      "due": "2026-10-28",
-      "priority": "Medium",
-      "start": "2026-10-27",
-      "parent": "PG-4254"
     },
     {
       "type": "작업",
