@@ -1,6 +1,19 @@
 {
-  "generated_at": "2026-10-29T10:12:00",
+  "generated_at": "2026-10-29T10:24:37",
   "issues": [
+    {
+      "type": "작업",
+      "key": "PG-4583",
+      "title": "[CMS][BE] 약관관리 정책 v2.1 — 시행일 하한·URL 자동 생성·작성자 누락, 삭제 API 비활성",
+      "status": "대기",
+      "comp": "",
+      "label": "",
+      "owner": "",
+      "due": "",
+      "priority": "Medium",
+      "start": "",
+      "parent": ""
+    },
     {
       "type": "작업",
       "key": "PG-4582",
