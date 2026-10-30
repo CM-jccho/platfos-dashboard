@@ -1,6 +1,19 @@
 {
-  "generated_at": "2026-10-30T10:19:31",
+  "generated_at": "2026-10-30T10:56:05",
   "issues": [
+    {
+      "type": "하위 작업",
+      "key": "PG-4620",
+      "title": "[수정요청] 파트너센터 > 상품 목록 > 엑셀 다운로드 추출 컬럼을 운영서버 적용 컬럼 기준으로 변경",
+      "status": "대기",
+      "comp": "",
+      "label": "grow",
+      "owner": "",
+      "due": "",
+      "priority": "Low",
+      "start": "",
+      "parent": "PG-4491"
+    },
     {
       "type": "작업",
       "key": "PG-4619",
