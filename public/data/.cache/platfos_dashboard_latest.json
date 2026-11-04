@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-04T10:37:49",
+  "generated_at": "2026-11-04T11:17:46",
   "issues": [
     {
       "type": "작업",
@@ -99,7 +99,7 @@
       "status": "대기",
       "comp": "",
       "label": "core",
-      "owner": "",
+      "owner": "장석원",
       "due": "",
       "priority": "Medium",
       "start": "",
@@ -1078,19 +1078,6 @@
       "due": "2026-11-30",
       "priority": "Medium",
       "start": "2026-10-21",
-      "parent": ""
-    },
-    {
-      "type": "작업",
-      "key": "PG-4348",
-      "title": "Devhub(개발 명세 웹) 관련 피드백",
-      "status": "협의대기",
-      "comp": "",
-      "label": "",
-      "owner": "장석원",
-      "due": "",
-      "priority": "Medium",
-      "start": "",
       "parent": ""
     },
     {
@@ -2093,6 +2080,19 @@
       "priority": "Medium",
       "start": "",
       "parent": ""
+    },
+    {
+      "type": "작업",
+      "key": "PG-2956",
+      "title": "[공통] CodeRabbit 도입",
+      "status": "비활성화",
+      "comp": "infra-observability",
+      "label": "dispf-C-check,grow,grp-Etc,ops,s2,triage-2026Q3,triage-C",
+      "owner": "장석원",
+      "due": "",
+      "priority": "Medium",
+      "start": "",
+      "parent": "PG-2485"
     },
     {
       "type": "하위 작업",
