@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-05T10:45:53",
+  "generated_at": "2026-11-05T10:54:11",
   "issues": [
     {
       "type": "작업",
@@ -89,14 +89,14 @@
       "owner": "김희진",
       "due": "2026-11-05",
       "priority": "Medium",
-      "start": "2026-11-04",
+      "start": "2026-11-05",
       "parent": "PG-4026"
     },
     {
       "type": "작업",
       "key": "PG-4667",
       "title": "[FE][전 앱] 프론트엔드 레포 점검 — 보안 헤더·이미지 중계·visual-qa 노출·중복 코드·죽은 파일 정리",
-      "status": "대기",
+      "status": "진행중",
       "comp": "",
       "label": "core",
       "owner": "김희진",
