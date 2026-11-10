@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-11-10T12:46:38",
+  "generated_at": "2026-11-10T13:05:33",
   "issues": [
     {
       "type": "작업",
       "key": "PG-4713",
       "title": "[FE][파트너센터·CMS] 발송현황 「발송실패」 필터 useState=fail 연결·검증 400 field 표시 (PG-4696 후속)",
-      "status": "대기",
+      "status": "진행중",
       "comp": "",
       "label": "core",
       "owner": "김희진",
-      "due": "",
+      "due": "2026-11-10",
       "priority": "Medium",
-      "start": "",
+      "start": "2026-11-10",
       "parent": "PG-4026"
     },
     {
@@ -21,7 +21,7 @@
       "status": "대기",
       "comp": "",
       "label": "core",
-      "owner": "김희진",
+      "owner": "장석원",
       "due": "",
       "priority": "Medium",
       "start": "",
