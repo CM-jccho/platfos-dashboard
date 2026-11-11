@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-11T10:27:41",
+  "generated_at": "2026-11-11T10:36:18",
   "issues": [
     {
       "type": "하위 작업",
@@ -55,19 +55,6 @@
     },
     {
       "type": "작업",
-      "key": "PG-4710",
-      "title": "[자동화 설정] 인스타그램 자동발행 설정",
-      "status": "진행중",
-      "comp": "",
-      "label": "",
-      "owner": "김가영",
-      "due": "2026-11-10",
-      "priority": "Medium",
-      "start": "2026-11-10",
-      "parent": "PG-4675"
-    },
-    {
-      "type": "작업",
       "key": "PG-4706",
       "title": "GEO 관련 작업",
       "status": "진행중",
@@ -120,19 +107,6 @@
     },
     {
       "type": "작업",
-      "key": "PG-4697",
-      "title": "[기획]기존정책과 충돌하는 부분 논의 후 수정요청",
-      "status": "진행중",
-      "comp": "",
-      "label": "grow",
-      "owner": "김가영",
-      "due": "2026-11-10",
-      "priority": "Medium",
-      "start": "2026-11-06",
-      "parent": "PG-4158"
-    },
-    {
-      "type": "작업",
       "key": "PG-4687",
       "title": "상품권 운영 리스크콘텐츠(쿠폰/상품권)",
       "status": "대기",
@@ -161,7 +135,7 @@
       "type": "작업",
       "key": "PG-4683",
       "title": "[알림톡] 알림톡문구 확정 및 템플릿 등록",
-      "status": "대기",
+      "status": "진행중",
       "comp": "",
       "label": "grow",
       "owner": "김가영",
