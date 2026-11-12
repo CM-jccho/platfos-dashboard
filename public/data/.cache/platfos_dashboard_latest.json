@@ -1,6 +1,19 @@
 {
-  "generated_at": "2026-11-12T11:29:20",
+  "generated_at": "2026-11-12T11:56:27",
   "issues": [
+    {
+      "type": "작업",
+      "key": "PG-4728",
+      "title": "육아브랜드 제안업체 조사",
+      "status": "대기",
+      "comp": "",
+      "label": "",
+      "owner": "",
+      "due": "",
+      "priority": "Medium",
+      "start": "",
+      "parent": "PG-4675"
+    },
     {
       "type": "작업",
       "key": "PG-4727",
@@ -1045,7 +1058,7 @@
       "type": "작업",
       "key": "PG-4293",
       "title": "[Mall][BE] 애플 소셜 로그인 서버 지원",
-      "status": "진행중",
+      "status": "비활성화",
       "comp": "",
       "label": "core",
       "owner": "정광희",
@@ -1302,17 +1315,17 @@
       "parent": "PG-4005"
     },
     {
-      "type": "에픽",
-      "key": "PG-4026",
-      "title": "[Core] CMS·파트너센터·Mall 시스템 이관",
-      "status": "진행중",
+      "type": "작업",
+      "key": "PG-4028",
+      "title": "[CMS] 설정관리 > 배너관리 > UI 틀어짐 변경",
+      "status": "비활성화",
       "comp": "",
       "label": "core",
-      "owner": "정광희",
-      "due": "2026-11-06",
+      "owner": "장석원",
+      "due": "2026-09-11",
       "priority": "Medium",
-      "start": "",
-      "parent": ""
+      "start": "2026-09-11",
+      "parent": "PG-4026"
     },
     {
       "type": "하위 작업",
