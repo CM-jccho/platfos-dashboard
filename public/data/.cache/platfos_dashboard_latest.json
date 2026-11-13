@@ -1,19 +1,6 @@
 {
-  "generated_at": "2026-11-12T11:56:27",
+  "generated_at": "2026-11-13T11:05:49",
   "issues": [
-    {
-      "type": "작업",
-      "key": "PG-4728",
-      "title": "육아브랜드 제안업체 조사",
-      "status": "대기",
-      "comp": "",
-      "label": "",
-      "owner": "",
-      "due": "",
-      "priority": "Medium",
-      "start": "",
-      "parent": "PG-4675"
-    },
     {
       "type": "작업",
       "key": "PG-4727",
@@ -31,7 +18,7 @@
       "type": "작업",
       "key": "PG-4726",
       "title": "[분석] 코스트코 외 마트 제안가능 대상 분석",
-      "status": "진행중",
+      "status": "비활성화",
       "comp": "",
       "label": "",
       "owner": "김명수",
@@ -106,19 +93,6 @@
       "parent": "PG-4706"
     },
     {
-      "type": "에픽",
-      "key": "PG-4714",
-      "title": "[제안서] 코스트코 제안서 ",
-      "status": "진행중",
-      "comp": "",
-      "label": "",
-      "owner": "김명수",
-      "due": "2026-11-13",
-      "priority": "Medium",
-      "start": "2026-11-10",
-      "parent": ""
-    },
-    {
       "type": "작업",
       "key": "PG-4706",
       "title": "GEO 관련 작업",
@@ -182,19 +156,6 @@
       "priority": "Medium",
       "start": "2026-11-09",
       "parent": "PG-3973"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4683",
-      "title": "[알림톡] 알림톡문구 확정 및 템플릿 등록",
-      "status": "진행중",
-      "comp": "",
-      "label": "grow",
-      "owner": "김가영",
-      "due": "2026-11-13",
-      "priority": "Medium",
-      "start": "2026-11-10",
-      "parent": "PG-4158"
     },
     {
       "type": "에픽",
