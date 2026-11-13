@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-13T11:05:49",
+  "generated_at": "2026-11-13T11:36:44",
   "issues": [
     {
       "type": "작업",
@@ -143,19 +143,6 @@
       "priority": "Medium",
       "start": "2026-11-10",
       "parent": "PG-4026"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4687",
-      "title": "상품권 운영 리스크콘텐츠(쿠폰/상품권)",
-      "status": "대기",
-      "comp": "",
-      "label": "",
-      "owner": "김가영",
-      "due": "2026-11-30",
-      "priority": "Medium",
-      "start": "2026-11-09",
-      "parent": "PG-3973"
     },
     {
       "type": "에픽",
