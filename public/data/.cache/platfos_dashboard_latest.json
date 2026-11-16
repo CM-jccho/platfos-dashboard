@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-16T10:28:31",
+  "generated_at": "2026-11-16T11:00:00",
   "issues": [
     {
       "type": "작업",
@@ -9,7 +9,7 @@
       "comp": "",
       "label": "grow",
       "owner": "김가영",
-      "due": "",
+      "due": "2026-11-26",
       "priority": "Medium",
       "start": "",
       "parent": "PG-4158"
@@ -22,9 +22,9 @@
       "comp": "",
       "label": "grow",
       "owner": "김가영",
-      "due": "",
+      "due": "2026-11-24",
       "priority": "Medium",
-      "start": "",
+      "start": "2026-11-24",
       "parent": "PG-4158"
     },
     {
@@ -70,13 +70,13 @@
       "type": "작업",
       "key": "PG-4725",
       "title": "[QA] 예약하기 테스트 시나리오 작성",
-      "status": "대기",
+      "status": "진행중",
       "comp": "",
       "label": "grow",
       "owner": "김가영",
-      "due": "2026-11-27",
+      "due": "2026-11-20",
       "priority": "Medium",
-      "start": "",
+      "start": "2026-11-16",
       "parent": "PG-4158"
     },
     {
