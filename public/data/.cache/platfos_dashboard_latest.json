@@ -1,6 +1,32 @@
 {
-  "generated_at": "2026-11-16T10:21:16",
+  "generated_at": "2026-11-16T10:28:31",
   "issues": [
+    {
+      "type": "작업",
+      "key": "PG-4736",
+      "title": "[QA] 예약하기 운영서버 QA",
+      "status": "대기",
+      "comp": "",
+      "label": "grow",
+      "owner": "김가영",
+      "due": "",
+      "priority": "Medium",
+      "start": "",
+      "parent": "PG-4158"
+    },
+    {
+      "type": "작업",
+      "key": "PG-4735",
+      "title": "[QA] 예약하기 개발서버 QA",
+      "status": "대기",
+      "comp": "",
+      "label": "grow",
+      "owner": "김가영",
+      "due": "",
+      "priority": "Medium",
+      "start": "",
+      "parent": "PG-4158"
+    },
     {
       "type": "작업",
       "key": "PG-4734",
@@ -43,7 +69,7 @@
     {
       "type": "작업",
       "key": "PG-4725",
-      "title": "[기획] 예약하기 사용 가이드 제작",
+      "title": "[QA] 예약하기 테스트 시나리오 작성",
       "status": "대기",
       "comp": "",
       "label": "grow",
