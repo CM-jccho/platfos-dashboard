@@ -1,6 +1,19 @@
 {
-  "generated_at": "2026-11-13T11:36:44",
+  "generated_at": "2026-11-16T10:21:16",
   "issues": [
+    {
+      "type": "작업",
+      "key": "PG-4734",
+      "title": "호텔 전체 리스트 그룹핑 & 메일 자료 수집",
+      "status": "진행중",
+      "comp": "",
+      "label": "",
+      "owner": "최다솔",
+      "due": "2026-11-30",
+      "priority": "Medium",
+      "start": "2026-11-09",
+      "parent": "PG-4277"
+    },
     {
       "type": "작업",
       "key": "PG-4727",
@@ -1049,7 +1062,7 @@
       "comp": "",
       "label": "",
       "owner": "최다솔",
-      "due": "2026-11-13",
+      "due": "2026-11-16",
       "priority": "Medium",
       "start": "2026-10-14",
       "parent": ""
