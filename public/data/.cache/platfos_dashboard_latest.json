@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-17T13:15:22",
+  "generated_at": "2026-11-18T12:06:38",
   "issues": [
     {
       "type": "작업",
@@ -39,58 +39,6 @@
       "priority": "Medium",
       "start": "",
       "parent": "PG-4026"
-    },
-    {
-      "type": "하위 작업",
-      "key": "PG-4740",
-      "title": "[CMS][FE] 주묵목록 API 엑셀다운로드 응답항목 추가",
-      "status": "배포대기",
-      "comp": "",
-      "label": "",
-      "owner": "김희진",
-      "due": "2026-11-16",
-      "priority": "Medium",
-      "start": "2026-11-16",
-      "parent": "PG-4737"
-    },
-    {
-      "type": "하위 작업",
-      "key": "PG-4739",
-      "title": "[CMS][BE] 주묵목록 API 엑셀다운로드 응답항목 추가",
-      "status": "배포대기",
-      "comp": "",
-      "label": "",
-      "owner": "박창용",
-      "due": "2026-11-16",
-      "priority": "Medium",
-      "start": "2026-11-16",
-      "parent": "PG-4737"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4738",
-      "title": "[폰기프트몰] 소셜로그인 닉네임 없는 케이스에 기본값 지정",
-      "status": "배포대기",
-      "comp": "",
-      "label": "grp-OpsIssue",
-      "owner": "박창용",
-      "due": "2026-11-16",
-      "priority": "Medium",
-      "start": "2026-11-16",
-      "parent": "PG-1481"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4737",
-      "title": "[CMS] 주문목록 엑셀다운로드 양식 변경",
-      "status": "배포대기",
-      "comp": "",
-      "label": "grp-OpsIssue",
-      "owner": "박창용",
-      "due": "",
-      "priority": "Medium",
-      "start": "2026-11-16",
-      "parent": "PG-1481"
     },
     {
       "type": "작업",
@@ -234,45 +182,6 @@
       "priority": "Medium",
       "start": "2026-11-10",
       "parent": "PG-3973"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4705",
-      "title": "[버그] [IA-019-F06] 탈퇴 승인·반려 메일 > 사업자 이메일이 아니라 계정 이메일로 발송",
-      "status": "배포대기",
-      "comp": "",
-      "label": "core",
-      "owner": "박창용",
-      "due": "2026-11-10",
-      "priority": "Medium",
-      "start": "2026-11-10",
-      "parent": "PG-4026"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4704",
-      "title": "[버그] [IA-022-F07] 탈퇴 요청 > 탈퇴 심사 중 내 정보 조회(GET /me)가 404",
-      "status": "배포대기",
-      "comp": "",
-      "label": "core",
-      "owner": "박창용",
-      "due": "2026-11-10",
-      "priority": "Medium",
-      "start": "2026-11-10",
-      "parent": "PG-4026"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4703",
-      "title": "[버그] [IA-021-F06] 사업자 입력 > 승인 전 재저장으로 사업자번호를 바꿀 수 있음",
-      "status": "배포대기",
-      "comp": "",
-      "label": "core",
-      "owner": "박창용",
-      "due": "2026-11-10",
-      "priority": "Medium",
-      "start": "2026-11-10",
-      "parent": "PG-4026"
     },
     {
       "type": "에픽",
@@ -1172,19 +1081,6 @@
       "parent": ""
     },
     {
-      "type": "에픽",
-      "key": "PG-4270",
-      "title": "[영업] 파트너사 8곳 컨택 & 골프장 영업 콜드메일 발송",
-      "status": "진행중",
-      "comp": "",
-      "label": "",
-      "owner": "최다솔",
-      "due": "2026-11-16",
-      "priority": "Medium",
-      "start": "2026-10-14",
-      "parent": ""
-    },
-    {
       "type": "작업",
       "key": "PG-4250",
       "title": "[CMS] [BE] 외부 발행사 infra연동의 보완 작업(주문발급, 폐기, 상태확인, 사용 처리, 사용취소 처리, 유효기간 연장 점검 및 보완",
@@ -1192,7 +1088,7 @@
       "comp": "",
       "label": "core",
       "owner": "박창용",
-      "due": "2026-11-06",
+      "due": "2026-11-19",
       "priority": "Medium",
       "start": "2026-10-19",
       "parent": "PG-4026"
