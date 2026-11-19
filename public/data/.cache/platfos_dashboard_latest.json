@@ -1,6 +1,19 @@
 {
-  "generated_at": "2026-11-18T12:06:38",
+  "generated_at": "2026-11-19T11:46:31",
   "issues": [
+    {
+      "type": "작업",
+      "key": "PG-4744",
+      "title": "[기획] 기존 정책서변경",
+      "status": "대기",
+      "comp": "",
+      "label": "grow",
+      "owner": "김가영",
+      "due": "2026-11-19",
+      "priority": "Medium",
+      "start": "2026-11-19",
+      "parent": "PG-4158"
+    },
     {
       "type": "작업",
       "key": "PG-4743",
@@ -104,19 +117,6 @@
       "priority": "Medium",
       "start": "2026-11-11",
       "parent": "PG-4714"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4725",
-      "title": "[QA] 예약하기 테스트 시나리오 작성",
-      "status": "진행중",
-      "comp": "",
-      "label": "grow",
-      "owner": "김가영",
-      "due": "2026-11-20",
-      "priority": "Medium",
-      "start": "2026-11-16",
-      "parent": "PG-4158"
     },
     {
       "type": "작업",
