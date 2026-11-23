@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-19T11:46:31",
+  "generated_at": "2026-11-23T10:56:53",
   "issues": [
     {
       "type": "작업",
@@ -100,7 +100,7 @@
       "comp": "",
       "label": "design,grp-Run,현행화,run",
       "owner": "김가영",
-      "due": "2026-11-20",
+      "due": "2026-11-27",
       "priority": "Medium",
       "start": "",
       "parent": "PG-3552"
