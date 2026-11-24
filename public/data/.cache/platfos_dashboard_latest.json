@@ -1,19 +1,6 @@
 {
-  "generated_at": "2026-11-23T10:56:53",
+  "generated_at": "2026-11-24T14:29:12",
   "issues": [
-    {
-      "type": "작업",
-      "key": "PG-4744",
-      "title": "[기획] 기존 정책서변경",
-      "status": "대기",
-      "comp": "",
-      "label": "grow",
-      "owner": "김가영",
-      "due": "2026-11-19",
-      "priority": "Medium",
-      "start": "2026-11-19",
-      "parent": "PG-4158"
-    },
     {
       "type": "작업",
       "key": "PG-4743",
