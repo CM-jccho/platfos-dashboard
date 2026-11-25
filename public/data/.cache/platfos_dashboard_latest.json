@@ -1,6 +1,32 @@
 {
-  "generated_at": "2026-11-24T14:29:12",
+  "generated_at": "2026-11-25T13:33:17",
   "issues": [
+    {
+      "type": "작업",
+      "key": "PG-4747",
+      "title": "[기획] 지류 상품권 발행 기능 분석 및 기획",
+      "status": "진행중",
+      "comp": "",
+      "label": "s6",
+      "owner": "김명수",
+      "due": "2026-11-27",
+      "priority": "Medium",
+      "start": "2026-11-25",
+      "parent": "PG-4746"
+    },
+    {
+      "type": "에픽",
+      "key": "PG-4746",
+      "title": "[S6] 지류·모바일 겸용 상품권 발행 기능 신규 구축",
+      "status": "진행중",
+      "comp": "",
+      "label": "s6",
+      "owner": "김명수",
+      "due": "2026-12-04",
+      "priority": "Medium",
+      "start": "2026-11-25",
+      "parent": ""
+    },
     {
       "type": "작업",
       "key": "PG-4743",
@@ -43,12 +69,12 @@
     {
       "type": "작업",
       "key": "PG-4736",
-      "title": "[QA] 예약하기 운영서버 QA",
-      "status": "대기",
+      "title": "[DGN] 예약하기 후속작업",
+      "status": "비활성화",
       "comp": "",
       "label": "grow",
       "owner": "김가영",
-      "due": "2026-11-26",
+      "due": "",
       "priority": "Medium",
       "start": "",
       "parent": "PG-4158"
@@ -56,12 +82,12 @@
     {
       "type": "작업",
       "key": "PG-4735",
-      "title": "[QA] 예약하기 개발서버 QA",
-      "status": "대기",
+      "title": "[QA] 예약하기 스테이징서버 QA",
+      "status": "진행중",
       "comp": "",
       "label": "grow",
       "owner": "김가영",
-      "due": "2026-11-24",
+      "due": "2026-11-25",
       "priority": "Medium",
       "start": "2026-11-24",
       "parent": "PG-4158"
