@@ -1,6 +1,45 @@
 {
-  "generated_at": "2026-11-25T13:33:17",
+  "generated_at": "2026-11-26T12:44:59",
   "issues": [
+    {
+      "type": "작업",
+      "key": "PG-4751",
+      "title": "[영업] 라이프스타일 (생활/관광/체험) 콜드메일 발송 대상 수집 및 포스터제작",
+      "status": "진행중",
+      "comp": "",
+      "label": "",
+      "owner": "최다솔",
+      "due": "",
+      "priority": "Medium",
+      "start": "",
+      "parent": "PG-4750"
+    },
+    {
+      "type": "에픽",
+      "key": "PG-4750",
+      "title": "[Sales] 콜드메일 발송 및 f/u",
+      "status": "진행중",
+      "comp": "",
+      "label": "",
+      "owner": "최다솔",
+      "due": "2026-12-31",
+      "priority": "Medium",
+      "start": "2026-11-25",
+      "parent": ""
+    },
+    {
+      "type": "에픽",
+      "key": "PG-4749",
+      "title": "[S8] 폰기프트몰 리뉴얼",
+      "status": "대기",
+      "comp": "",
+      "label": "s8",
+      "owner": "최다솔",
+      "due": "",
+      "priority": "Medium",
+      "start": "",
+      "parent": ""
+    },
     {
       "type": "작업",
       "key": "PG-4747",
@@ -91,19 +130,6 @@
       "priority": "Medium",
       "start": "2026-11-24",
       "parent": "PG-4158"
-    },
-    {
-      "type": "작업",
-      "key": "PG-4734",
-      "title": "호텔 전체 리스트 그룹핑 & 메일 자료 수집",
-      "status": "진행중",
-      "comp": "",
-      "label": "",
-      "owner": "최다솔",
-      "due": "2026-11-30",
-      "priority": "Medium",
-      "start": "2026-11-09",
-      "parent": "PG-4277"
     },
     {
       "type": "작업",
@@ -1079,19 +1105,6 @@
       "priority": "Medium",
       "start": "2026-10-19",
       "parent": "PG-4277"
-    },
-    {
-      "type": "에픽",
-      "key": "PG-4277",
-      "title": "[영업] 호텔 영업 보드 시스템 기획 및 콜드메일 발송",
-      "status": "진행중",
-      "comp": "",
-      "label": "",
-      "owner": "최다솔",
-      "due": "2026-12-31",
-      "priority": "Medium",
-      "start": "2026-10-15",
-      "parent": ""
     },
     {
       "type": "작업",
